@@ -4,6 +4,11 @@ import Web3 from "web3";
 // log
 import { fetchData } from "../data/dataActions";
 
+import contract from "../../abi.json";
+import config from "../../config.json";
+
+
+
 const connectRequest = () => {
   return {
     type: "CONNECTION_REQUEST",
@@ -34,20 +39,24 @@ const updateAccountRequest = (payload) => {
 export const connect = () => {
   return async (dispatch) => {
     dispatch(connectRequest());
-    const abiResponse = await fetch("/config/abi.json", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    const abi = await abiResponse.json();
-    const configResponse = await fetch("/config/config.json", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    const CONFIG = await configResponse.json();
+    // const abiResponse = await fetch("/config/abi.json", {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Accept: "application/json",
+    //   },
+    // });
+    // const abi = await abiResponse.json();
+    // const configResponse = await fetch("/config/config.json", {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Accept: "application/json",
+    //   },
+    // });
+    //const CONFIG = await configResponse.json();
+    
+    const CONFIG = config;
+    const abi = contract;
+    
     const { ethereum } = window;
     const metamaskIsInstalled = ethereum && ethereum.isMetaMask;
     if (metamaskIsInstalled) {
