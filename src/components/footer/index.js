@@ -146,10 +146,16 @@ export function Footer() {
                 <Link to="About">About</Link>
               </MenuItem>
               <MenuItem>
-                <Link to="Explore">NFT</Link>
+                <Link to="NFT">NFT</Link>
               </MenuItem>
               <MenuItem>
-                <Link to="TravelPlaces">Roadmap</Link>
+                <Link to="Roadmap">Roadmap</Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to="Team">Team</Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to="FAQ">FAQ</Link>
               </MenuItem>
             </Menu>           
           </LeftInnerContainer>
