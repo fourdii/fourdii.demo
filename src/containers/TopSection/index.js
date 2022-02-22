@@ -28,6 +28,7 @@ const LandingSection = styled.div`
         h-screen
         flex
         flex-col
+        justify-between
     `};
   background-image: url(${BackgroundImage}),
     linear-gradient(to left, #005b9c, #b1d1b148);
@@ -36,78 +37,78 @@ const LandingSection = styled.div`
   background-blend-mode: overlay;
 `;
 
-const InfoSection = styled.div`
-  ${tw`
-        absolute
-        top[150px]
-        left-3
-        lg:top[150px]
-        lg:right-10
-        lg:left-auto
-        2xl:right-60
-        2xl:top[240px]
-        2xl:left-auto
-    `};
-`;
+// const InfoSection = styled.div`
+//   ${tw`
+//         absolute
+//         top[150px]
+//         left-3
+//         lg:top[150px]
+//         lg:right-10
+//         lg:left-auto
+//         2xl:right-60
+//         2xl:top[240px]
+//         2xl:left-auto
+//     `};
+// `;
 
-const FloatingText = styled.h1`
-  ${tw`
-        m-0
-        font-black
-        text-white
-        font-size[60px]
-        line-height[25px]
-        lg:font-size[125px]
-        lg:line-height[90px]
-        2xl:font-size[170px]
-        2xl:line-height[125px]
-        font-family["Archivo Narrow"]
-        flex
-        items-center
-    `};
-`;
+// const FloatingText = styled.h1`
+//   ${tw`
+//         m-0
+//         font-black
+//         text-white
+//         font-size[60px]
+//         line-height[25px]
+//         lg:font-size[125px]
+//         lg:line-height[90px]
+//         2xl:font-size[170px]
+//         2xl:line-height[125px]
+//         font-family["Archivo Narrow"]
+//         flex
+//         items-center
+//     `};
+// `;
 
-const OutlinedTextSvg = styled.svg`
-  font: bold 100px Century "Archivo Narrow", Arial;
-  ${tw`
-        width[550px]
-        height[100px]
-        lg:width[580px]
-        lg:height[110px]
-        2xl:width[550px]
-        2xl:height[110px]
-        flex
-    `};
-  overflow: overlay;
-  text {
-    max-height: 100%;
-    flex: 1;
-    fill: none;
-    stroke: white;
-    stroke-width: 2px;
-    stroke-linejoin: round;
-    z-index: 99;
-    ${tw`
-      2xl:transform[translateY(113px)]
-      lg:transform[translateY(97px)]
-      transform[translateY(71px)]
-    `};
-    text-shadow: 0px 0px 0px rgba(255, 255, 255, 0.5);
-  }
-`;
+// const OutlinedTextSvg = styled.svg`
+//   font: bold 100px Century "Archivo Narrow", Arial;
+//   ${tw`
+//         width[550px]
+//         height[100px]
+//         lg:width[580px]
+//         lg:height[110px]
+//         2xl:width[550px]
+//         2xl:height[110px]
+//         flex
+//     `};
+//   overflow: overlay;
+//   text {
+//     max-height: 100%;
+//     flex: 1;
+//     fill: none;
+//     stroke: white;
+//     stroke-width: 2px;
+//     stroke-linejoin: round;
+//     z-index: 99;
+//     ${tw`
+//       2xl:transform[translateY(113px)]
+//       lg:transform[translateY(97px)]
+//       transform[translateY(71px)]
+//     `};
+//     text-shadow: 0px 0px 0px rgba(255, 255, 255, 0.5);
+//   }
+// `;
 
-const DescriptionText = styled.p`
-  ${tw`
-        text-xl
-        lg:text-lg
-        text-white
-        text-opacity-80
-        mt-10
-        max-w-xs
-        lg:max-w-lg
-        2xl:max-w-xl
-    `};
-`;
+// const DescriptionText = styled.p`
+//   ${tw`
+//         text-xl
+//         lg:text-lg
+//         text-white
+//         text-opacity-80
+//         mt-10
+//         max-w-xs
+//         lg:max-w-lg
+//         2xl:max-w-xl
+//     `};
+// `;
 
 const ViewMoreButton = styled.button`
   ${tw`
@@ -122,6 +123,92 @@ const ViewMoreButton = styled.button`
         hover:text-green-400
     `};
 `;
+
+const MintContainer = styled.div`
+  ${tw`
+      w-full
+      flex
+      flex-col
+      relative 
+      justify-center
+      items-center
+      self-center
+    `};
+`;
+
+const Counter = styled.h1`
+  ${tw`
+       text-3xl
+       text-white
+       font-bold
+    `};
+`;
+
+const ContractLink = styled.button`
+  ${tw`
+       bg-black
+       rounded-full
+       text-white
+       font-bold
+       text-sm
+       px-6
+       py-2
+    `};
+`;
+
+const ContractInfo = styled.p`
+  ${tw`
+       text-black
+       font-bold
+       text-sm
+    `};
+`;
+
+const DynamicInfo = styled.p`
+  ${tw`
+       text-white
+       font-bold
+       text-sm
+    `};
+`;
+
+const Button = styled.button`
+  ${tw`
+    bg-black
+    rounded-md
+    text-white
+    font-bold
+    text-sm
+    px-4
+    py-2
+    self-center
+    `};
+`;
+
+
+const ConnectorWrapper = styled.div`
+  ${tw`
+       flex
+       flex-col
+       justify-center
+       self-center
+       items-center
+`};
+`;
+
+const InputWrapper = styled.div`
+  ${tw`
+       
+`};
+`;
+
+const InputButton = styled.button`
+  ${tw`
+       
+`};
+`;
+
+
 
 
 export function TopSection() {
@@ -179,7 +266,7 @@ export function TopSection() {
         .then((receipt) => {
           console.log(receipt);
           setFeedback(
-            `WOW, the ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
+            `The ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
           );
           setClaimingNft(false);
           dispatch(fetchData(blockchain.account));
@@ -209,13 +296,6 @@ export function TopSection() {
     };
   
     const getConfig = () => {
-      // const configResponse = await fetch("/config/config.json", {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Accept: "application/json",
-      //   },
-      // });
-      // const config = await configResponse.json();
       SET_CONFIG(config);
     };
   
@@ -234,17 +314,18 @@ export function TopSection() {
     <TopSectionContainer>
     <LandingSection>
       <NavBar />
-      <InfoSection>
 
-      <div>           
-            <div>
+      <MintContainer>           
+            <Counter>
               {data.totalSupply} / {CONFIG.MAX_SUPPLY}
-            </div>
-            <div>
+            </Counter>
+
+            <ContractLink>
               <a href={CONFIG.SCAN_LINK}>
                 {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
               </a>
-            </div>
+            </ContractLink>
+            
             {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
               <>
                 <div>
@@ -259,25 +340,25 @@ export function TopSection() {
               </>
             ) : (
               <>
-                <div>
+                <ContractInfo>
                   1 {CONFIG.SYMBOL} costs {CONFIG.DISPLAY_COST}{" "}
                   {CONFIG.NETWORK.SYMBOL}.
-                </div>
-                <div>
+                </ContractInfo>
+                <ContractInfo>
                   Excluding gas fees.
-                </div>
+                </ContractInfo>
                 {blockchain.account === "" ||
                 blockchain.smartContract === null ? (
-                  <div>
-                    <div
+                  <ConnectorWrapper>
+                    <DynamicInfo
                       style={{
                         textAlign: "center",
                         color: "var(--accent-text)",
                       }}
                     >
                       Connect to the {CONFIG.NETWORK.NAME} network
-                    </div>
-                    <button
+                    </DynamicInfo>
+                    <Button
                       onClick={(e) => {
                         e.preventDefault();
                         dispatch(connect());
@@ -285,7 +366,7 @@ export function TopSection() {
                       }}
                     >
                       CONNECT
-                    </button>
+                    </Button>
                     {blockchain.errorMsg !== "" ? (
                       <>
                         <div
@@ -298,7 +379,7 @@ export function TopSection() {
                         </div>
                       </>
                     ) : null}
-                  </div>
+                  </ConnectorWrapper>
                 ) : (
                   <>
                     <div>
@@ -333,7 +414,7 @@ export function TopSection() {
                       </button>
                     </div>
                     <div>
-                      <button
+                      <Button
                         disabled={claimingNft ? 1 : 0}
                         onClick={(e) => {
                           e.preventDefault();
@@ -342,155 +423,26 @@ export function TopSection() {
                         }}
                       >
                         {claimingNft ? "BUSY" : "BUY"}
-                      </button>
+                      </Button>
                     </div>
                   </>
                 )}
               </>
             )}
-      </div> 
+      </MintContainer> 
 
-        {/* <FloatingText>World</FloatingText>
-        <FloatingText style={{ display: "inline-flex" }}>
-          OF         
-        </FloatingText>
-
-        <FloatingText>INDONESIA.</FloatingText>
-
-        <DescriptionText>
-          Let's explore of the third largest countries in the world, namely
-          indonesia. Enjoy 3 vacation packages at competitive prices and
-          strong soul.
-        </DescriptionText> */}
-
-      </InfoSection>
-
+     <div>
       <ViewMoreButton>
         <Link to="About" smooth={"easeInOutQuad"} duration={1500}>
           <BsArrowDownCircle />
         </Link>
       </ViewMoreButton>
-
+      </div>
     </LandingSection>
   </TopSectionContainer>
   );
 };
 
 
-//   <div>
-//         <div>        
-//           <div>           
-//             <div>
-//               {data.totalSupply} / {CONFIG.MAX_SUPPLY}
-//             </div>
-//             <div>
-//               <a href={CONFIG.SCAN_LINK}>
-//                 {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
-//               </a>
-//             </div>
-//             {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
-//               <>
-//                 <div>
-//                   The sale has ended.
-//                 </div>
-//                 <div>
-//                   You can still find {CONFIG.NFT_NAME} on
-//                 </div>
-//                 <a href={CONFIG.MARKETPLACE_LINK}>
-//                   {CONFIG.MARKETPLACE}
-//                 </a>
-//               </>
-//             ) : (
-//               <>
-//                 <div>
-//                   1 {CONFIG.SYMBOL} costs {CONFIG.DISPLAY_COST}{" "}
-//                   {CONFIG.NETWORK.SYMBOL}.
-//                 </div>
-//                 <div>
-//                   Excluding gas fees.
-//                 </div>
-//                 {blockchain.account === "" ||
-//                 blockchain.smartContract === null ? (
-//                   <div>
-//                     <div
-//                       style={{
-//                         textAlign: "center",
-//                         color: "var(--accent-text)",
-//                       }}
-//                     >
-//                       Connect to the {CONFIG.NETWORK.NAME} network
-//                     </div>
-//                     <button
-//                       onClick={(e) => {
-//                         e.preventDefault();
-//                         dispatch(connect());
-//                         getData();
-//                       }}
-//                     >
-//                       CONNECT
-//                     </button>
-//                     {blockchain.errorMsg !== "" ? (
-//                       <>
-//                         <div
-//                           style={{
-//                             textAlign: "center",
-//                             color: "var(--accent-text)",
-//                           }}
-//                         >
-//                           {blockchain.errorMsg}
-//                         </div>
-//                       </>
-//                     ) : null}
-//                   </div>
-//                 ) : (
-//                   <>
-//                     <div>
-//                       {feedback}
-//                     </div>
-//                     <div>
-//                       <button
-//                         disabled={claimingNft ? 1 : 0}
-//                         onClick={(e) => {
-//                           e.preventDefault();
-//                           decrementMintAmount();
-//                         }}
-//                       >
-//                         -
-//                       </button>
-//                       <div
-//                         style={{
-//                           textAlign: "center",
-//                           color: "var(--accent-text)",
-//                         }}
-//                       >
-//                         {mintAmount}
-//                       </div>
-//                       <button
-//                         disabled={claimingNft ? 1 : 0}
-//                         onClick={(e) => {
-//                           e.preventDefault();
-//                           incrementMintAmount();
-//                         }}
-//                       >
-//                         +
-//                       </button>
-//                     </div>
-//                     <div>
-//                       <button
-//                         disabled={claimingNft ? 1 : 0}
-//                         onClick={(e) => {
-//                           e.preventDefault();
-//                           claimNFTs();
-//                           getData();
-//                         }}
-//                       >
-//                         {claimingNft ? "BUSY" : "BUY"}
-//                       </button>
-//                     </div>
-//                   </>
-//                 )}
-//               </>
-//             )}
-//           </div>      
-//         </div>    
-//       </div> 
+
+
