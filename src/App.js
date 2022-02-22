@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from "./redux/blockchain/blockchainActions";
-import { fetchData } from "./redux/data/dataActions";import './App.css';
+import { fetchData } from "./redux/data/dataActions";
 import config from "./config.json";
 
 
@@ -110,9 +110,11 @@ function App() {
   return (
     <div>
       <div>
-        <div>
-        
+        <div>        
           <div>
+            <div>
+              Nav Bar
+            </div>
             <div>
               {data.totalSupply} / {CONFIG.MAX_SUPPLY}
             </div>

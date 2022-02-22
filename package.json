@@ -3,22 +3,41 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.4.3",
+    "@tailwindcss/postcss7-compat": "^2.2.17",
+    "autoprefixer": "^9.8.8",
+    "i": "^0.3.7",
+    "npm": "^8.5.1",
+    "postcss": "^7.0.39",
     "react": "^17.0.2",
+    "react-burger-menu": "^3.0.6",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
     "react-redux": "^7.2.4",
+    "react-responsive-carousel": "^3.2.22",
     "react-scripts": "4.0.3",
+    "react-scroll": "^1.8.5",
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
+    "style-components": "^0.1.0",
     "styled-components": "^5.3.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
+    "twin.macro": "^2.8.2",
     "web-vitals": "^1.0.1",
     "web3": "^1.5.1",
     "web3-eth-contract": "^1.5.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
+  },
+  "babelMacros": {
+    "twin": {
+      "config": "./tailwind.config.js",
+      "preset": "styled-components"
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -37,10 +56,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.4.2",
-    "postcss": "^8.4.6",
-    "tailwindcss": "^3.0.23"
   }
 }
