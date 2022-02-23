@@ -126,6 +126,7 @@ const ContractInfo = styled.p`
        text-sm
        my-2
        text-white
+       px-2
     `};
 `;
 
@@ -135,6 +136,7 @@ const DynamicInfo = styled.p`
        font-bold
        text-sm
        my-2
+       px-2
     `};
 `;
 
