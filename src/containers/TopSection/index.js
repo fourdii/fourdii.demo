@@ -81,10 +81,10 @@ const MintContainer = styled.div`
       py-5
       border-opacity-50
       w-2/3
-      sm:w-1/2
-      md:w-1/3
-      lg:w-1/4
-      xl:w-1/5
+      
+      md:w-1/2
+      lg:w-1/3
+      xl:w-1/4
     `};
 `;
 
@@ -99,7 +99,7 @@ const Counter = styled.h1`
 
 const ContractLink = styled.button`
   ${tw`
-       bg-blue-800
+       bg-gray-600
        hover:text-gray-300
        rounded-full
        text-white
@@ -114,9 +114,9 @@ const ContractLink = styled.button`
 const Quantity = styled.p`
   ${tw`
        font-bold
-       text-sm
+       text-lg
        my-2
-       text-yellow-500
+       text-white
     `};
 `;
 
@@ -142,11 +142,11 @@ const Button = styled.button`
   ${tw`
     bg-black
     hover:text-gray-300
-    rounded-md
+    rounded-full
     text-white
     font-bold
     text-sm
-    px-3
+    px-5
     py-2
     self-center
     my-2
@@ -237,7 +237,7 @@ export function TopSection() {
         })
         .once("error", (err) => {
           console.log(err);
-          setFeedback("Sorry, something went wrong please try again later.");
+          setFeedback("Something went wrong please try again.");
           setClaimingNft(false);
         })
         .then((receipt) => {
@@ -346,14 +346,14 @@ export function TopSection() {
                     </Button>
                     {blockchain.errorMsg !== "" ? (
                       <>
-                        <div
+                        <DynamicInfo
                           style={{
                             textAlign: "center",
                             color: "var(--accent-text)",
                           }}
                         >
                           {blockchain.errorMsg}
-                        </div>
+                        </DynamicInfo>
                       </>
                     ) : null}
                   </ConnectorWrapper>
