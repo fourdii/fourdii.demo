@@ -62,6 +62,9 @@ const AboutSectionWrapper = tw.div`
     2xl:max-w-4xl
 `;
 
+
+
+
 const Item = styled.div`
   ${tw`
         flex
@@ -95,8 +98,7 @@ export function AboutSection() {
   return (
     <AboutSectionContainer name="About">
       <Title>About</Title>
-      <SectionInfo>
-        Hello World
+      <SectionInfo>  
       </SectionInfo>
       <AboutSectionWrapper>
       </AboutSectionWrapper>

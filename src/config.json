@@ -6,8 +6,8 @@
       "SYMBOL": "ETH",
       "ID": 4
     },
-    "NFT_NAME": "Test NFT",
-    "SYMBOL": "TNFT",
+    "NFT_NAME": "NFT",
+    "SYMBOL": "NFT",
     "MAX_SUPPLY": 10,
     "WEI_COST": 100000000000000,
     "DISPLAY_COST": 0.0001,

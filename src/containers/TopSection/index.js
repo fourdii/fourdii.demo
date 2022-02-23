@@ -31,108 +31,60 @@ const LandingSection = styled.div`
         justify-between
     `};
   background-image: url(${BackgroundImage}),
-    linear-gradient(to left, #005b9c, #b1d1b148);
+  linear-gradient(to left, #005b9c, #b1d1b148);
   background-size: cover;
   background-position: bottom 10% left;
   background-blend-mode: overlay;
 `;
 
-// const InfoSection = styled.div`
-//   ${tw`
-//         absolute
-//         top[150px]
-//         left-3
-//         lg:top[150px]
-//         lg:right-10
-//         lg:left-auto
-//         2xl:right-60
-//         2xl:top[240px]
-//         2xl:left-auto
-//     `};
-// `;
-
-// const FloatingText = styled.h1`
-//   ${tw`
-//         m-0
-//         font-black
-//         text-white
-//         font-size[60px]
-//         line-height[25px]
-//         lg:font-size[125px]
-//         lg:line-height[90px]
-//         2xl:font-size[170px]
-//         2xl:line-height[125px]
-//         font-family["Archivo Narrow"]
-//         flex
-//         items-center
-//     `};
-// `;
-
-// const OutlinedTextSvg = styled.svg`
-//   font: bold 100px Century "Archivo Narrow", Arial;
-//   ${tw`
-//         width[550px]
-//         height[100px]
-//         lg:width[580px]
-//         lg:height[110px]
-//         2xl:width[550px]
-//         2xl:height[110px]
-//         flex
-//     `};
-//   overflow: overlay;
-//   text {
-//     max-height: 100%;
-//     flex: 1;
-//     fill: none;
-//     stroke: white;
-//     stroke-width: 2px;
-//     stroke-linejoin: round;
-//     z-index: 99;
-//     ${tw`
-//       2xl:transform[translateY(113px)]
-//       lg:transform[translateY(97px)]
-//       transform[translateY(71px)]
-//     `};
-//     text-shadow: 0px 0px 0px rgba(255, 255, 255, 0.5);
-//   }
-// `;
-
-// const DescriptionText = styled.p`
-//   ${tw`
-//         text-xl
-//         lg:text-lg
-//         text-white
-//         text-opacity-80
-//         mt-10
-//         max-w-xs
-//         lg:max-w-lg
-//         2xl:max-w-xl
-//     `};
-// `;
 
 const ViewMoreButton = styled.button`
   ${tw`
-        absolute
+        // absolute
         bottom-4
-        left-1/2
-        -translate-x-1/2
+        // left-1/2
+        // -translate-x-1/2
         text-white
         text-4xl
         transition-colors
         duration-200
-        hover:text-green-400
+        hover:text-yellow-500       
+    `};
+`;
+
+const ViewMoreButtonWrapper = styled.div`
+  ${tw`
+       w-full
+       flex
+       flex-row
+       justify-center
+       items-center   
+       self-center 
+       pb-2
     `};
 `;
 
 const MintContainer = styled.div`
+ 
   ${tw`
-      w-full
+    //   w-full
       flex
       flex-col
       relative 
       justify-center
       items-center
       self-center
+      bg-gray-500
+      rounded-2xl
+      border-2
+      border-gray-200
+      py-5
+      border-opacity-50
+      w-2/3
+      sm:w-1/2
+      md:w-1/3
+      lg:w-1/4
+      xl:w-1/5
     `};
 `;
 
@@ -141,26 +93,39 @@ const Counter = styled.h1`
        text-3xl
        text-white
        font-bold
+       my-2
     `};
 `;
 
 const ContractLink = styled.button`
   ${tw`
-       bg-black
+       bg-blue-800
+       hover:text-gray-300
        rounded-full
        text-white
        font-bold
        text-sm
        px-6
        py-2
+       my-2
+    `};
+`;
+
+const Quantity = styled.p`
+  ${tw`
+       font-bold
+       text-sm
+       my-2
+       text-yellow-500
     `};
 `;
 
 const ContractInfo = styled.p`
   ${tw`
-       text-black
        font-bold
        text-sm
+       my-2
+       text-white
     `};
 `;
 
@@ -169,19 +134,23 @@ const DynamicInfo = styled.p`
        text-white
        font-bold
        text-sm
+       my-2
     `};
 `;
 
 const Button = styled.button`
   ${tw`
     bg-black
+    hover:text-gray-300
     rounded-md
     text-white
     font-bold
     text-sm
-    px-4
+    px-3
     py-2
     self-center
+    my-2
+    bg-gradient-to-r from-blue-800 via-purple-500 to-yellow-500
     `};
 `;
 
@@ -193,18 +162,26 @@ const ConnectorWrapper = styled.div`
        justify-center
        self-center
        items-center
+       text-white
 `};
 `;
 
 const InputWrapper = styled.div`
   ${tw`
-       
+       flex
+       flex-row
+       flex-nowrap       
 `};
 `;
 
 const InputButton = styled.button`
   ${tw`
-       
+       rounded-full
+       text-white
+       hover:text-gray-300
+       px-3
+       py-2   
+       mx-4
 `};
 `;
 
@@ -382,11 +359,11 @@ export function TopSection() {
                   </ConnectorWrapper>
                 ) : (
                   <>
-                    <div>
+                    <DynamicInfo>
                       {feedback}
-                    </div>
-                    <div>
-                      <button
+                    </DynamicInfo>
+                    <InputWrapper>
+                      <InputButton
                         disabled={claimingNft ? 1 : 0}
                         onClick={(e) => {
                           e.preventDefault();
@@ -394,16 +371,12 @@ export function TopSection() {
                         }}
                       >
                         -
-                      </button>
-                      <div
-                        style={{
-                          textAlign: "center",
-                          color: "var(--accent-text)",
-                        }}
+                      </InputButton>
+                      <Quantity                       
                       >
                         {mintAmount}
-                      </div>
-                      <button
+                      </Quantity>
+                      <InputButton
                         disabled={claimingNft ? 1 : 0}
                         onClick={(e) => {
                           e.preventDefault();
@@ -411,8 +384,8 @@ export function TopSection() {
                         }}
                       >
                         +
-                      </button>
-                    </div>
+                      </InputButton>
+                    </InputWrapper>
                     <div>
                       <Button
                         disabled={claimingNft ? 1 : 0}
@@ -431,13 +404,13 @@ export function TopSection() {
             )}
       </MintContainer> 
 
-     <div>
+     <ViewMoreButtonWrapper>
       <ViewMoreButton>
         <Link to="About" smooth={"easeInOutQuad"} duration={1500}>
           <BsArrowDownCircle />
         </Link>
       </ViewMoreButton>
-      </div>
+      </ViewMoreButtonWrapper>
     </LandingSection>
   </TopSectionContainer>
   );
