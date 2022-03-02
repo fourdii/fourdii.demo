@@ -244,7 +244,7 @@ export function TopSection() {
 
       if (whitelistMintEnabled) {
         blockchain.smartContract.methods
-          .mintNFT(mintAmount)
+          .wMintNFT(mintAmount)
           .send({
             gasLimit: String(totalGasLimit),
             to: CONFIG.CONTRACT_ADDRESS,
@@ -335,8 +335,8 @@ export function TopSection() {
   
     const incrementMintAmount = () => {
       let newMintAmount = mintAmount + 1;
-      if (newMintAmount >= 2) {
-        newMintAmount = 2;
+      if (newMintAmount >= remainSupply) {
+        newMintAmount = remainSupply;
       }
       setMintAmount(newMintAmount);
     };
@@ -394,7 +394,7 @@ export function TopSection() {
             ) : (
               <>
                { remainSupply !== 0 &&  <ContractInfo>
-                {mintAmount} {CONFIG.SYMBOL} costs {displayCost * mintAmount}{" "}
+                {mintAmount} {CONFIG.SYMBOL} costs {(displayCost * mintAmount).toFixed(6)}{" "}
                   {CONFIG.NETWORK.SYMBOL}.
                 </ContractInfo>}
                 { remainSupply !== 0 && <ContractInfo  id="message">
