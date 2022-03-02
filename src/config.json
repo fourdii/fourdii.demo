@@ -1,16 +1,18 @@
 {
-    "CONTRACT_ADDRESS": "0x42C08927FcA86dDceb2f3b42DDF2CF4cbC2f7C48",
-    "SCAN_LINK": "https://rinkeby.etherscan.io/address/0x82db855f70ED877384c2F2daeC83C66677a2e528#code",
+    "CONTRACT_ADDRESS": "0x7BEa87b7112EDEA3D0e536CC5bF30E4842257aF3",
+    "SCAN_LINK": "https://rinkeby.etherscan.io/address/0x7bea87b7112edea3d0e536cc5bf30e4842257af3",
     "NETWORK": {
       "NAME": "Rinkeby",
       "SYMBOL": "ETH",
-      "ID": 4
+      "ID": "4"
     },
-    "NFT_NAME": "NFT",
-    "SYMBOL": "NFT",
-    "MAX_SUPPLY": 10,
-    "WEI_COST": 100000000000000,
-    "DISPLAY_COST": 0.0001,
+    "NFT_NAME": "Cocaine Cat",
+    "SYMBOL": "CCD",
+    "MAX_SUPPLY": 1000,
+    "WEI_COST": 130000000000000,
+    "DISPLAY_COST": 0.00013,
+    "WHITELIST_WEI_COST": 65000000000000,
+    "WHITELIST_DISPLAY_COST": 0.000065,
     "GAS_LIMIT": 285000,
     "MARKETPLACE": "Opeansea",
     "MARKETPLACE_LINK": "https://opensea.io/",

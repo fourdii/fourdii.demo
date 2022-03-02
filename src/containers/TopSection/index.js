@@ -11,6 +11,9 @@ import { connect } from "../../redux/blockchain/blockchainActions";
 import { fetchData } from "../../redux/data/dataActions";
 import config from "../.././config.json";
 
+import { css } from "@emotion/react";
+import PulseLoader from "react-spinners/PulseLoader";
+
 
 const TopSectionContainer = styled.div`
   ${tw`
@@ -126,7 +129,7 @@ const ContractInfo = styled.p`
        text-sm
        my-2
        text-white
-       px-2
+       px-2       
     `};
 `;
 
@@ -196,8 +199,16 @@ export function TopSection() {
     const blockchain = useSelector((state) => state.blockchain);
     const data = useSelector((state) => state.data);
     const [claimingNft, setClaimingNft] = useState(false);
-    const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`);
+    const [feedback, setFeedback] = useState(`Click button below to mint your NFT.`);
     const [mintAmount, setMintAmount] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [mintCost, setMintCost] = useState(1);
+    const [displayCost, setDisplayCost] = useState(1);
+    const [isInWhitelist, setIsInWhitelist] = useState(false);
+    const [remainSupply, setRemainSupply] = useState(0);
+    const [whitelistMintEnabled, setWhitelistMintEnabled] = useState(false);
+
+
     const [CONFIG, SET_CONFIG] = useState({
       CONTRACT_ADDRESS: "",
       SCAN_LINK: "",
@@ -221,7 +232,8 @@ export function TopSection() {
     input.length > len ? `${input.substring(0, len)}...` : input;
   
     const claimNFTs = () => {
-      let cost = CONFIG.WEI_COST;
+      setLoading(true);
+      let cost = mintCost;
       let gasLimit = CONFIG.GAS_LIMIT;
       let totalCostWei = String(cost * mintAmount);
       let totalGasLimit = String(gasLimit * mintAmount);
@@ -229,28 +241,89 @@ export function TopSection() {
       console.log("Gas limit: ", totalGasLimit);
       setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
       setClaimingNft(true);
-      blockchain.smartContract.methods
-        .mintNFT(mintAmount)
-        .send({
-          gasLimit: String(totalGasLimit),
-          to: CONFIG.CONTRACT_ADDRESS,
-          from: blockchain.account,
-          value: totalCostWei,
-        })
-        .once("error", (err) => {
-          console.log(err);
-          setFeedback("Something went wrong please try again.");
-          setClaimingNft(false);
-        })
-        .then((receipt) => {
-          console.log(receipt);
-          setFeedback(
-            `The ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
-          );
-          setClaimingNft(false);
-          dispatch(fetchData(blockchain.account));
-        });
+
+      if (whitelistMintEnabled) {
+        blockchain.smartContract.methods
+          .mintNFT(mintAmount)
+          .send({
+            gasLimit: String(totalGasLimit),
+            to: CONFIG.CONTRACT_ADDRESS,
+            from: blockchain.account,
+            value: totalCostWei,
+          })
+          .once("error", (err) => {
+            console.log(err);
+            setFeedback("Something went wrong please try again.");
+            setClaimingNft(false);
+            setLoading(false);
+          })
+          .then((receipt) => {
+            console.log(receipt);
+            setFeedback(
+              `The ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
+            );
+            setClaimingNft(false);
+            dispatch(fetchData(blockchain.account));
+            setLoading(false);
+          });
+      } else {
+        blockchain.smartContract.methods
+          .mintNFT(mintAmount)
+          .send({
+            gasLimit: String(totalGasLimit),
+            to: CONFIG.CONTRACT_ADDRESS,
+            from: blockchain.account,
+            value: totalCostWei,
+          })
+          .once("error", (err) => {
+            console.log(err);
+            setFeedback("Something went wrong please try again.");
+            setClaimingNft(false);
+            setLoading(false);
+          })
+          .then((receipt) => {
+            console.log(receipt);
+            setFeedback(
+              `The ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
+            );
+            setClaimingNft(false);
+            dispatch(fetchData(blockchain.account));
+            setLoading(false);
+          });
+      }
     };
+
+    async function CheckWhiteListMint() {
+      let isInWhitelist = await blockchain.smartContract.methods.isInWhiteList(blockchain.account).call();
+      let remainSupply = await blockchain.smartContract.methods.remainSupply().call();
+      setIsInWhitelist(isInWhitelist);
+      setRemainSupply(remainSupply);
+
+      
+      if (remainSupply <= 10 && isInWhitelist) {
+        document.getElementById("mintButton").disabled = false;
+        document.getElementById("mintButton").innerHTML = "WHITELIST MINT";
+        document.getElementById("message").innerHTML = "WhiteList Mint Enabled.";
+        setMintCost(CONFIG.WHITELIST_WEI_COST); 
+        setDisplayCost(CONFIG.WHITELIST_DISPLAY_COST);
+        setWhitelistMintEnabled(true);
+      }
+      else if(remainSupply <= 10 && !isInWhitelist) {
+        document.getElementById("mintButton").disabled = true;
+        document.getElementById("message").innerHTML = "WhiteList Mint is only for specific address."; 
+        setMintCost(CONFIG.WHITELIST_WEI_COST); 
+        setDisplayCost(CONFIG.WHITELIST_DISPLAY_COST);
+        setWhitelistMintEnabled(false);
+      }
+      else
+      {
+        document.getElementById("mintButton").disabled = false;
+        setMintCost(CONFIG.WEI_COST);
+        setDisplayCost(CONFIG.DISPLAY_COST);
+        setWhitelistMintEnabled(false);
+      }
+    }
+
   
     const decrementMintAmount = () => {
       let newMintAmount = mintAmount - 1;
@@ -262,8 +335,8 @@ export function TopSection() {
   
     const incrementMintAmount = () => {
       let newMintAmount = mintAmount + 1;
-      if (newMintAmount > 10) {
-        newMintAmount = 10;
+      if (newMintAmount >= 2) {
+        newMintAmount = 2;
       }
       setMintAmount(newMintAmount);
     };
@@ -271,6 +344,7 @@ export function TopSection() {
     const getData = () => {
       if (blockchain.account !== "" && blockchain.smartContract !== null) {
         dispatch(fetchData(blockchain.account));
+        CheckWhiteListMint(); 
       }
     };
   
@@ -300,7 +374,7 @@ export function TopSection() {
             </Counter>
 
             <ContractLink>
-              <a href={CONFIG.SCAN_LINK}>
+              <a href={CONFIG.SCAN_LINK} target="_blank">
                 {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
               </a>
             </ContractLink>
@@ -319,17 +393,17 @@ export function TopSection() {
               </>
             ) : (
               <>
-                <ContractInfo>
-                  1 {CONFIG.SYMBOL} costs {CONFIG.DISPLAY_COST}{" "}
+               { remainSupply !== 0 &&  <ContractInfo>
+                {mintAmount} {CONFIG.SYMBOL} costs {displayCost * mintAmount}{" "}
                   {CONFIG.NETWORK.SYMBOL}.
-                </ContractInfo>
-                <ContractInfo>
+                </ContractInfo>}
+                { remainSupply !== 0 && <ContractInfo  id="message">
                   Excluding gas fees.
-                </ContractInfo>
+                </ContractInfo>}
                 {blockchain.account === "" ||
                 blockchain.smartContract === null ? (
                   <ConnectorWrapper>
-                    <DynamicInfo
+                    <DynamicInfo                     
                       style={{
                         textAlign: "center",
                         color: "var(--accent-text)",
@@ -337,14 +411,14 @@ export function TopSection() {
                     >
                       Connect to the {CONFIG.NETWORK.NAME} network
                     </DynamicInfo>
-                    <Button
+                    <Button                     
                       onClick={(e) => {
                         e.preventDefault();
                         dispatch(connect());
                         getData();
                       }}
                     >
-                      CONNECT
+                    { loading === true ? <PulseLoader color="white" size={5}/> : "CONNECT" }
                     </Button>
                     {blockchain.errorMsg !== "" ? (
                       <>
@@ -390,6 +464,7 @@ export function TopSection() {
                     </InputWrapper>
                     <div>
                       <Button
+                        id="mintButton"
                         disabled={claimingNft ? 1 : 0}
                         onClick={(e) => {
                           e.preventDefault();
@@ -397,7 +472,7 @@ export function TopSection() {
                           getData();
                         }}
                       >
-                        {claimingNft ? "BUSY" : "BUY"}
+                        {claimingNft ? <PulseLoader color="white" size={5}/> : "MINT"}
                       </Button>
                     </div>
                   </>

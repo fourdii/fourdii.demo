@@ -52,7 +52,7 @@ export const connect = () => {
     //     Accept: "application/json",
     //   },
     // });
-    //const CONFIG = await configResponse.json();
+    // const CONFIG = await configResponse.json();
     
     const CONFIG = config;
     const abi = contract;
