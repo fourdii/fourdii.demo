@@ -260,7 +260,7 @@ export function TopSection() {
           .then((receipt) => {
             console.log(receipt);
             setFeedback(
-              `The ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
+              `The ${CONFIG.NFT_NAME} is yours!`
             );
             setClaimingNft(false);
             dispatch(fetchData(blockchain.account));
@@ -284,7 +284,7 @@ export function TopSection() {
           .then((receipt) => {
             console.log(receipt);
             setFeedback(
-              `The ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
+              `The ${CONFIG.NFT_NAME} is yours!`
             );
             setClaimingNft(false);
             dispatch(fetchData(blockchain.account));
