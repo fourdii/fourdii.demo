@@ -8,8 +8,8 @@ import AboutMainBg from "../../images/aboutMain.png";
 
 
 const AboutSectionContainer = tw(Element)`
-    w-full
-    h-screen
+w-full
+h-auto
     flex
     flex-col
     relative
@@ -50,7 +50,8 @@ const SectionInfo = tw.p`
 
 const AboutSectionWrapper = tw.div`
 w-full
-h-full
+h-auto
+relative
 flex
 flex-col
 justify-center
@@ -60,18 +61,19 @@ mt-3
 
 
 const AboutMainWrapper = styled.div`
-  ${tw`
-  w-full
-  h-full
-  flex
-  flex-col
-  justify-center
-  items-center
-  bg-gray-500
-  bg-cover
-  bg-opacity-0
-  `};
-  background-image: url(${AboutMainBg});
+${tw`
+flex
+flex-col
+justify-center
+items-center
+bg-contain 
+bg-top
+bg-no-repeat
+bg-opacity-0
+`};
+background-image: url(${AboutMainBg});
+width: 100vw;
+height: 84vw;
 `;
 
 

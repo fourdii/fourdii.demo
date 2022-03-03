@@ -5,11 +5,9 @@ import { Element } from "react-scroll";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import TeamMainBg from "../../images/teamMain.png";
 
-
-
 const TeamSectionContainer = tw(Element)`
-    w-full
-    h-screen
+w-full
+h-auto
     flex
     flex-col
     relative
@@ -49,8 +47,9 @@ const SectionInfo = tw.p`
 `;
 
 const TeamSectionWrapper = tw.div`
-    w-full
-    h-full
+w-full
+h-auto
+relative
     flex
     flex-col
     justify-center
@@ -60,20 +59,19 @@ const TeamSectionWrapper = tw.div`
 
 const TeamMainWrapper = styled.div`
   ${tw`
-  w-full
-  h-full
   flex
   flex-col
   justify-center
   items-center
-  bg-gray-500
-  bg-cover
+  bg-contain 
+  bg-top
+  bg-no-repeat
   bg-opacity-0
   `};
   background-image: url(${TeamMainBg});
+  width: 100vw;
+  height: 122vw;
 `;
-
-
 
 const Item = styled.div`
   ${tw`
@@ -111,9 +109,7 @@ export function TeamSection() {
       {/* <SectionInfo>  
       </SectionInfo> */}
       <TeamSectionWrapper>
-          <TeamMainWrapper>
-
-          </TeamMainWrapper>
+        <TeamMainWrapper></TeamMainWrapper>
       </TeamSectionWrapper>
     </TeamSectionContainer>
   );
