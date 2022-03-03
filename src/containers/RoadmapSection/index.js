@@ -49,18 +49,13 @@ const SectionInfo = tw.p`
 `;
 
 const RoadmapSectionWrapper = tw.div`
-    w-full
-    h-full
-    flex
-    flex-col
-    justify-center
-    items-center
-    mt-3
-    xl:mt-6
-    2xl:mt-10
-    max-w-sm
-    xl:max-w-2xl
-    2xl:max-w-4xl
+w-full
+h-full
+flex
+flex-col
+justify-center
+items-center
+mt-3
 `;
 
 const RoadmapMainWrapper = styled.div`
@@ -73,6 +68,7 @@ const RoadmapMainWrapper = styled.div`
   items-center
   bg-gray-500
   bg-cover
+  bg-opacity-0
   `};
   background-image: url(${RoadmapMainBg});
 `;
@@ -110,11 +106,14 @@ const Description = tw.p`
 
 export function RoadmapSection() {
   return (
-    <RoadmapSectionContainer name="Roadmap">
+    <RoadmapSectionContainer name="Roadmap" id="RoadmapSectionContainer">
       <Title>Roadmap</Title>
       {/* <SectionInfo>  
       </SectionInfo> */}
-      <RoadmapSectionWrapper>
+      <RoadmapSectionWrapper id="RoadmapSectionWrapper">
+        <RoadmapMainWrapper id="RoadmapMainWrapper">
+
+        </RoadmapMainWrapper>
       </RoadmapSectionWrapper>
     </RoadmapSectionContainer>
   );

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import { Element } from "react-scroll";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import AboutMainBg from "../../images/aboutMain.png";
 
 
 
@@ -48,20 +49,30 @@ const SectionInfo = tw.p`
 `;
 
 const AboutSectionWrapper = tw.div`
-    w-full
-    h-full
-    flex
-    flex-col
-    justify-center
-    items-center
-    mt-3
-    xl:mt-6
-    2xl:mt-10
-    max-w-sm
-    xl:max-w-2xl
-    2xl:max-w-4xl
+w-full
+h-full
+flex
+flex-col
+justify-center
+items-center
+mt-3
 `;
 
+
+const AboutMainWrapper = styled.div`
+  ${tw`
+  w-full
+  h-full
+  flex
+  flex-col
+  justify-center
+  items-center
+  bg-gray-500
+  bg-cover
+  bg-opacity-0
+  `};
+  background-image: url(${AboutMainBg});
+`;
 
 
 
@@ -101,6 +112,9 @@ export function AboutSection() {
       {/* <SectionInfo>  
       </SectionInfo> */}
       <AboutSectionWrapper>
+        <AboutMainWrapper>
+
+        </AboutMainWrapper>
       </AboutSectionWrapper>
     </AboutSectionContainer>
   );

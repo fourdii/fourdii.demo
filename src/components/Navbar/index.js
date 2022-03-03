@@ -71,7 +71,7 @@ export function NavBar() {
     const navItems =( 
     <NavItems>
         <NavItem>
-            <Link to="TopSection">NFT</Link>
+            <Link to="NFT">NFT</Link>
         </NavItem>
         <NavItem>
             <Link to="Roadmap">Roadmap</Link>

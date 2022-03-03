@@ -15,11 +15,16 @@ import PulseLoader from "react-spinners/PulseLoader";
 
 import NftBuyBg from "../../images/nftBuy.png";
 import NftInfoBg from "../../images/nftInfo.png";
-import NftMainBg from "../../images/nftMain.png";
+
+import AmountFrameBg from "../../images/amountFrame.png";
+import MinusButtonBg from "../../images/minusButton.png";
+import PlusButtonBg from "../../images/plusButton.png";
+import ConnectMintButtonBg from "../../images/connectMintButton.png";
 
 
 
-const TopSectionContainer = styled.div`
+
+const NFTSectionContainer = styled.div`
   ${tw`
     w-full
     h-screen
@@ -29,7 +34,7 @@ const TopSectionContainer = styled.div`
   `};
 `;
 
-const TopSectionWrapper = styled.div`
+const NFTSectionWrapper = styled.div`
   ${tw`
   w-full
   h-full
@@ -42,31 +47,7 @@ const TopSectionWrapper = styled.div`
 `;
 
 
-// const ViewMoreButton = styled.button`
-//   ${tw`
-//         // absolute
-//         bottom-4
-//         // left-1/2
-//         // -translate-x-1/2
-//         text-white
-//         text-4xl
-//         transition-colors
-//         duration-200
-//         hover:text-yellow-500       
-//     `};
-// `;
 
-// const ViewMoreButtonWrapper = styled.div`
-//   ${tw`
-//        w-full
-//        flex
-//        flex-row
-//        justify-center
-//        items-center   
-//        self-center 
-//        pb-2
-//     `};
-// `;
 
 // const MintContainer = styled.div`
  
@@ -196,28 +177,10 @@ const TopSectionWrapper = styled.div`
 
 
 
-
-const NftMainWrapper = styled.div`
-  ${tw`
-  w-full
-  h-full
-  flex
-  flex-col
-  justify-center
-  items-center
-  bg-gray-500
-  bg-cover
-  bg-center
-  bg-opacity-0
-  
-  `};
-  background-image: url(${NftMainBg});
-`;
-
 const NftMintWrapper = styled.div`
   ${tw`
-  w-full
-  h-full
+  w-screen
+  h-1/2
   flex
   flex-col
   justify-center
@@ -231,51 +194,134 @@ const NftMintWrapper = styled.div`
 
 const NftInfoWrapper = styled.div`
   ${tw`
-  w-full
-  h-full
+  w-screen
+  h-1/2
   flex
-  flex-col
+  flex-row
+  flex-nowrap
   justify-center
   items-center
-  bg-gray-500
   bg-cover
   bg-opacity-0
   `};
   background-image: url(${NftInfoBg});
 `;
 
-const Button = styled.button`
+
+
+
+const ConnectMintButtonWrapper = styled.button`
   ${tw`
-      
+  h-3/4
+  w-screen
+  flex
+  flex-row
+  flex-nowrap
+  justify-center
+  items-center
 `};
 `;
 
-const InputWrapper = styled.button`
+const ConnectMintButton = styled.button`
   ${tw`
-      
+  bg-opacity-0
+  h-[170px]
+  w-[579px]
+  bg-cover
+  bg-no-repeat
 `};
-`;
-
-const InputButton = styled.button`
-  ${tw`
-      
-`};
-`;
-
-const InputFrame = styled.button`
-  ${tw`
-      
-`};
+  background-image: url(${ConnectMintButtonBg});
 `;
 
 
 
 
 
+const InputWrapper = styled.div`
+  ${tw`
+  w-full
+  h-1/4
+  flex
+  flex-row
+  flex-nowrap
+  justify-center
+  items-center
+  `};
+`;
+
+const PlusButton = styled.button`
+  ${tw`
+  bg-opacity-0
+  h-[43px]
+  w-[43px]
+  bg-cover
+  bg-no-repeat
+`};
+background-image: url(${PlusButtonBg});
+`;
+
+const MinusButton = styled.button`
+  ${tw`
+  bg-opacity-0
+  h-[43px]
+  w-[43px]
+  bg-cover
+  bg-no-repeat
+`};
+background-image: url(${MinusButtonBg});
+`;
+
+const AmountFrame = styled.div`
+  ${tw`
+  bg-opacity-0
+  h-[43px]
+  w-[59px]
+  bg-cover
+  bg-no-repeat
+`};
+background-image: url(${AmountFrameBg});
+`;
 
 
 
-export function TopSection() {
+
+
+
+const InfoWrapper = styled.div`
+  ${tw`
+  w-full
+  h-full
+  flex
+  flex-col
+  justify-center
+  items-center
+  p-44
+`};
+`;
+
+const InfoTitle = styled.div`
+  ${tw`
+  text-white
+  text-xl
+  p-10
+`};
+`;
+
+const InfoContent = styled.div`
+  ${tw`
+  text-white
+  text-sm
+`};
+`;
+
+
+
+
+
+
+
+
+export function NFTSection() {
 
     const dispatch = useDispatch();
     const blockchain = useSelector((state) => state.blockchain);
@@ -467,126 +513,34 @@ export function TopSection() {
 
 
   return (
-    <TopSectionContainer>
-    {/* <LandingSection> */}
-    <TopSectionWrapper>
-      <NavBar />
-      <NftMainWrapper />
-     
-      {/* <MintContainer>           
-            <Counter>
-              {data.totalSupply} / {CONFIG.MAX_SUPPLY}
-            </Counter>
+    <NFTSectionContainer name="NFT">
 
-            <ContractLink>
-              <a href={CONFIG.SCAN_LINK} target="_blank">
-                {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
-              </a>
-            </ContractLink>
-            
-            {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
-              <>
-                <div>
-                  The sale has ended.
-                </div>
-                <div>
-                  You can still find {CONFIG.NFT_NAME} on
-                </div>
-                <a href={CONFIG.MARKETPLACE_LINK}>
-                  {CONFIG.MARKETPLACE}
-                </a>
-              </>
-            ) : (
-              <>
-               { remainSupply !== 0 &&  <ContractInfo>
-                {mintAmount} {CONFIG.SYMBOL} costs {(displayCost * mintAmount).toFixed(6)}{" "}
-                  {CONFIG.NETWORK.SYMBOL}.
-                </ContractInfo>}
-                { remainSupply !== 0 && <ContractInfo  id="message">
-                  Excluding gas fees.
-                </ContractInfo>}
-                {blockchain.account === "" ||
-                blockchain.smartContract === null ? (
-                  <ConnectorWrapper>
-                    <DynamicInfo                     
-                      style={{
-                        textAlign: "center",
-                        color: "var(--accent-text)",
-                      }}
-                    >
-                      Connect to the {CONFIG.NETWORK.NAME} network
-                    </DynamicInfo>
-                    <Button                     
-                      onClick={(e) => {
-                        e.preventDefault();
-                        dispatch(connect());
-                        getData();
-                      }}
-                    >
-                      CONNECT
-                    </Button>
-                    {blockchain.errorMsg !== "" ? (
-                      <>
-                        <DynamicInfo
-                          style={{
-                            textAlign: "center",
-                            color: "var(--accent-text)",
-                          }}
-                        >
-                          {blockchain.errorMsg}
-                        </DynamicInfo>
-                      </>
-                    ) : null}
-                  </ConnectorWrapper>
-                ) : (
-                  <>
-                    <DynamicInfo>
-                      {feedback}
-                    </DynamicInfo>
-                    <InputWrapper>
-                      <InputButton
-                        disabled={claimingNft ? 1 : 0}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          decrementMintAmount();
-                        }}
-                      >
-                        -
-                      </InputButton>
-                      <Quantity                       
-                      >
-                        {mintAmount}
-                      </Quantity>
-                      <InputButton
-                        disabled={claimingNft ? 1 : 0}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          incrementMintAmount();
-                        }}
-                      >
-                        +
-                      </InputButton>
-                    </InputWrapper>
-                    <div>
-                      <Button
-                        id="mintButton"
-                        disabled={claimingNft ? 1 : 0}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          claimNFTs();
-                          getData();
-                        }}
-                      >
-                        MINT
-                      </Button>
-                    </div>
-                  </>
-                )}
-              </>
-            )}
-      </MintContainer>  */}
-</TopSectionWrapper>
-  </TopSectionContainer>
+      <NFTSectionWrapper id="NFTSectionWrapper">
+        <NftMintWrapper id="NftMintWrapper" >
+
+          <ConnectMintButtonWrapper  id="ConnectMintButtonWrapper" >
+            <ConnectMintButton  id="ConnectMintButton" />
+          </ConnectMintButtonWrapper>
+
+          <InputWrapper  id="InputWrapper">
+            <PlusButton id="PlusButton"></PlusButton>
+            <AmountFrame id="AmountFrame"></AmountFrame>
+            <MinusButton id="MinusButton"></MinusButton>
+          </InputWrapper>
+
+        </NftMintWrapper>
+
+        <NftInfoWrapper id="NftInfoWrapper">
+
+          <InfoWrapper id="InfoWrapper">
+            <InfoTitle id="InfoTitle">About CocaineCat</InfoTitle>
+            <InfoContent id="InfoFrame">CocaineCat是一群被拋棄在太空的貓咪，長期受到宇宙輻射後發生了突變，他們以古怪的風格模仿人類的生態與生活方式，適應生存在各星球上。密切關注我們的CocaineCat，貓咪們會繼續探索人類無法觸及的未知領域。</InfoContent>
+          </InfoWrapper>
+
+        </NftInfoWrapper >
+
+      </NFTSectionWrapper>
+    </NFTSectionContainer>
   );
 };
 

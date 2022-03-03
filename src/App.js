@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { RoadmapSection } from "./containers/RoadmapSection";
 import { TeamSection } from "./containers/TeamSection";
 import { FAQSection } from "./containers/FAQSection";
+import { NFTSection } from "./containers/NFTSection";
 
 
 // const AppContainer = tw.div`
@@ -39,6 +40,7 @@ function App() {
     <AppContainer>
       {/* <iframe className="w-screen h-screen overflow-hidden" src="https://fengchen313.wixsite.com/my-site-1?siteRevision=176" title="W3Schools Free Online Web Tutorials"></iframe> */}
       <TopSection/>
+      <NFTSection/>
       <RoadmapSection/>
       <TeamSection/>
       <AboutSection/>
