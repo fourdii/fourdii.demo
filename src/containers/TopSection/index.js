@@ -3,7 +3,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import { NavBar } from "../../components/Navbar"; 
 import { Link } from "react-scroll";
-import { BsArrowDownCircle } from "react-icons/bs";
+import { BsArrowDownCircle, BsCartCheck } from "react-icons/bs";
 
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from "../../redux/blockchain/blockchainActions";
@@ -323,15 +323,17 @@ export function TopSection() {
       console.log("Gas limit: ", totalGasLimit);
       setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
       setClaimingNft(true);
-
+      try {
       if (whitelistMintEnabled) {
+        console.log("White Mint");
+
         blockchain.smartContract.methods
           .wMintNFT()
           .send({
-            gasLimit: String(totalGasLimit),
+            gasLimit: String(gasLimit),
             to: CONFIG.CONTRACT_ADDRESS,
             from: blockchain.account,
-            value: totalCostWei,
+            value: cost,
           })
           .once("error", (err) => {
             console.log(err);
@@ -349,6 +351,7 @@ export function TopSection() {
             setLoading(false);
           });
       } else {
+        console.log("Mint");
         blockchain.smartContract.methods
           .mintNFT(mintAmount)
           .send({
@@ -372,6 +375,10 @@ export function TopSection() {
             dispatch(fetchData(blockchain.account));
             setLoading(false);
           });
+        }        
+      }
+      catch(err){
+        console.log(err);
       }
     };
 
@@ -386,6 +393,9 @@ export function TopSection() {
 
       setIsInWhitelist(isInWhitelist);
       setRemainSupply(remainSupply);
+
+      console.log(isInWhitelist);
+      console.log(remainSupply);
 
       
       if (remainSupply <= 10 && isInWhitelist) {
@@ -514,7 +524,8 @@ export function TopSection() {
                         getData();
                       }}
                     >
-                    { loading === true ? <PulseLoader color="white" size={5}/> : "CONNECT" }
+                      CONNECT
+                    {/* { loading === true ? <PulseLoader color="white" size={5}/> : "CONNECT" } */}
                     </Button>
                     {blockchain.errorMsg !== "" ? (
                       <>
@@ -568,7 +579,8 @@ export function TopSection() {
                           getData();
                         }}
                       >
-                        {claimingNft ? <PulseLoader color="white" size={5}/> : "MINT"}
+                        MINT
+                        {/* {claimingNft ? <PulseLoader color="white" size={5}/> : "MINT"} */}
                       </Button>
                     </div>
                   </>
