@@ -215,7 +215,7 @@ height: 46.7vw;
 
 const ConnectMintButtonWrapper = styled.button`
   ${tw`
-  h-3/4
+  h-2/3
   w-screen
   flex
   flex-row
@@ -243,7 +243,7 @@ const ConnectMintButton = styled.button`
 const InputWrapper = styled.div`
   ${tw`
   w-full
-  h-1/4
+  h-1/3
   flex
   flex-row
   flex-nowrap

@@ -4,6 +4,8 @@ import tw from "twin.macro";
 import { Element } from "react-scroll";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import FAQMainBg from "../../images/faqMain.png";
+import FAQTopBg from "../../images/faqTop.png";
+import FAQBottomBg from "../../images/faqBottom.png";
 
 
 
@@ -54,7 +56,7 @@ h-auto
 relative
 flex
 flex-col
-justify-center
+justify-items-start
 items-center
 mt-3
 `;
@@ -105,6 +107,24 @@ const Description = tw.p`
     absolute
 `;
 
+const FAQTop = styled.div`
+  ${tw`
+  w-8/12
+  h-1/6
+  bg-cover
+`};
+background-image: url(${FAQTopBg});
+`;
+
+const FAQBottom = styled.div`
+  ${tw`
+  w-8/12
+  h-2/6
+  bg-cover
+`};
+background-image: url(${FAQBottomBg});
+`;
+
 export function FAQSection() {
   return (
     <FAQSectionContainer name="FAQ">
@@ -113,7 +133,8 @@ export function FAQSection() {
       </SectionInfo> */}
       <FAQSectionWrapper>
           <FAQMainWrapper>
-
+            <FAQTop></FAQTop>
+            <FAQBottom></FAQBottom>
           </FAQMainWrapper>
       </FAQSectionWrapper>
     </FAQSectionContainer>
