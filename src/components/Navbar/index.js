@@ -53,8 +53,8 @@ const NavItem = tw.li`
     min-h-full
     text-white
     cursor-pointer
-    font-medium
-    text-lg
+    font-bold
+    text-2xl
     lg:text-base
     transition-colors
     transition-duration[300ms]

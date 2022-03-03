@@ -13,16 +13,15 @@ import config from "../.././config.json";
 import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";
 
-import NftBuyBg from "../../images/nftBuy.png";
-import NftInfoBg from "../../images/nftInfo.png";
+
 import NftMainBg from "../../images/nftMain.png";
 
 
 
 const TopSectionContainer = styled.div`
   ${tw`
-    w-full
-    h-screen
+  w-full
+  h-auto
     flex
     flex-col
     relative
@@ -32,7 +31,8 @@ const TopSectionContainer = styled.div`
 const TopSectionWrapper = styled.div`
   ${tw`
   w-full
-  h-full
+  h-auto
+  relative
   flex
   flex-col
   justify-center
@@ -199,74 +199,25 @@ const TopSectionWrapper = styled.div`
 
 const NftMainWrapper = styled.div`
   ${tw`
-  w-full
-  h-full
   flex
-  flex-col
-  justify-center
-  items-center
-  bg-gray-500
-  bg-cover
-  bg-center
-  bg-opacity-0
-  
-  `};
-  background-image: url(${NftMainBg});
-`;
-
-const NftMintWrapper = styled.div`
-  ${tw`
-  w-full
-  h-full
-  flex
-  flex-col
-  justify-center
-  items-center
-  bg-gray-500
-  bg-cover
-  bg-opacity-0
-    `};
-  background-image: url(${NftBuyBg});
-`;
-
-const NftInfoWrapper = styled.div`
-  ${tw`
-  w-full
-  h-full
-  flex
-  flex-col
-  justify-center
-  items-center
-  bg-gray-500
-  bg-cover
-  bg-opacity-0
-  `};
-  background-image: url(${NftInfoBg});
-`;
-
-const Button = styled.button`
-  ${tw`
-      
+flex-col
+justify-center
+items-center
+bg-contain 
+bg-top
+bg-no-repeat
+bg-opacity-0
 `};
+background-image: url(${NftMainBg});
+width: 100vw;
+height: 56.3vw;
 `;
 
-const InputWrapper = styled.button`
-  ${tw`
-      
-`};
-`;
 
-const InputButton = styled.button`
-  ${tw`
-      
-`};
-`;
 
-const InputFrame = styled.button`
-  ${tw`
-      
-`};
-`;
+
+
+
 
 
 

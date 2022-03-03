@@ -26,8 +26,8 @@ import ConnectMintButtonBg from "../../images/connectMintButton.png";
 
 const NFTSectionContainer = styled.div`
   ${tw`
-    w-full
-    h-screen
+  w-full
+  h-auto
     flex
     flex-col
     relative
@@ -37,7 +37,8 @@ const NFTSectionContainer = styled.div`
 const NFTSectionWrapper = styled.div`
   ${tw`
   w-full
-  h-full
+  h-auto
+  relative
   flex
   flex-col
   justify-center
@@ -178,33 +179,35 @@ const NFTSectionWrapper = styled.div`
 
 
 const NftMintWrapper = styled.div`
-  ${tw`
-  w-screen
-  h-1/2
-  flex
-  flex-col
-  justify-center
-  items-center
-  bg-gray-500
-  bg-cover
-  bg-opacity-0
-    `};
-  background-image: url(${NftBuyBg});
+${tw`
+flex
+flex-col
+justify-center
+items-center
+bg-contain 
+bg-top
+bg-no-repeat
+bg-opacity-0
+`};
+background-image: url(${NftBuyBg});
+width: 100vw;
+height: 36.6vw;
 `;
 
 const NftInfoWrapper = styled.div`
-  ${tw`
-  w-screen
-  h-1/2
-  flex
-  flex-row
-  flex-nowrap
-  justify-center
-  items-center
-  bg-cover
-  bg-opacity-0
-  `};
-  background-image: url(${NftInfoBg});
+${tw`
+flex
+flex-col
+justify-center
+items-center
+bg-contain 
+bg-top
+bg-no-repeat
+bg-opacity-0
+`};
+background-image: url(${NftInfoBg});
+width: 100vw;
+height: 46.7vw;
 `;
 
 
