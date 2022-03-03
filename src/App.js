@@ -5,6 +5,9 @@ import { AboutSection  } from "./containers/AboutSection";
 import { Footer } from "./components/footer";
 import BackgroundImage from "./images/bg.png"
 import styled from "styled-components";
+import { RoadmapSection } from "./containers/RoadmapSection";
+import { TeamSection } from "./containers/TeamSection";
+import { FAQSection } from "./containers/FAQSection";
 
 
 // const AppContainer = tw.div`
@@ -36,7 +39,10 @@ function App() {
     <AppContainer>
       {/* <iframe className="w-screen h-screen overflow-hidden" src="https://fengchen313.wixsite.com/my-site-1?siteRevision=176" title="W3Schools Free Online Web Tutorials"></iframe> */}
       <TopSection/>
+      <RoadmapSection/>
+      <TeamSection/>
       <AboutSection/>
+      <FAQSection/>
       {/* <Footer/>   */}
     </AppContainer>
   );

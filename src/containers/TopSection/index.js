@@ -14,28 +14,35 @@ import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";
 
 import NftBuyBg from "../../images/nftBuy.png";
-import NftMainBg from "../../images/nftMain.png";
 import NftInfoBg from "../../images/nftInfo.png";
+import NftMainBg from "../../images/nftMain.png";
 
 
 
 const TopSectionContainer = styled.div`
   ${tw`
      w-full
-     flex
-     flex-col
-     h-screen
-     relative 
+    h-screen
+    flex
+    flex-col
+    relative
   `};
 `;
 
-const LandingSection = styled.div`
+const TopSectionWrapper = styled.div`
   ${tw`
-        w-full
-        h-screen
-        flex
-        flex-col
-        justify-between
+  w-full
+  h-full
+  flex
+  flex-col
+  justify-center
+  items-center
+  mt-3
+  xl:mt-6
+  2xl:mt-10
+  max-w-sm
+  xl:max-w-2xl
+  2xl:max-w-4xl
     `};
  
 `;
@@ -197,27 +204,44 @@ const InputButton = styled.button`
 
 
 // const NftMainWrapper = styled.div`
-// ${tw`
-//     w-screen
-//     h-auto
+//   ${tw`
+//   w-full
+//   h-full
+//   flex
+//   flex-col
+//   justify-center
+//   items-center
+//   bg-gray-500
+//   bg-cover
 //   `};
-// background-image: url(${NftMainBg});
+//   background-image: url(${NftMainBg});
 // `;
 
 // const NftMintWrapper = styled.div`
 //   ${tw`
-//       w-screen
-//       h-auto
+//   w-full
+//   h-full
+//   flex
+//   flex-col
+//   justify-center
+//   items-center
+//   bg-gray-500
+//   bg-cover  
 //     `};
-// background-image: url(${NftBuyBg});
+//   background-image: url(${NftBuyBg});
 // `;
 
 // const NftInfoWrapper = styled.div`
 //   ${tw`
-//       w-screen
-//       h-auto
-//     `};
-// background-image: url(${NftInfoBg});
+//   w-full
+//   h-full
+//   flex
+//   flex-col
+//   justify-center
+//   items-center
+//   bg-gray-500
+//   bg-cover      `};
+//   background-image: url(${NftInfoBg});
 // `;
 
 // const Button = styled.button`
@@ -354,6 +378,12 @@ export function TopSection() {
     async function CheckWhiteListMint() {
       let isInWhitelist = await blockchain.smartContract.methods.isInWhiteList(blockchain.account).call();
       let remainSupply = await blockchain.smartContract.methods.remainSupply().call();
+      let mintCost = await blockchain.smartContract.methods.mintPrice().call();
+      let mintDisplayCost = blockchain.web3.utils.fromWei(mintCost, 'ether');
+      let wMintCost = await blockchain.smartContract.methods.wMintPrice().call();
+      let wMintDisplayCost = blockchain.web3.utils.fromWei(wMintCost, 'ether');
+
+
       setIsInWhitelist(isInWhitelist);
       setRemainSupply(remainSupply);
 
@@ -362,24 +392,24 @@ export function TopSection() {
         document.getElementById("mintButton").disabled = false;
         document.getElementById("mintButton").innerHTML = "WHITELIST MINT";
         document.getElementById("message").innerHTML = "WhiteList Mint Enabled.";
-        setMintCost(CONFIG.WHITELIST_WEI_COST); 
-        setDisplayCost(CONFIG.WHITELIST_DISPLAY_COST);
+        setMintCost(wMintCost); 
+        setDisplayCost(wMintDisplayCost);
         setWhitelistMintEnabled(true);
       }
       else if(remainSupply <= 10 && !isInWhitelist) {
         document.getElementById("mintButton").disabled = true;
         document.getElementById("mintButton").innerHTML = "WHITELIST MINT DISABLED";
         document.getElementById("message").innerHTML = "WhiteList Mint is only for specific address."; 
-        setMintCost(CONFIG.WHITELIST_WEI_COST); 
-        setDisplayCost(CONFIG.WHITELIST_DISPLAY_COST);
+        setMintCost(wMintCost); 
+        setDisplayCost(wMintDisplayCost);
         setWhitelistMintEnabled(true);
       }
       else
       {
         document.getElementById("mintButton").disabled = false;
         document.getElementById("mintButton").innerHTML = "MINT";
-        setMintCost(CONFIG.WEI_COST);
-        setDisplayCost(CONFIG.DISPLAY_COST);
+        setMintCost(mintCost);
+        setDisplayCost(mintDisplayCost);
         setWhitelistMintEnabled(false);
       }
     }
@@ -428,7 +458,7 @@ export function TopSection() {
 
   return (
     <TopSectionContainer>
-    <LandingSection>
+    {/* <LandingSection> */}
       <NavBar />
       {/* <NftMainWrapper />
       <NftMintWrapper />
@@ -554,7 +584,7 @@ export function TopSection() {
         </Link>
       </ViewMoreButton>
       </ViewMoreButtonWrapper> */}
-    </LandingSection>
+    {/* </LandingSection> */}
   </TopSectionContainer>
   );
 };

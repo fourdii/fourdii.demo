@@ -3,10 +3,11 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import { Element } from "react-scroll";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import RoadmapMainBg from "../../images/roadmapMain.png";
 
 
 
-const AboutSectionContainer = tw(Element)`
+const RoadmapSectionContainer = tw(Element)`
     w-full
     h-screen
     flex
@@ -27,9 +28,9 @@ const Title = tw.h1`
     lg:mt-0
     2xl:mt-6
     2xl:mb-6
+    text-white
     font-bold
     text-center
-    text-white
 `;
 
 const SectionInfo = tw.p`
@@ -47,7 +48,7 @@ const SectionInfo = tw.p`
     lg:pr-2
 `;
 
-const AboutSectionWrapper = tw.div`
+const RoadmapSectionWrapper = tw.div`
     w-full
     h-full
     flex
@@ -62,6 +63,19 @@ const AboutSectionWrapper = tw.div`
     2xl:max-w-4xl
 `;
 
+const RoadmapMainWrapper = styled.div`
+  ${tw`
+  w-full
+  h-full
+  flex
+  flex-col
+  justify-center
+  items-center
+  bg-gray-500
+  bg-cover
+  `};
+  background-image: url(${RoadmapMainBg});
+`;
 
 
 
@@ -94,14 +108,14 @@ const Description = tw.p`
     absolute
 `;
 
-export function AboutSection() {
+export function RoadmapSection() {
   return (
-    <AboutSectionContainer name="About">
-      <Title>About</Title>
+    <RoadmapSectionContainer name="Roadmap">
+      <Title>Roadmap</Title>
       {/* <SectionInfo>  
       </SectionInfo> */}
-      <AboutSectionWrapper>
-      </AboutSectionWrapper>
-    </AboutSectionContainer>
+      <RoadmapSectionWrapper>
+      </RoadmapSectionWrapper>
+    </RoadmapSectionContainer>
   );
 }
