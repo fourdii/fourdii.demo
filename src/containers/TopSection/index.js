@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { NavBar } from "../../components/Navbar"; 
-import BackgroundImage from "../../images/bg.jpeg";
 import { Link } from "react-scroll";
 import { BsArrowDownCircle } from "react-icons/bs";
 
@@ -13,6 +12,11 @@ import config from "../.././config.json";
 
 import { css } from "@emotion/react";
 import PulseLoader from "react-spinners/PulseLoader";
+
+import NftBuyBg from "../../images/nftBuy.png";
+import NftMainBg from "../../images/nftMain.png";
+import NftInfoBg from "../../images/nftInfo.png";
+
 
 
 const TopSectionContainer = styled.div`
@@ -33,11 +37,7 @@ const LandingSection = styled.div`
         flex-col
         justify-between
     `};
-  background-image: url(${BackgroundImage}),
-  linear-gradient(to left, #005b9c, #b1d1b148);
-  background-size: cover;
-  background-position: bottom 10% left;
-  background-blend-mode: overlay;
+ 
 `;
 
 
@@ -145,7 +145,7 @@ const DynamicInfo = styled.p`
 
 const Button = styled.button`
   ${tw`
-    bg-black
+    bg-blue-800
     hover:text-gray-300
     rounded-full
     text-white
@@ -155,7 +155,9 @@ const Button = styled.button`
     py-2
     self-center
     my-2
-    bg-gradient-to-r from-blue-800 via-purple-500 to-yellow-500
+    // bg-gradient-to-r from-blue-800 via-purple-500 to-yellow-500
+    disabled:bg-gray-600 
+    disabled:text-gray-500
     `};
 `;
 
@@ -189,6 +191,62 @@ const InputButton = styled.button`
        mx-4
 `};
 `;
+
+
+
+
+
+// const NftMainWrapper = styled.div`
+// ${tw`
+//     w-screen
+//     h-auto
+//   `};
+// background-image: url(${NftMainBg});
+// `;
+
+// const NftMintWrapper = styled.div`
+//   ${tw`
+//       w-screen
+//       h-auto
+//     `};
+// background-image: url(${NftBuyBg});
+// `;
+
+// const NftInfoWrapper = styled.div`
+//   ${tw`
+//       w-screen
+//       h-auto
+//     `};
+// background-image: url(${NftInfoBg});
+// `;
+
+// const Button = styled.button`
+//   ${tw`
+      
+// `};
+// `;
+
+// const InputWrapper = styled.button`
+//   ${tw`
+      
+// `};
+// `;
+
+// const InputButton = styled.button`
+//   ${tw`
+      
+// `};
+// `;
+
+// const InputFrame = styled.button`
+//   ${tw`
+      
+// `};
+// `;
+
+
+
+
 
 
 
@@ -244,7 +302,7 @@ export function TopSection() {
 
       if (whitelistMintEnabled) {
         blockchain.smartContract.methods
-          .wMintNFT(mintAmount)
+          .wMintNFT()
           .send({
             gasLimit: String(totalGasLimit),
             to: CONFIG.CONTRACT_ADDRESS,
@@ -310,14 +368,16 @@ export function TopSection() {
       }
       else if(remainSupply <= 10 && !isInWhitelist) {
         document.getElementById("mintButton").disabled = true;
+        document.getElementById("mintButton").innerHTML = "WHITELIST MINT DISABLED";
         document.getElementById("message").innerHTML = "WhiteList Mint is only for specific address."; 
         setMintCost(CONFIG.WHITELIST_WEI_COST); 
         setDisplayCost(CONFIG.WHITELIST_DISPLAY_COST);
-        setWhitelistMintEnabled(false);
+        setWhitelistMintEnabled(true);
       }
       else
       {
         document.getElementById("mintButton").disabled = false;
+        document.getElementById("mintButton").innerHTML = "MINT";
         setMintCost(CONFIG.WEI_COST);
         setDisplayCost(CONFIG.DISPLAY_COST);
         setWhitelistMintEnabled(false);
@@ -327,7 +387,7 @@ export function TopSection() {
   
     const decrementMintAmount = () => {
       let newMintAmount = mintAmount - 1;
-      if (newMintAmount < 1) {
+      if (newMintAmount < 1 || whitelistMintEnabled) {
         newMintAmount = 1;
       }
       setMintAmount(newMintAmount);
@@ -335,7 +395,10 @@ export function TopSection() {
   
     const incrementMintAmount = () => {
       let newMintAmount = mintAmount + 1;
-      if (newMintAmount >= remainSupply) {
+      
+      if (whitelistMintEnabled) {
+        newMintAmount = 1;
+      } else if (newMintAmount >= remainSupply) {
         newMintAmount = remainSupply;
       }
       setMintAmount(newMintAmount);
@@ -367,6 +430,9 @@ export function TopSection() {
     <TopSectionContainer>
     <LandingSection>
       <NavBar />
+      {/* <NftMainWrapper />
+      <NftMintWrapper />
+      <NftInfoWrapper /> */}
 
       <MintContainer>           
             <Counter>
@@ -481,13 +547,13 @@ export function TopSection() {
             )}
       </MintContainer> 
 
-     <ViewMoreButtonWrapper>
+     {/* <ViewMoreButtonWrapper>
       <ViewMoreButton>
         <Link to="About" smooth={"easeInOutQuad"} duration={1500}>
           <BsArrowDownCircle />
         </Link>
       </ViewMoreButton>
-      </ViewMoreButtonWrapper>
+      </ViewMoreButtonWrapper> */}
     </LandingSection>
   </TopSectionContainer>
   );

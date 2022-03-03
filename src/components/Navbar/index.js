@@ -9,18 +9,20 @@ import { slide as Menu } from "react-burger-menu";
 import styles from "./menuStyles";
 
 const Container = styled.div`
-  width: 90%;
+ 
   ${tw`
+        w-screen
         flex
         h-20
         pl-6
         pr-6        
-        mt-6
-        sm:border-2
-        sm:rounded-full
-        sm:bg-gray-500
-        sm:border-gray-200
-        sm:border-opacity-50
+        mt-0
+        // sm:border-2
+        // sm:rounded-full
+        sm:bg-black
+        sm:border-b-4
+        //sm:border-gray-200
+        // sm:border-opacity-50
         items-center
         self-center  
         justify-center 
@@ -69,12 +71,6 @@ export function NavBar() {
     const navItems =( 
     <NavItems>
         <NavItem>
-            <Link to="Home">Home</Link>
-        </NavItem>
-        <NavItem>
-            <Link to="About">About</Link>
-        </NavItem>
-        <NavItem>
             <Link to="NFT">NFT</Link>
         </NavItem>
         <NavItem>
@@ -84,8 +80,11 @@ export function NavBar() {
             <Link to="Team">Team</Link>
         </NavItem>
         <NavItem>
-            <Link to="FAQ">FAQ</Link>
+            <Link to="About">About</Link>
         </NavItem>
+        <NavItem>
+            <Link to="FAQ">FAQ</Link>
+        </NavItem>       
     </NavItems>
     )
 

@@ -1,21 +1,34 @@
 import React, { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { connect } from "./redux/blockchain/blockchainActions";
-// import { fetchData } from "./redux/data/dataActions";
-// import config from "./config.json";
 import tw from "twin.macro";
 import { TopSection  } from "./containers/TopSection";
 import { AboutSection  } from "./containers/AboutSection";
 import { Footer } from "./components/footer";
+import BackgroundImage from "./images/bg.png"
+import styled from "styled-components";
 
 
-const AppContainer = tw.div`
+// const AppContainer = tw.div`
+//     flex
+//     flex-col
+//     w-full
+//     h-full
+//     overflow-hidden
+// `;
+
+
+const AppContainer = styled.div`
+  ${tw`
     flex
     flex-col
-    w-full
-    h-full
-    overflow-hidden
+    w-screen
+    h-auto
+    overflow-x-hidden
+    overflow-y-auto
+    `};
+  background-image: url(${BackgroundImage});
+  background-size: cover;
 `;
+
 
 
 function App() {
@@ -24,7 +37,7 @@ function App() {
       {/* <iframe className="w-screen h-screen overflow-hidden" src="https://fengchen313.wixsite.com/my-site-1?siteRevision=176" title="W3Schools Free Online Web Tutorials"></iframe> */}
       <TopSection/>
       <AboutSection/>
-      <Footer/>  
+      {/* <Footer/>   */}
     </AppContainer>
   );
 }

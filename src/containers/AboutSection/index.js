@@ -97,7 +97,7 @@ const Description = tw.p`
 export function AboutSection() {
   return (
     <AboutSectionContainer name="About">
-      <Title>About</Title>
+      {/* <Title>About</Title> */}
       <SectionInfo>  
       </SectionInfo>
       <AboutSectionWrapper>
