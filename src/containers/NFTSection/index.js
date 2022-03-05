@@ -253,6 +253,7 @@ const InfoWrapper = styled.div`
 
 const InfoTitle = styled.div`
   ${tw`
+  text-shadow[#fff 1px 0 10px;]   
   text-white
   text-3xl
 

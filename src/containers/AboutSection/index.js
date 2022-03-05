@@ -20,6 +20,7 @@ h-auto
 
 const Title = tw.h1`
     text-3xl
+    text-shadow[#fff 1px 0 10px;]   
     // lg:text-2xl
     // xl:text-3xl
     // 2xl:text-5xl
@@ -38,8 +39,12 @@ items-center
 w-screen
 h-full
 relative
-mt-24
+
+mt-12
 -mb-6
+
+md:mt-24
+md:-mb-3
 `};
 `;
 

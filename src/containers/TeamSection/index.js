@@ -8,7 +8,6 @@ import GmailBg from "../../images/GMAIL.png";
 import TwitteBg from "../../images/TWITTER.png";
 import InstagramBg from "../../images/IG.png";
 import AvatarBg from "../../images/avatar.png";
-
 import Guan from "../../images/guan.png";
 import Joe from "../../images/joe.png";
 import Junbgold from "../../images/jungold.png";
@@ -32,6 +31,7 @@ h-auto
 `;
 
 const Title = tw.h1`
+    text-shadow[#fff 1px 0 10px;]   
     text-3xl
     text-white
     font-bold
@@ -74,12 +74,9 @@ const TeamMainWrapper = styled.div`
   bg-no-repeat
   bg-opacity-0
   content-start
-
   gap-6
   p-12
-   w-[88vw]
-
-   
+  w-[88vw]
   `};
   background-image: url(${TeamMainBg});
   -moz-background-size: 100% 100%;
@@ -90,14 +87,14 @@ const TeamMainWrapper = styled.div`
 
 const MemberWrapper = styled.div`
 ${tw`
-w-full
-h-full
+  w-full
+  h-full
   flex
   flex-col
   relative
   items-center
   justify-center
- self-center
+  self-center
 `};
 `;
 
@@ -259,34 +256,7 @@ background-image: url(${TwitteBg});
 
 `;
 
-// const Item = styled.div`
-//   ${tw`
-//         flex
-//         flex-col
-//     `}
-//   img {
-//     ${tw`
-//             max-w-full
-//             max-h-full
-//         `}
-//   }
-// `;
 
-// const Description = tw.p`
-//     text-gray-300
-//     text-center
-//     bg-black
-//     bottom-10
-//     left-1/2
-//     pl-4
-//     pr-4
-//     pt-2
-//     pb-2
-//     rounded-2xl
-//     opacity-80
-//     transform[translateX(-50%)]
-//     absolute
-// `;
 
 export function TeamSection() {
   return (

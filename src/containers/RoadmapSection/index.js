@@ -5,6 +5,11 @@ import { Element } from "react-scroll";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import RoadmapMainBg from "../../images/roadmapMain.png";
 import RoadmapMainTextBg from "../../images/roadmapMainText.png";
+import EarthOneBg from "../../images/earth1.png";
+import EarthTwoBg from "../../images/earth2.png";
+import EarthThreeBg from "../../images/earth3.png";
+import EarthFourBg from "../../images/earth4.png";
+import RoadmapFrameBg from "../../images/roadmapFrame.png";
 
 
 
@@ -24,9 +29,10 @@ const RoadmapSectionContainer = tw(Element)`
 
 const Title = tw.h1`
     text-3xl  
-    text-white
     font-bold
     text-center
+    text-shadow[#fff 1px 0 10px;]   
+  text-white
 `;
 
 const TitleWrapper = styled.div`
@@ -52,21 +58,21 @@ items-center
 mt-3
 `;
 
-const RoadmapMainWrapper = styled.div`
-  ${tw`  
-  flex
-  flex-col
-  justify-center
-  items-center
-  bg-contain 
-  bg-top
-  bg-no-repeat
-  bg-opacity-0
-  `};
-  background-image: url(${RoadmapMainBg});
-  width: 100vw;
-  height: 106vw
-`;
+// const RoadmapMainWrapper = styled.div`
+//   ${tw`  
+//   flex
+//   flex-col
+//   justify-center
+//   items-center
+//   bg-contain 
+//   bg-top
+//   bg-no-repeat
+//   bg-opacity-0
+//   `};
+//   background-image: url(${RoadmapMainBg});
+//   width: 100vw;
+//   height: 106vw
+// `;
 
 const RoadmapMainTextWrapper = styled.div`
   ${tw`  
@@ -85,43 +91,193 @@ const RoadmapMainTextWrapper = styled.div`
 `;
 
 
-
-const Item = styled.div`
+const RoadmapMainWrapper = styled.div`
   ${tw`
-        flex
-        flex-col
-    `}
-  img {
-    ${tw`
-            max-w-full
-            max-h-full
-        `}
-  }
+  grid
+  grid-cols-1  
+  xs:grid-cols-2
+  sm:grid-cols-3
+  bg-contain 
+  bg-top
+  bg-no-repeat
+  bg-opacity-0
+  content-start
+  gap-6
+  p-12
+  w-[88vw]
+  `};
+  background-image: url(${RoadmapMainBg});
+  -moz-background-size: 100% 100%;
+  -webkit-background-size: 100% 100%;
+  background-size: 100% 100%;
 `;
 
-const Description = tw.p`
-    text-gray-300
-    text-center
-    bg-black
-    bottom-10
-    left-1/2
-    pl-4
-    pr-4
-    pt-2
-    pb-2
-    rounded-2xl
-    opacity-80
-    transform[translateX(-50%)]
-    absolute
+
+const MemberWrapper = styled.div`
+${tw`
+  w-full
+  h-full
+  flex
+  flex-col
+  relative
+  items-center
+  justify-center
+  self-center
+`};
+`;
+
+const Member = styled.div`
+  ${tw`
+  bg-opacity-0
+  bg-cover
+  bg-no-repeat
+  p-10
+  text-sm
+  font-bold
+  text-white
+`};
+background-image: url(${RoadmapFrameBg});
+-moz-background-size: 100% 100%;
+  -webkit-background-size: 100% 100%;
+  background-size: 100% 100%;
+`;
+
+const EarthOne = styled.div`
+  ${tw`
+  bg-opacity-0
+  w-[90vw]
+  h-[90vw]
+  bg-cover
+  bg-no-repeat
+`};
+background-image: url(${EarthOneBg});
+`;
+
+const EarthTwo = styled.div`
+  ${tw`
+  bg-opacity-0
+  w-[90vw]
+  h-[90vw]
+  bg-cover
+  bg-no-repeat
+`};
+background-image: url(${EarthTwoBg});
+`;
+
+const EarthThree = styled.div`
+  ${tw`
+  bg-opacity-0
+  w-[90vw]
+  h-[90vw]
+  bg-cover
+  bg-no-repeat
+`};
+background-image: url(${EarthThreeBg});
+`;
+
+const EarthFour = styled.div`
+  ${tw`
+  bg-opacity-0
+  w-[90vw]
+  h-[90vw]
+  bg-cover
+  bg-no-repeat
+`};
+background-image: url(${EarthFourBg});
 `;
 
 export function RoadmapSection() {
   return (
     <RoadmapSectionContainer name="Roadmap" id="RoadmapSectionContainer">
-    <TitleWrapper> <Title>Roadmap</Title></TitleWrapper> 
+      <TitleWrapper>
+        {" "}
+        <Title>Roadmap</Title>
+      </TitleWrapper>
       <RoadmapSectionWrapper id="RoadmapSectionWrapper">
-        <RoadmapMainTextWrapper id="RoadmapMainTextWrapper">
-        </RoadmapMainTextWrapper>
+        <RoadmapMainWrapper>
+          <MemberWrapper>
+            <Member>
+              <p>2022 Q2</p>
+              <br />
+              <p>♦️發佈完整白皮書與官網 ♦️合作產業資訊</p>
+              <br />
+              <p>♦️完售、啟動項目（尋找店面</p>
+              <br />
+              <p>♦️票選台灣藝人協同合作</p>
+              <br />
+              <p>♦️結合台灣在地商家5家給予持有者回饋</p>
+            </Member>
+          </MemberWrapper>
+
+          <MemberWrapper>
+            <EarthOne></EarthOne>
+          </MemberWrapper>
+
+          <MemberWrapper>
+            <Member>
+              <p>2022 Q3</p>
+              <br />
+              <p>♦️發佈完整企劃內容</p>
+              <br />
+              <p>♦️定案實體商店服務與持有者回饋</p>
+              <br />
+              <p>♦️定案空間設計與選址</p>
+              <br />
+              <p>♦️第一次持有者空投</p>
+              <br />
+              <p>♦️完整企劃定案與動工</p>
+              <br />
+              <p>♦️社群資金低風險質押 ♦️打造全台最大最多元社群</p>
+            </Member>
+          </MemberWrapper>
+
+          <MemberWrapper>
+            <EarthTwo></EarthTwo>
+          </MemberWrapper>
+
+          <MemberWrapper>
+            <Member>
+            <p>2022 Q4</p>
+            <br />
+            <p>♦️實體店面開幕</p>
+            <br />
+            <p>♦️置產元宇宙</p>
+            </Member>
+          </MemberWrapper>
+
+          <MemberWrapper>
+            <EarthThree></EarthThree>
+          </MemberWrapper>
+
+          <MemberWrapper>
+            <Member>
+            <p>2023 Q1</p> 
+            <br />
+            <p>♦️發展實體二創與異業聯名</p> 
+            <br />
+            <p>♦️結合台灣在地商家10家給予持有者回饋</p> 
+            <br />
+            <p>♦️擴大台灣商家合作版圖</p> 
+            </Member>
+          </MemberWrapper>
+
+          <MemberWrapper>
+            <EarthFour></EarthFour>
+          </MemberWrapper>
+
+          <MemberWrapper>
+            <Member>
+            <p>2024 Q2</p> 
+            <br />
+            <p>♦️社群開發NFt虛實整合App、CCOD map ♦️DAO投票參與公益團體</p>
+            <br />
+            <p> ♦️發佈Roadmap 2.0</p> 
+            </Member>
+          </MemberWrapper>
+        </RoadmapMainWrapper>
+
+        {/* <RoadmapMainTextWrapper id="RoadmapMainTextWrapper">
+        </RoadmapMainTextWrapper> */}
       </RoadmapSectionWrapper>
     </RoadmapSectionContainer>
   );

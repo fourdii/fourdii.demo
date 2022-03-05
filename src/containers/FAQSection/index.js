@@ -22,10 +22,14 @@ h-auto
 
 const Title = tw.h1`
     text-3xl
+    text-shadow[#fff 1px 0 10px;]   
     text-white
     font-bold
     text-center
-    pt-4
+    pt-3
+    pr-2
+    lg:pt-6
+    lg:pr-3
 `;
 
 
