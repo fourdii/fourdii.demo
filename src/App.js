@@ -19,9 +19,9 @@ const AppContainer = styled.div`
     h-auto
     overflow-x-hidden
     overflow-y-auto
+    bg-cover
     `};
-  background-image: url(${BackgroundImage});
-  background-size: cover;
+    background-image: url(${BackgroundImage});
 `;
 
 

@@ -138,11 +138,6 @@ w-screen
 
 `};
   background-image: url(${NftInfoBg});
-  // -moz-background-size: 100% 100%;
-  //   -webkit-background-size: 100% 100%;
-  //   background-size: 100% 100%;
-  // width: 100vw;
-  // height: 46.7vw;
 `;
 
 const ConnectMintButtonWrapper = styled.div`

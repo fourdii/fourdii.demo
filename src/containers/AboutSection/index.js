@@ -76,10 +76,6 @@ bg-[#30e6ff]
 border-4
 rounded
 `};
-  // background-image: url(${AboutMainBg});
-  // -moz-background-size: 100% 100%;
-  // -webkit-background-size: 100% 100%;
-  // background-size: 100% 100%;
 `;
 
 const Paragraph = tw.p`

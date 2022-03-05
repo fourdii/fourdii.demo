@@ -10,7 +10,7 @@ import EarthTwoBg from "../../images/earth2.png";
 import EarthThreeBg from "../../images/earth3.png";
 import EarthFourBg from "../../images/earth4.png";
 import RoadmapFrameBg from "../../images/roadmapFrame.png";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { useMediaQuery } from "react-responsive";
 
 const RoadmapSectionContainer = tw(Element)`
     w-full
@@ -95,10 +95,6 @@ const RoadmapMainWrapper = styled.div`
   rounded
   bg-[#30e6ff]
     `};
-  // background-image: url(${RoadmapMainBg});
-  // -moz-background-size: 100% 100%;
-  // -webkit-background-size: 100% 100%;
-  // background-size: 100% 100%;
 `;
 
 const MemberWrapper = styled.div`
@@ -128,10 +124,6 @@ const Member = styled.div`
   border-2
   rounded
 `};
-  // background-image: url(${RoadmapFrameBg});
-  // -moz-background-size: 100% 100%;
-  // -webkit-background-size: 100% 100%;
-  // background-size: 100% 100%;
 `;
 
 const EarthOne = styled.div`
@@ -188,7 +180,9 @@ const EarthFour = styled.div`
 
 
 export function RoadmapSection() {
-  const matches = useMediaQuery("(min-width:420px)");
+
+  const matches = useMediaQuery({ minWidth: 420 });
+
 
   return (
     <RoadmapSectionContainer name="Roadmap" id="RoadmapSectionContainer">

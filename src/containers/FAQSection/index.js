@@ -6,7 +6,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import FAQMainBg from "../../images/faqMain.png";
 import FAQHeaderBg from "../../images/faqHeader.png";
 import FAQBg from "../../images/faq.png";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { useMediaQuery } from "react-responsive";
 
 
 const FAQSectionContainer = tw(Element)`
@@ -177,7 +177,10 @@ py-2
 `;
 
 export function FAQSection() {
-  const matches = useMediaQuery("(min-width:420px)");
+
+
+  const matches = useMediaQuery({ minWidth: 420 });
+
 
 
   return (

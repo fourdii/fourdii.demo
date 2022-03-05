@@ -90,10 +90,6 @@ const TeamMainWrapper = styled.div`
   rounded
   z-10
   `};
-  //background-image: url(${TeamMainBg});
-  // -moz-background-size: 100% 100%;
-  // -webkit-background-size: 100% 100%;
-  // background-size: 100% 100%;
 `;
 
 
