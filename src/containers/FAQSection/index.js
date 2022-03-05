@@ -4,10 +4,8 @@ import tw from "twin.macro";
 import { Element } from "react-scroll";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import FAQMainBg from "../../images/faqMain.png";
-import FAQTopBg from "../../images/faqTop.png";
-import FAQBottomBg from "../../images/faqBottom.png";
-
-
+import FAQHeaderBg from "../../images/faqHeader.png";
+import FAQBg from "../../images/faq.png";
 
 const FAQSectionContainer = tw(Element)`
 w-full
@@ -24,31 +22,13 @@ h-auto
 
 const Title = tw.h1`
     text-3xl
-    xl:text-3xl
-    2xl:text-5xl
-    mt-6
-    lg:mt-0
-    2xl:mt-6
-    2xl:mb-6
     text-white
     font-bold
     text-center
+    pt-4
 `;
 
-const SectionInfo = tw.p`
-    text-base
-    2xl:text-lg
-    text-gray-700
-    text-center
-    mt-8
-    2xl:mt-2
-    max-w-lg
-    xl:max-w-3xl
-    pl-4
-    pr-4
-    lg:pl-2
-    lg:pr-2
-`;
+
 
 const FAQSectionWrapper = tw.div`
 w-full
@@ -61,8 +41,40 @@ items-center
 mt-3
 `;
 
-const FAQMainWrapper = styled.div`
+const FAQHeaderWrapper = styled.div`
 ${tw`
+flex
+flex-col
+justify-center
+items-center
+w-screen
+h-full
+relative
+-mb-20
+mt-14
+`};
+`;
+
+const FAQHeader = styled.div`
+${tw`
+flex
+flex-col
+justify-center
+items-center
+bg-contain 
+bg-no-repeat
+bg-opacity-0
+w-[50vw]
+h-[8vw]
+// pb-1
+// pr-1
+`};
+background-image: url(${FAQHeaderBg});
+`;
+
+
+const FAQMainWrapper = styled.div`
+  ${tw`
 flex
 flex-col
 justify-center
@@ -71,71 +83,127 @@ bg-contain
 bg-top
 bg-no-repeat
 bg-opacity-0
+w-[85vw]
+xs:pt-28
+sm:pt-20
 `};
-background-image: url(${FAQMainBg});
-width: 100vw;
-height: 95vw;
+  background-image: url(${FAQMainBg});
+  -moz-background-size: 100% 100%;
+  -webkit-background-size: 100% 100%;
+  background-size: 100% 100%;
 `;
 
-
-const Item = styled.div`
+const FAQWrapper = styled.div`
   ${tw`
-        flex
-        flex-col
-    `}
-  img {
-    ${tw`
-            max-w-full
-            max-h-full
-        `}
-  }
-`;
+  flex
+  flex-col
+  justify-center
+  items-start
+  bg-contain 
+  bg-top
+  bg-no-repeat
+  bg-opacity-0
+  w-9/12
 
-const Description = tw.p`
-    text-gray-300
-    text-center
-    bg-black
-    bottom-10
-    left-1/2
-    pl-4
-    pr-4
-    pt-2
-    pb-2
-    rounded-2xl
-    opacity-80
-    transform[translateX(-50%)]
-    absolute
-`;
+  xs:h-[300px]
+  sm:h-[250px]
+  // p-8
+  //my-8
+  px-8
+  my-4
 
-const FAQTop = styled.div`
-  ${tw`
-  w-8/12
-  h-1/6
-  bg-cover
+  
 `};
-background-image: url(${FAQTopBg});
+  background-image: url(${FAQBg});
+  -moz-background-size: 100% 100%;
+  -webkit-background-size: 100% 100%;
+  background-size: 100% 100%;
 `;
 
-const FAQBottom = styled.div`
-  ${tw`
-  w-8/12
-  h-2/6
-  bg-cover
-`};
-background-image: url(${FAQBottomBg});
+
+const Paragraph = tw.p`
+w-full
+h-auto
+relative
+flex
+flex-row
+flex-wrap
+justify-center
+items-center
+text-white
+font-bold
+text-sm
+lg:text-lg
+my-4
+px-2
 `;
 
 export function FAQSection() {
   return (
     <FAQSectionContainer name="FAQ">
-      <Title>FAQ</Title>
-      {/* <SectionInfo>  
-      </SectionInfo> */}
+      <FAQHeaderWrapper>
+     <FAQHeader><Title>FAQ</Title></FAQHeader> 
+      </FAQHeaderWrapper>
       <FAQSectionWrapper>
-          <FAQMainWrapper>
-            <FAQTop></FAQTop>
-            <FAQBottom></FAQBottom>
-          </FAQMainWrapper>
+        <FAQMainWrapper>
+          <FAQWrapper>
+            <Paragraph>Q:關於設計CocaineCat NFT?</Paragraph>
+            <br />
+            <Paragraph>
+              A:我們將貓高傲的神情結合男仕髮型製作成1000張NFT，CCOD由多個類別的300多個特徵生成，例如:花紋、服裝、臉型、配件、鼻子、紋身等，可產生超過400億種不同的組合，我們廣泛的特性使我們的CCOD具有不同程度的稀有性，但請放心我們並不會替他分類稀有程度，因為我們所有的CCOD都具有相同的價值，並提倡領養代替購買。
+            </Paragraph>
+          </FAQWrapper>
+
+          <FAQWrapper>
+            <Paragraph>Q:CCOD發行量有多少?</Paragraph>
+            <br />
+            <Paragraph>
+              A:首批NFT發行上限為1000張，公開發售940張，白名單30張，項目方保留30張，未來項目發展每次新的路線圖上限皆為1000張。
+            </Paragraph>
+          </FAQWrapper>
+
+          <FAQWrapper>
+            <Paragraph>Q:除了NFT還有做什麼?</Paragraph>
+            <br />
+            <Paragraph>
+              A:我們不僅僅是NFT產品，我們更努力專注於CCOD未來的實體發展，並建立一個強大的共識社群。
+            </Paragraph>
+          </FAQWrapper>
+
+          <FAQWrapper>
+            <Paragraph>Q:我該如何鑄造?</Paragraph>
+            <br />
+            <Paragraph>
+              A:您可以訪問我們的網站https://Cocainecat.com/連接您的 MetaMask
+              錢包。 MetaMask 可以分別從 iOS、Android 和 PC 設備上的 App
+              Store、Google Play 和 Chrome 擴展程序下載。{" "}
+            </Paragraph>
+          </FAQWrapper>
+
+          <FAQWrapper>
+            <Paragraph>Q:鑄造後我的NFT需要多長時間才能顯示?</Paragraph>
+            <br />
+            <Paragraph>A:圖片將在鑄造後直接在官方Opensea上顯示。</Paragraph>
+          </FAQWrapper>
+
+          <FAQWrapper>
+            <Paragraph>Q:會有預售嗎?</Paragraph>
+            <br />
+            <Paragraph>
+              A:我們採直接公開發售的方式販售，白名單將在銷售尾聲才會被釋放，我們將很快舉行公售，請密切關注我們的
+              Discord 頻道以接收有關的最新消息。
+            </Paragraph>
+          </FAQWrapper>
+
+          <FAQWrapper>
+            <Paragraph>Q:NFT擁有權屬於誰?</Paragraph>
+            <br />
+            <Paragraph>
+              A:一旦您擁有CCOD
+              NFT，團隊將授予您在全球範圍內復制和展示所購買藝術品的許可，無論是用於個人還是商業用途，所有者都擁有其NFT的擁有權與商業使用權。{" "}
+            </Paragraph>
+          </FAQWrapper>
+        </FAQMainWrapper>
       </FAQSectionWrapper>
     </FAQSectionContainer>
   );

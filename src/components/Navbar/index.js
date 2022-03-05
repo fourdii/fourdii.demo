@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { Logo } from "../Logo";
 import { Link } from "react-scroll";
 import { useMediaQuery } from "react-responsive";
 import { deviceSize } from "../responsive";
@@ -19,13 +18,14 @@ const Container = styled.div`
         mt-0
         // sm:border-2
         // sm:rounded-full
-        sm:bg-black
-        sm:border-b-4
+        bg-black
+        border-b-4
         //sm:border-gray-200
         // sm:border-opacity-50
         items-center
         self-center  
         justify-center 
+        
     `};
 `;
 
@@ -36,13 +36,9 @@ const NavItems = tw.ul`
     lg:w-auto
     lg:h-full
     flex
-    // lg:ml-20
     justify-center
     items-center
     self-center  
-
-    sm:justify-around
-
 `;
 
 const NavItem = tw.li`
@@ -51,16 +47,15 @@ const NavItem = tw.li`
     items-center
     justify-center
     min-h-full
-    text-white
+    text-[#00fff7]
     cursor-pointer
     font-bold
     text-2xl
-    lg:text-base
     transition-colors
     transition-duration[300ms]
     hover:text-gray-200
     box-content
-    // mb-2
+    mx-6
     lg:mb-0
 `;
 
