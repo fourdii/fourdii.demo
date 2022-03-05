@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { NavBar } from "../../components/Navbar";
-import { Link } from "react-scroll";
-import { BsArrowDownCircle, BsCartCheck } from "react-icons/bs";
-
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from "../../redux/blockchain/blockchainActions";
 import { fetchData } from "../../redux/data/dataActions";
 import config from "../.././config.json";
-
-import { css } from "@emotion/react";
-import PulseLoader from "react-spinners/PulseLoader";
-
 import NftBuyBg from "../../images/nftBuy.png";
 import NftInfoBg from "../../images/nftInfo.png";
-
 import AmountFrameBg from "../../images/amountFrame.png";
 import MinusButtonBg from "../../images/minusButton.png";
 import PlusButtonBg from "../../images/plusButton.png";
@@ -44,29 +35,6 @@ const NFTSectionWrapper = styled.div`
     `};
 `;
 
-// const MintContainer = styled.div`
-
-//   ${tw`
-//     //   w-full
-//       flex
-//       flex-col
-//       relative
-//       justify-center
-//       items-center
-//       self-center
-//       bg-gray-500
-//       rounded-2xl
-//       border-2
-//       border-gray-200
-//       py-5
-//       border-opacity-50
-//       w-2/3
-
-//       md:w-1/2
-//       lg:w-1/3
-//       xl:w-1/4
-//     `};
-// `;
 
 const Counter = styled.h1`
   ${tw`
@@ -123,23 +91,6 @@ const DynamicInfo = styled.p`
     `};
 `;
 
-// const Button = styled.button`
-//   ${tw`
-//     bg-blue-800
-//     hover:text-gray-300
-//     rounded-full
-//     text-white
-//     font-bold
-//     text-sm
-//     px-5
-//     py-2
-//     self-center
-//     my-2
-//     // bg-gradient-to-r from-blue-800 via-purple-500 to-yellow-500
-//     disabled:bg-gray-600
-//     disabled:text-gray-500
-//     `};
-// `;
 
 const ConnectorWrapper = styled.div`
   ${tw`
@@ -152,24 +103,7 @@ const ConnectorWrapper = styled.div`
 `};
 `;
 
-// const InputWrapper = styled.div`
-//   ${tw`
-//        flex
-//        flex-row
-//        flex-nowrap
-// `};
-// `;
 
-// const InputButton = styled.button`
-//   ${tw`
-//        rounded-full
-//        text-white
-//        hover:text-gray-300
-//        px-3
-//        py-2
-//        mx-4
-// `};
-// `;
 
 const NftMintWrapper = styled.div`
   ${tw`
@@ -181,9 +115,9 @@ bg-cover
 bg-top
 bg-no-repeat
 bg-opacity-0
--mb-2
 w-screen
-h-[50vw]
+h-[100vh]
+// sm:h-[50vw]
 `};
   background-image: url(${NftBuyBg});
 
@@ -219,8 +153,10 @@ const ConnectMintButtonWrapper = styled.button`
   flex-nowrap
   justify-center
   items-center
-  w-[50vw]
-  h-[13.8vw]
+  w-[66.6vw]
+  h-[18.4vw]
+  sm:w-[50vw]
+  sm:h-[13.8vw]
   bg-cover
   bg-no-repeat
   bg-opacity-0
@@ -232,8 +168,11 @@ const ConnectMintButtonWrapper = styled.button`
 const ConnectMintButton = styled.button`
   ${tw`
   bg-opacity-0
-  h-[4.95vw]
-  w-[25vw]
+  h-[9.9vw]
+  w-[50vw]
+
+  sm:h-[4.95vw]
+  sm:w-[25vw]
   bg-cover
   bg-no-repeat
   z-10
@@ -247,7 +186,6 @@ const ConnectMintButton = styled.button`
 const InputWrapperNew = styled.div`
   ${tw`
   w-full
-  h-1/3
   flex
   flex-row
   flex-nowrap
@@ -259,14 +197,10 @@ const InputWrapperNew = styled.div`
 const PlusButton = styled.button`
   ${tw`
   bg-opacity-0
-  h-[40px]
-  w-[40px]
-  sm:h-[60px]
-  sm:w-[60px]
-  md:h-[70px]
-  md:w-[70px]
-  lg:h-[80px]
-  lg:w-[80px]
+h-[10vw]
+w-[10vw]
+sm:h-[5vw]
+sm:w-[5vw]
   bg-cover
   bg-no-repeat
   z-20
@@ -277,14 +211,10 @@ const PlusButton = styled.button`
 const MinusButton = styled.button`
   ${tw`
 bg-opacity-0
-h-[40px]
-w-[40px]
-sm:h-[60px]
-sm:w-[60px]
-md:h-[70px]
-md:w-[70px]
-lg:h-[80px]
-lg:w-[80px]
+h-[10vw]
+w-[10vw]
+sm:h-[5vw]
+sm:w-[5vw]
 bg-cover
 bg-no-repeat
 z-20
@@ -295,8 +225,10 @@ z-20
 const AmountFrame = styled.div`
   ${tw`
   bg-opacity-0
-  h-[80px]
-  w-[118px]
+  h-[10vw]
+  w-[13.72vw]
+  sm:h-[5vw]
+  sm:w-[6.86vw]
   bg-cover
   bg-no-repeat
   flex
@@ -351,9 +283,7 @@ export function NFTSection() {
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
-  const [feedback, setFeedback] = useState(
-    `Click button below to mint your NFT.`
-  );
+  const [feedback, setFeedback] = useState(`Click button below to mint your NFT.`);
   const [mintAmount, setMintAmount] = useState(1);
   const [loading, setLoading] = useState(false);
   const [mintCost, setMintCost] = useState(1);
