@@ -3,7 +3,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import { Link } from "react-scroll";
 import { useMediaQuery } from "react-responsive";
-import { deviceSize } from "../responsive";
+// import { deviceSize } from "../responsive";
 import { slide as Menu } from "react-burger-menu";
 import styles from "./menuStyles";
 
@@ -66,7 +66,7 @@ const NavItem = tw.li`
 
 export function NavBar() {
 
-    const isMobile = useMediaQuery({ maxWidth: deviceSize.mobile });
+    const isMobile = useMediaQuery({ maxWidth: 640 });
 
     const navItems =( 
     <NavItems>

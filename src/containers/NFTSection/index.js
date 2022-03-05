@@ -145,7 +145,7 @@ w-screen
   // height: 46.7vw;
 `;
 
-const ConnectMintButtonWrapper = styled.button`
+const ConnectMintButtonWrapper = styled.div`
   ${tw`
   flex
   flex-row
