@@ -11,24 +11,22 @@ h-auto
     flex
     flex-col
     relative
-    pt-1
-    pb-1
-    xl:pt-2
-    xl:pb-2
+    // pt-1
+    // pb-1
+    // xl:pt-2
+    // xl:pb-2
     items-center
 `;
 
 const Title = tw.h1`
-    text-3xl
     text-shadow[#fff 1px 0 10px;]   
-    // lg:text-2xl
-    // xl:text-3xl
-    // 2xl:text-5xl
-    // mt-14
+    text-3xl
+    text-white
     font-bold
     text-center
-    text-white
 `;
+
+
 
 const TitleWrapper = styled.div`
 ${tw`
@@ -39,12 +37,8 @@ items-center
 w-screen
 h-full
 relative
-
-mt-12
--mb-6
-
-md:mt-24
-md:-mb-3
+mt-24
+mb-4
 `};
 `;
 
@@ -58,7 +52,6 @@ flex
 flex-col
 justify-center
 items-center
--m-8
 `;
 
 const AboutMainWrapper = styled.div`
@@ -70,15 +63,21 @@ items-center
 bg-contain 
 bg-top
 bg-no-repeat
-bg-opacity-0
-w-[92vw]
-py-36
-px-20
+bg-opacity-30
+w-[88vw]
+py-7
+px-10
+sm:py-14
+sm:px-20
+border-[#30e6ff]
+bg-[#30e6ff]
+border-2
+rounded
 `};
-  background-image: url(${AboutMainBg});
-  -moz-background-size: 100% 100%;
-  -webkit-background-size: 100% 100%;
-  background-size: 100% 100%;
+  // background-image: url(${AboutMainBg});
+  // -moz-background-size: 100% 100%;
+  // -webkit-background-size: 100% 100%;
+  // background-size: 100% 100%;
 `;
 
 const Paragraph = tw.p`

@@ -18,10 +18,10 @@ const RoadmapSectionContainer = tw(Element)`
     flex
     flex-col
     relative
-    pt-1
-    pb-1
-    xl:pt-2
-    xl:pb-2
+    // pt-1
+    // pb-1
+    // xl:pt-2
+    // xl:pb-2
     items-center
     mt-20
 `;
@@ -57,21 +57,6 @@ items-center
 mt-3
 `;
 
-// const RoadmapMainWrapper = styled.div`
-//   ${tw`
-//   flex
-//   flex-col
-//   justify-center
-//   items-center
-//   bg-contain
-//   bg-top
-//   bg-no-repeat
-//   bg-opacity-0
-//   `};
-//   background-image: url(${RoadmapMainBg});
-//   width: 100vw;
-//   height: 106vw
-// `;
 
 const RoadmapMainTextWrapper = styled.div`
   ${tw`  
@@ -95,19 +80,23 @@ const RoadmapMainWrapper = styled.div`
   grid-cols-1  
   xs:grid-cols-2
   sm:grid-cols-3
-  bg-contain 
-  bg-top
-  bg-no-repeat
-  bg-opacity-0
+  // bg-contain 
+  // bg-top
+  // bg-no-repeat
+  bg-opacity-20
   content-start
   gap-6
   p-12
   w-[88vw]
-  `};
-  background-image: url(${RoadmapMainBg});
-  -moz-background-size: 100% 100%;
-  -webkit-background-size: 100% 100%;
-  background-size: 100% 100%;
+  border-2
+  border-[#30e6ff]
+  rounded
+  bg-[#30e6ff]
+    `};
+  // background-image: url(${RoadmapMainBg});
+  // -moz-background-size: 100% 100%;
+  // -webkit-background-size: 100% 100%;
+  // background-size: 100% 100%;
 `;
 
 const MemberWrapper = styled.div`
@@ -125,18 +114,22 @@ const MemberWrapper = styled.div`
 
 const Member = styled.div`
   ${tw`
-  bg-opacity-0
+  bg-opacity-30
   bg-cover
   bg-no-repeat
-  p-10
+  p-2
   text-sm
-  font-bold
   text-white
+  font-bold
+  border-[#30e6ff]
+  bg-[#30e6ff]
+  border-2
+  rounded
 `};
-  background-image: url(${RoadmapFrameBg});
-  -moz-background-size: 100% 100%;
-  -webkit-background-size: 100% 100%;
-  background-size: 100% 100%;
+  // background-image: url(${RoadmapFrameBg});
+  // -moz-background-size: 100% 100%;
+  // -webkit-background-size: 100% 100%;
+  // background-size: 100% 100%;
 `;
 
 const EarthOne = styled.div`
@@ -146,6 +139,8 @@ const EarthOne = styled.div`
   h-[90vw]
   bg-cover
   bg-no-repeat
+  -mt-20
+  -mb-8
 `};
   background-image: url(${EarthOneBg});
 `;
@@ -157,6 +152,8 @@ const EarthTwo = styled.div`
   h-[90vw]
   bg-cover
   bg-no-repeat
+  -mt-20
+  -mb-10
 `};
   background-image: url(${EarthTwoBg});
 `;
@@ -168,6 +165,8 @@ const EarthThree = styled.div`
   h-[90vw]
   bg-cover
   bg-no-repeat
+  -mt-10
+  -mb-12
 `};
   background-image: url(${EarthThreeBg});
 `;
@@ -179,6 +178,8 @@ const EarthFour = styled.div`
   h-[90vw]
   bg-cover
   bg-no-repeat
+  -mt-14
+  -mb-10
 `};
   background-image: url(${EarthFourBg});
 `;

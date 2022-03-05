@@ -23,11 +23,14 @@ h-auto
     flex
     flex-col
     relative
-    pt-1
-    pb-1
-    xl:pt-2
-    xl:pb-2
+    // pt-1
+    // pb-1
+    // xl:pt-2
+    // xl:pb-2
     items-center
+    mt-20
+    xs:mt-0
+
 `;
 
 const Title = tw.h1`
@@ -49,6 +52,7 @@ items-center
 w-screen
 h-full
 relative
+mb-4
 `};
 `;
 
@@ -59,8 +63,7 @@ relative
     flex
     flex-col
     justify-center
-    items-center
-    mt-3
+    items-center    
 `;
 
 const TeamMainWrapper = styled.div`
@@ -72,16 +75,19 @@ const TeamMainWrapper = styled.div`
   bg-contain 
   bg-top
   bg-no-repeat
-  bg-opacity-0
+  bg-[#20252f]
   content-start
   gap-6
   p-12
   w-[88vw]
+  border-2
+  border-[#86ffa0]
+  rounded
   `};
-  background-image: url(${TeamMainBg});
-  -moz-background-size: 100% 100%;
-  -webkit-background-size: 100% 100%;
-  background-size: 100% 100%;
+  //background-image: url(${TeamMainBg});
+  // -moz-background-size: 100% 100%;
+  // -webkit-background-size: 100% 100%;
+  // background-size: 100% 100%;
 `;
 
 

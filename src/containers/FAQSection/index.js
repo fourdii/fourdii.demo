@@ -108,7 +108,7 @@ const FAQWrapper = styled.div`
   bg-no-repeat
   bg-opacity-0
   w-9/12
-
+  rounded
   xs:h-[300px]
   sm:h-[250px]
   // p-8
