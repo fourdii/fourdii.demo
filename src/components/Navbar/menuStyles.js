@@ -10,7 +10,7 @@ export default {
       background: "#00fff7",       
     },
     bmBurgerBarsHover: {
-      background: "#a90000",
+      background: "rgba(0, 0, 0, 0)",
     },
     bmCrossButton: {
       height: "24px",

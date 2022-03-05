@@ -59,7 +59,7 @@ const NavItem = tw.li`
     box-content
     mx-6
     lg:mb-0
-    font-family[Tahoma]
+    // font-family[Tahoma]
   tracking-wide
   text-shadow[#00fff7 1px 0 10px;]
 `;

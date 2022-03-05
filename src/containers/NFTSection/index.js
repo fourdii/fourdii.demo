@@ -171,7 +171,7 @@ const ConnectMintButton = styled.button`
   text-white
   font-bold
   text-shadow[#000 1px 0 10px;]
-  font-family[Tahoma]
+  // font-family[Tahoma]
   tracking-wide
 `};
   background-image: url(${ConnectMintButtonBg});
@@ -255,7 +255,7 @@ const InfoTitle = styled.div`
   flex-row
   flex-nowrap
   justify-center
-  font-family[Tahoma]
+  // font-family[Tahoma]
   tracking-wide
   
 `};

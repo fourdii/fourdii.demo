@@ -42,7 +42,7 @@ const Title = tw.h1`
     text-white
     font-bold
     text-center
-    font-family[Tahoma]
+    // font-family[Tahoma]
   tracking-wide
 `;
 
@@ -206,7 +206,7 @@ const Name = styled.div`
   text-white
   text-lg
   font-bold
-  font-family[Tahoma]
+  // font-family[Tahoma]
   tracking-wide
 `};
 `;
@@ -300,6 +300,31 @@ export function TeamSection() {
     <TitleWrapper><Title>Team</Title></TitleWrapper>  
       <TeamSectionWrapper>
         <TeamMainWrapper>
+
+        <MemberWrapper>
+            <Member>
+              <JunbgoldBg />
+            </Member>
+            <Name>JunGold</Name>
+            <Info>-聯合創始人/藝術家</Info>
+            <SocialIconsWrapper>
+              <Instagram href="https://instagram.com/jungold.0?utm_medium=copy_link" target="_blank"></Instagram>
+              <Twitter href="https://twitter.com/jungold_ccod" target="_blank"></Twitter>
+            </SocialIconsWrapper>
+          </MemberWrapper>
+
+          <MemberWrapper>
+          <Member>
+              <R0Bg />             
+            </Member>
+            <Name>R0</Name>
+            <Info>-聯合創始人/社群開發</Info>
+            <SocialIconsWrapper>
+              <Instagram href="https://www.instagram.com/r01319/" target="_blank"></Instagram>
+              <Gmail href="a12398s113@gmail.com" target="_blank"></Gmail>             
+            </SocialIconsWrapper>
+          </MemberWrapper>
+
           <MemberWrapper>
             <Member>
               <GuanBg />
@@ -323,17 +348,7 @@ export function TeamSection() {
             </SocialIconsWrapper>
           </MemberWrapper>
 
-          <MemberWrapper>
-            <Member>
-              <JunbgoldBg />
-            </Member>
-            <Name>JunGold</Name>
-            <Info>-聯合創始人/藝術家</Info>
-            <SocialIconsWrapper>
-              <Instagram href="https://instagram.com/jungold.0?utm_medium=copy_link" target="_blank"></Instagram>
-              <Twitter href="https://twitter.com/jungold_ccod" target="_blank"></Twitter>
-            </SocialIconsWrapper>
-          </MemberWrapper>
+         
 
           <MemberWrapper>
           <Member>
@@ -357,17 +372,8 @@ export function TeamSection() {
             </SocialIconsWrapper>
           </MemberWrapper>
 
-          <MemberWrapper>
-          <Member>
-              <R0Bg />             
-            </Member>
-            <Name>R0</Name>
-            <Info>-聯合創始人/社群開發</Info>
-            <SocialIconsWrapper>
-              <Instagram href="https://www.instagram.com/r01319/" target="_blank"></Instagram>
-              <Gmail href="a12398s113@gmail.com" target="_blank"></Gmail>             
-            </SocialIconsWrapper>
-          </MemberWrapper>
+      
+
         </TeamMainWrapper>
         <FrontBg></FrontBg>
         <BackBg></BackBg>

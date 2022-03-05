@@ -32,7 +32,7 @@ const Title = tw.h1`
     text-center
     text-shadow[#fff 1px 0 10px;]   
   text-white
-  font-family[Tahoma]
+  // font-family[Tahoma]
   tracking-wide
 `;
 
@@ -196,7 +196,9 @@ export function RoadmapSection() {
               <Member>
                 <p>2022 Q2</p>
                 <br />
-                <p>♦️發佈完整白皮書與官網 ♦️合作產業資訊</p>
+                <p>♦️發佈完整白皮書與官網</p>
+                <br />
+                <p> ♦️合作產業資訊</p>
                 <br />
                 <p>♦️完售、啟動項目（尋找店面</p>
                 <br />
@@ -224,7 +226,9 @@ export function RoadmapSection() {
                 <br />
                 <p>♦️完整企劃定案與動工</p>
                 <br />
-                <p>♦️社群資金低風險質押 ♦️打造全台最大最多元社群</p>
+                <p>♦️社群資金低風險質押</p>
+                <br />
+                <p>♦️打造全台最大最多元社群</p>
               </Member>
             </MemberWrapper>
 
@@ -264,9 +268,11 @@ export function RoadmapSection() {
 
             <MemberWrapper>
               <Member>
-                <p>2024 Q2</p>
+                <p>2023 Q2</p>
                 <br />
-                <p>♦️社群開發NFt虛實整合App、CCOD map ♦️DAO投票參與公益團體</p>
+                <p>♦️社群開發NFt虛實整合App、CCOD map</p>
+                <br />
+                <p>♦️DAO投票參與公益團體</p>
                 <br />
                 <p> ♦️發佈Roadmap 2.0</p>
               </Member>

@@ -35,7 +35,7 @@ const Title = tw.h1`
     sm:pr-2
     lg:pt-6
     lg:pr-3
-    font-family[Tahoma]
+    // font-family[Tahoma]
   tracking-wide
 `;
 
