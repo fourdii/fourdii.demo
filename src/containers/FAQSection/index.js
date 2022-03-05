@@ -13,11 +13,12 @@ h-auto
     flex
     flex-col
     relative
-    pt-1
-    pb-1
-    xl:pt-2
-    xl:pb-2
+    // pt-1
+    // pb-1
+    // xl:pt-2
+    // xl:pb-2
     items-center
+    mb-4
 `;
 
 const Title = tw.h1`
@@ -42,7 +43,7 @@ flex
 flex-col
 justify-items-start
 items-center
-mt-3
+// mt-3
 `;
 
 const FAQHeaderWrapper = styled.div`
@@ -54,8 +55,8 @@ items-center
 w-screen
 h-full
 relative
--mb-20
-mt-14
+// -mb-20
+mt-24
 `};
 `;
 
@@ -80,16 +81,14 @@ background-image: url(${FAQHeaderBg});
 const FAQMainWrapper = styled.div`
   ${tw`
 flex
-flex-col
 justify-center
-items-center
+items-start
 bg-contain 
 bg-top
 bg-no-repeat
 bg-opacity-0
-w-[85vw]
-xs:pt-28
-sm:pt-20
+w-[90vw]
+h-[99vw]
 `};
   background-image: url(${FAQMainBg});
   -moz-background-size: 100% 100%;
@@ -97,26 +96,34 @@ sm:pt-20
   background-size: 100% 100%;
 `;
 
+const FAQMain = styled.div`
+  ${tw`
+justify-center
+items-center
+align-middle
+relative
+flex
+flex-col
+content-start
+w-[70vw]
+`};
+`;
+
 const FAQWrapper = styled.div`
   ${tw`
   flex
   flex-col
   justify-center
-  items-start
+  self-center
   bg-contain 
   bg-top
   bg-no-repeat
   bg-opacity-0
-  w-9/12
+  w-11/12
   rounded
-  xs:h-[300px]
-  sm:h-[250px]
-  // p-8
-  //my-8
-  px-8
-  my-4
-
-  
+  h-full
+  relative
+  my-5
 `};
   background-image: url(${FAQBg});
   -moz-background-size: 100% 100%;
@@ -136,10 +143,10 @@ justify-center
 items-center
 text-white
 font-bold
-text-sm
+text-xs
 lg:text-lg
-my-4
-px-2
+px-4
+py-2
 `;
 
 export function FAQSection() {
@@ -150,6 +157,7 @@ export function FAQSection() {
       </FAQHeaderWrapper>
       <FAQSectionWrapper>
         <FAQMainWrapper>
+          <FAQMain>
           <FAQWrapper>
             <Paragraph>Q:關於設計CocaineCat NFT?</Paragraph>
             <br />
@@ -207,6 +215,7 @@ export function FAQSection() {
               NFT，團隊將授予您在全球範圍內復制和展示所購買藝術品的許可，無論是用於個人還是商業用途，所有者都擁有其NFT的擁有權與商業使用權。{" "}
             </Paragraph>
           </FAQWrapper>
+          </FAQMain>
         </FAQMainWrapper>
       </FAQSectionWrapper>
     </FAQSectionContainer>
