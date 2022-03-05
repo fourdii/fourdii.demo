@@ -15,6 +15,9 @@ import Onehandmadebarber from "../../images/onehandmadebarber.png";
 import Paul from "../../images/paul.png";
 import R0 from "../../images/r0.png";
 
+import gBoxBg from "../../images/teamBack.png";
+import blackRedBoxBg from "../../images/teamFront.png";
+
 
 
 const TeamSectionContainer = tw(Element)`
@@ -85,6 +88,7 @@ const TeamMainWrapper = styled.div`
   border-4
   border-[#86ffa0]
   rounded
+  z-10
   `};
   //background-image: url(${TeamMainBg});
   // -moz-background-size: 100% 100%;
@@ -269,6 +273,31 @@ background-image: url(${TwitteBg});
 
 
 
+const FrontBg = styled.div`
+  ${tw`
+  absolute
+  top-1/2
+  w-[100vw]
+  h-[161.9vw]
+  bg-contain 
+  bg-no-repeat
+`};
+background-image: url(${blackRedBoxBg});
+`;
+
+const BackBg = styled.div`
+  ${tw`
+  absolute
+  top-1/4
+  w-[100vw]
+  h-[4vw]
+  bg-contain 
+  bg-no-repeat
+  z-0
+`};
+background-image: url(${gBoxBg});
+`;
+
 export function TeamSection() {
   return (
     <TeamSectionContainer name="Team">
@@ -344,6 +373,9 @@ export function TeamSection() {
             </SocialIconsWrapper>
           </MemberWrapper>
         </TeamMainWrapper>
+        <FrontBg></FrontBg>
+        <BackBg></BackBg>
+
       </TeamSectionWrapper>
     </TeamSectionContainer>
   );
