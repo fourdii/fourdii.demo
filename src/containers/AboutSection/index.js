@@ -71,7 +71,7 @@ sm:py-14
 sm:px-20
 border-[#30e6ff]
 bg-[#30e6ff]
-border-2
+border-4
 rounded
 `};
   // background-image: url(${AboutMainBg});

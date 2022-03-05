@@ -80,7 +80,7 @@ const TeamMainWrapper = styled.div`
   gap-6
   p-12
   w-[88vw]
-  border-2
+  border-4
   border-[#86ffa0]
   rounded
   `};
@@ -202,7 +202,7 @@ background-image: url(${R0});
 const Name = styled.div`
   ${tw`
   text-white
-  text-sm
+  text-lg
   font-bold
 `};
 `;
@@ -212,6 +212,7 @@ const Info = styled.div`
   text-white
   text-sm
   font-bold
+  my-1
 `};
 `;
 

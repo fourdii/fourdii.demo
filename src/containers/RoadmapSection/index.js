@@ -88,7 +88,7 @@ const RoadmapMainWrapper = styled.div`
   gap-6
   p-12
   w-[88vw]
-  border-2
+  border-4
   border-[#30e6ff]
   rounded
   bg-[#30e6ff]
