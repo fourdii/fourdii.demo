@@ -170,7 +170,7 @@ const ConnectMintButton = styled.button`
   bg-opacity-0
   h-[9.9vw]
   w-[50vw]
-
+  hover:text-gray-300
   sm:h-[4.95vw]
   sm:w-[25vw]
   bg-cover
