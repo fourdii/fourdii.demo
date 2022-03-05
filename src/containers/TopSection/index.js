@@ -45,7 +45,8 @@ bg-center
 bg-no-repeat
 bg-opacity-0
 w-screen
-h-[90vh]
+h-[100vh]
+sm:h-[90vh]
 `};
   background-image: url(${NftMainBg});
   // width: 100vw;

@@ -12,14 +12,16 @@ const Container = styled.div`
   ${tw`
         w-screen
         flex
-        h-20
+        h-0
+        sm:h-20
         pl-6
         pr-6        
         mt-0
         // sm:border-2
         // sm:rounded-full
         bg-black
-        border-b-4
+        border-0
+        sm:border-b-4
         //sm:border-gray-200
         // sm:border-opacity-50
         items-center
@@ -86,7 +88,6 @@ export function NavBar() {
 
   return (
     <Container>
-    {/* <Logo /> */}
     {isMobile && (
       <Menu right styles={styles}>
         {navItems}
