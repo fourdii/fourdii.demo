@@ -10,8 +10,7 @@ import EarthTwoBg from "../../images/earth2.png";
 import EarthThreeBg from "../../images/earth3.png";
 import EarthFourBg from "../../images/earth4.png";
 import RoadmapFrameBg from "../../images/roadmapFrame.png";
-
-
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const RoadmapSectionContainer = tw(Element)`
     w-full
@@ -36,7 +35,7 @@ const Title = tw.h1`
 `;
 
 const TitleWrapper = styled.div`
-${tw`
+  ${tw`
 flex
 flex-col
 justify-center
@@ -59,12 +58,12 @@ mt-3
 `;
 
 // const RoadmapMainWrapper = styled.div`
-//   ${tw`  
+//   ${tw`
 //   flex
 //   flex-col
 //   justify-center
 //   items-center
-//   bg-contain 
+//   bg-contain
 //   bg-top
 //   bg-no-repeat
 //   bg-opacity-0
@@ -87,9 +86,8 @@ const RoadmapMainTextWrapper = styled.div`
   `};
   background-image: url(${RoadmapMainTextBg});
   width: 100vw;
-  height: 106vw
+  height: 106vw;
 `;
-
 
 const RoadmapMainWrapper = styled.div`
   ${tw`
@@ -112,9 +110,8 @@ const RoadmapMainWrapper = styled.div`
   background-size: 100% 100%;
 `;
 
-
 const MemberWrapper = styled.div`
-${tw`
+  ${tw`
   w-full
   h-full
   flex
@@ -136,8 +133,8 @@ const Member = styled.div`
   font-bold
   text-white
 `};
-background-image: url(${RoadmapFrameBg});
--moz-background-size: 100% 100%;
+  background-image: url(${RoadmapFrameBg});
+  -moz-background-size: 100% 100%;
   -webkit-background-size: 100% 100%;
   background-size: 100% 100%;
 `;
@@ -150,7 +147,7 @@ const EarthOne = styled.div`
   bg-cover
   bg-no-repeat
 `};
-background-image: url(${EarthOneBg});
+  background-image: url(${EarthOneBg});
 `;
 
 const EarthTwo = styled.div`
@@ -161,7 +158,7 @@ const EarthTwo = styled.div`
   bg-cover
   bg-no-repeat
 `};
-background-image: url(${EarthTwoBg});
+  background-image: url(${EarthTwoBg});
 `;
 
 const EarthThree = styled.div`
@@ -172,7 +169,7 @@ const EarthThree = styled.div`
   bg-cover
   bg-no-repeat
 `};
-background-image: url(${EarthThreeBg});
+  background-image: url(${EarthThreeBg});
 `;
 
 const EarthFour = styled.div`
@@ -183,101 +180,104 @@ const EarthFour = styled.div`
   bg-cover
   bg-no-repeat
 `};
-background-image: url(${EarthFourBg});
+  background-image: url(${EarthFourBg});
 `;
 
+
 export function RoadmapSection() {
+  const matches = useMediaQuery("(min-width:420px)");
+
   return (
     <RoadmapSectionContainer name="Roadmap" id="RoadmapSectionContainer">
       <TitleWrapper>
-        {" "}
         <Title>Roadmap</Title>
       </TitleWrapper>
       <RoadmapSectionWrapper id="RoadmapSectionWrapper">
-        <RoadmapMainWrapper>
-          <MemberWrapper>
-            <Member>
-              <p>2022 Q2</p>
-              <br />
-              <p>♦️發佈完整白皮書與官網 ♦️合作產業資訊</p>
-              <br />
-              <p>♦️完售、啟動項目（尋找店面</p>
-              <br />
-              <p>♦️票選台灣藝人協同合作</p>
-              <br />
-              <p>♦️結合台灣在地商家5家給予持有者回饋</p>
-            </Member>
-          </MemberWrapper>
+        {!matches ? (
+          <RoadmapMainWrapper>
+            <MemberWrapper>
+              <Member>
+                <p>2022 Q2</p>
+                <br />
+                <p>♦️發佈完整白皮書與官網 ♦️合作產業資訊</p>
+                <br />
+                <p>♦️完售、啟動項目（尋找店面</p>
+                <br />
+                <p>♦️票選台灣藝人協同合作</p>
+                <br />
+                <p>♦️結合台灣在地商家5家給予持有者回饋</p>
+              </Member>
+            </MemberWrapper>
 
-          <MemberWrapper>
-            <EarthOne></EarthOne>
-          </MemberWrapper>
+            <MemberWrapper>
+              <EarthOne></EarthOne>
+            </MemberWrapper>
 
-          <MemberWrapper>
-            <Member>
-              <p>2022 Q3</p>
-              <br />
-              <p>♦️發佈完整企劃內容</p>
-              <br />
-              <p>♦️定案實體商店服務與持有者回饋</p>
-              <br />
-              <p>♦️定案空間設計與選址</p>
-              <br />
-              <p>♦️第一次持有者空投</p>
-              <br />
-              <p>♦️完整企劃定案與動工</p>
-              <br />
-              <p>♦️社群資金低風險質押 ♦️打造全台最大最多元社群</p>
-            </Member>
-          </MemberWrapper>
+            <MemberWrapper>
+              <Member>
+                <p>2022 Q3</p>
+                <br />
+                <p>♦️發佈完整企劃內容</p>
+                <br />
+                <p>♦️定案實體商店服務與持有者回饋</p>
+                <br />
+                <p>♦️定案空間設計與選址</p>
+                <br />
+                <p>♦️第一次持有者空投</p>
+                <br />
+                <p>♦️完整企劃定案與動工</p>
+                <br />
+                <p>♦️社群資金低風險質押 ♦️打造全台最大最多元社群</p>
+              </Member>
+            </MemberWrapper>
 
-          <MemberWrapper>
-            <EarthTwo></EarthTwo>
-          </MemberWrapper>
+            <MemberWrapper>
+              <EarthTwo></EarthTwo>
+            </MemberWrapper>
 
-          <MemberWrapper>
-            <Member>
-            <p>2022 Q4</p>
-            <br />
-            <p>♦️實體店面開幕</p>
-            <br />
-            <p>♦️置產元宇宙</p>
-            </Member>
-          </MemberWrapper>
+            <MemberWrapper>
+              <Member>
+                <p>2022 Q4</p>
+                <br />
+                <p>♦️實體店面開幕</p>
+                <br />
+                <p>♦️置產元宇宙</p>
+              </Member>
+            </MemberWrapper>
 
-          <MemberWrapper>
-            <EarthThree></EarthThree>
-          </MemberWrapper>
+            <MemberWrapper>
+              <EarthThree></EarthThree>
+            </MemberWrapper>
 
-          <MemberWrapper>
-            <Member>
-            <p>2023 Q1</p> 
-            <br />
-            <p>♦️發展實體二創與異業聯名</p> 
-            <br />
-            <p>♦️結合台灣在地商家10家給予持有者回饋</p> 
-            <br />
-            <p>♦️擴大台灣商家合作版圖</p> 
-            </Member>
-          </MemberWrapper>
+            <MemberWrapper>
+              <Member>
+                <p>2023 Q1</p>
+                <br />
+                <p>♦️發展實體二創與異業聯名</p>
+                <br />
+                <p>♦️結合台灣在地商家10家給予持有者回饋</p>
+                <br />
+                <p>♦️擴大台灣商家合作版圖</p>
+              </Member>
+            </MemberWrapper>
 
-          <MemberWrapper>
-            <EarthFour></EarthFour>
-          </MemberWrapper>
+            <MemberWrapper>
+              <EarthFour></EarthFour>
+            </MemberWrapper>
 
-          <MemberWrapper>
-            <Member>
-            <p>2024 Q2</p> 
-            <br />
-            <p>♦️社群開發NFt虛實整合App、CCOD map ♦️DAO投票參與公益團體</p>
-            <br />
-            <p> ♦️發佈Roadmap 2.0</p> 
-            </Member>
-          </MemberWrapper>
-        </RoadmapMainWrapper>
-
-        {/* <RoadmapMainTextWrapper id="RoadmapMainTextWrapper">
-        </RoadmapMainTextWrapper> */}
+            <MemberWrapper>
+              <Member>
+                <p>2024 Q2</p>
+                <br />
+                <p>♦️社群開發NFt虛實整合App、CCOD map ♦️DAO投票參與公益團體</p>
+                <br />
+                <p> ♦️發佈Roadmap 2.0</p>
+              </Member>
+            </MemberWrapper>
+          </RoadmapMainWrapper>
+        ) : (
+          <RoadmapMainTextWrapper id="RoadmapMainTextWrapper"></RoadmapMainTextWrapper>
+        )}
       </RoadmapSectionWrapper>
     </RoadmapSectionContainer>
   );
