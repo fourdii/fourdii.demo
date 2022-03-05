@@ -35,6 +35,8 @@ const Title = tw.h1`
     sm:pr-2
     lg:pt-6
     lg:pr-3
+    font-family[Tahoma]
+  tracking-wide
 `;
 
 
@@ -164,7 +166,7 @@ relative
 flex
 flex-row
 flex-wrap
-justify-center
+justify-start
 items-center
 text-white
 font-bold

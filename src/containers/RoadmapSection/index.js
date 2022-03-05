@@ -32,6 +32,8 @@ const Title = tw.h1`
     text-center
     text-shadow[#fff 1px 0 10px;]   
   text-white
+  font-family[Tahoma]
+  tracking-wide
 `;
 
 const TitleWrapper = styled.div`
@@ -191,7 +193,7 @@ export function RoadmapSection() {
   return (
     <RoadmapSectionContainer name="Roadmap" id="RoadmapSectionContainer">
       <TitleWrapper>
-        <Title>Roadmap</Title>
+        <Title>Roadmap 1.0</Title>
       </TitleWrapper>
       <RoadmapSectionWrapper id="RoadmapSectionWrapper">
         {!matches ? (

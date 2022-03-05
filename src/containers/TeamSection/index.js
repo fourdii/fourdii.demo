@@ -39,6 +39,8 @@ const Title = tw.h1`
     text-white
     font-bold
     text-center
+    font-family[Tahoma]
+  tracking-wide
 `;
 
 
@@ -204,6 +206,8 @@ const Name = styled.div`
   text-white
   text-lg
   font-bold
+  font-family[Tahoma]
+  tracking-wide
 `};
 `;
 

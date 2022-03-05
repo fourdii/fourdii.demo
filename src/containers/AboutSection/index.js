@@ -24,6 +24,8 @@ const Title = tw.h1`
     text-white
     font-bold
     text-center
+    font-family[Tahoma]
+  tracking-wide
 `;
 
 

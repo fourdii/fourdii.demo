@@ -120,7 +120,6 @@ h-[100vh]
 // sm:h-[50vw]
 `};
   background-image: url(${NftBuyBg});
-
   // width: 100vw;
   // height: 35.05vw;
 `;
@@ -160,7 +159,6 @@ const ConnectMintButtonWrapper = styled.button`
   bg-cover
   bg-no-repeat
   bg-opacity-0
-  z-0
 `};
   background-image: url(${NftBuyFrontBg});
 `;
@@ -175,10 +173,11 @@ const ConnectMintButton = styled.button`
   sm:w-[25vw]
   bg-cover
   bg-no-repeat
-  z-10
   text-white
   font-bold
   text-shadow[#000 1px 0 10px;]
+  font-family[Tahoma]
+  tracking-wide
 `};
   background-image: url(${ConnectMintButtonBg});
 `;
@@ -203,7 +202,6 @@ sm:h-[5vw]
 sm:w-[5vw]
   bg-cover
   bg-no-repeat
-  z-20
 `};
   background-image: url(${PlusButtonBg});
 `;
@@ -217,7 +215,6 @@ sm:h-[5vw]
 sm:w-[5vw]
 bg-cover
 bg-no-repeat
-z-20
 `};
   background-image: url(${MinusButtonBg});
 `;
@@ -256,14 +253,16 @@ const InfoTitle = styled.div`
   text-shadow[#fff 1px 0 10px;]   
   text-white
   text-3xl
-
   font-bold
-  pb-2
+  pb-4
   w-screen
   flex
   flex-row
   flex-nowrap
   justify-center
+  font-family[Tahoma]
+  tracking-wide
+  
 `};
 `;
 
@@ -271,11 +270,13 @@ const InfoContent = styled.div`
   ${tw`
   text-white
   text-lg
-
   font-bold
   pt-2
   pb-12
   w-[90vw]
+  font-family[MSJH]
+  tracking-wide
+
 `};
 `;
 
