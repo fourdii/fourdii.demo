@@ -469,7 +469,7 @@ export function NFTSection() {
           </Counter>
 
           <ContractLink>
-            <a href={CONFIG.SCAN_LINK} target="_blank">
+            <a href={CONFIG.SCAN_LINK} target="_blank" rel="noreferrer">
               {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
             </a>
           </ContractLink>
