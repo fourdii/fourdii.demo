@@ -17,7 +17,7 @@ const AppContainer = styled.div`
     flex-col
     w-screen
     h-auto
-    // overflow-x-hidden
+    overflow-x-hidden
     // overflow-y-auto
     bg-cover
     `};
