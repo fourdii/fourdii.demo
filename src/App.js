@@ -20,6 +20,7 @@ const AppContainer = styled.div`
     overflow-x-hidden
     // overflow-y-auto
     bg-cover
+    bg-opacity-0
     `};
     background-image: url(${BackgroundImage});
 `;

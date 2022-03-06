@@ -131,7 +131,7 @@ flex-col
 justify-center
 items-center
 bg-cover 
-bg-center
+bg-bottom
 bg-no-repeat
 bg-opacity-0
 w-screen
@@ -269,7 +269,7 @@ const InfoContent = styled.div`
   pt-2
   pb-12
   w-[90vw]
-  font-family[MSJH]
+  //font-family[MSJH]
   tracking-wide
 
 `};
