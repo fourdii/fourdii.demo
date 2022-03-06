@@ -321,7 +321,7 @@ export function TeamSection() {
             <Info>-聯合創始人/社群開發</Info>
             <SocialIconsWrapper>
               <Instagram href="https://www.instagram.com/r01319/" target="_blank"></Instagram>
-              <Gmail href="a12398s113@gmail.com" target="_blank"></Gmail>             
+              <Gmail href="mailto:a12398s113@gmail.com"></Gmail>             
             </SocialIconsWrapper>
           </MemberWrapper>
 

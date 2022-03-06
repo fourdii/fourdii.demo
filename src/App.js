@@ -16,10 +16,9 @@ const AppContainer = styled.div`
     flex
     flex-col
     w-screen
-    h-auto
-    overflow-x-hidden
-    // overflow-y-auto
+    h-auto           
     bg-cover
+    bg-local
     bg-opacity-0
     `};
     background-image: url(${BackgroundImage});
