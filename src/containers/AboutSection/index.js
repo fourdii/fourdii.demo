@@ -93,6 +93,13 @@ text-white
 font-bold
 text-xs
 sm:text-lg
+
+px-2
+xs:px-4
+sm:px-12
+md:px-24
+lg:px-44
+xl:px-56
 `;
 
 const Header = tw.h1`
@@ -169,7 +176,7 @@ export function AboutSection() {
           <br />
           <Header>首步規劃</Header>
           <Paragraph>
-            開設台灣第一家DAO共治的理髮廳複合酒吧與元宇宙置產，第二家實體商店將以社群共識投票擇產業、創業。
+            開設台灣第一家DAO共治的理髮廳複合酒吧與元宇宙置產，第二家實體商店將以社群共識投票選擇產業、創業。
           </Paragraph>
           <br />
           <Header>最終目的</Header>
