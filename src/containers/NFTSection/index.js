@@ -38,11 +38,11 @@ const NFTSectionWrapper = styled.div`
 
 const Counter = styled.h1`
   ${tw`
-       text-3xl
+       text-6xl
        text-white
        text-shadow[#fff 1px 0 10px;]   
       font-bold
-       my-2
+       mb-6
     `};
 `;
 
@@ -54,8 +54,8 @@ const ContractLink = styled.button`
        rounded-full
        text-white
        font-bold
-       text-sm
-       px-6
+       text-lg
+       px-10
        py-2
        my-2
     `};
@@ -66,13 +66,14 @@ const Quantity = styled.p`
        text-lg
        my-2
        text-[#04f79b]
-       font-bold    `};
+       font-bold    
+       `};
 `;
 
 const ContractInfo = styled.p`
   ${tw`
        font-bold
-       text-sm
+       text-xl
        my-2
        text-white
        text-shadow[#fff 1px 0 10px;]
@@ -85,7 +86,8 @@ const DynamicInfo = styled.p`
        text-[#04f79b]
        text-shadow[#fff 1px 0 10px;]   
       font-bold
-       text-sm
+      text-lg
+       xs:text-2xl
        my-2
        px-2
     `};
@@ -147,10 +149,10 @@ const ConnectMintButtonWrapper = styled.div`
   flex-nowrap
   justify-center
   items-center
-  w-[66.6vw]
-  h-[18.4vw]
-  sm:w-[50vw]
-  sm:h-[13.8vw]
+  w-[99.9vw]
+  h-[27.6vw]
+  sm:w-[75vw]
+  sm:h-[20.7vw]
   bg-cover
   bg-no-repeat
   bg-opacity-0
@@ -164,12 +166,16 @@ const ConnectMintButton = styled.button`
   h-[9.9vw]
   w-[50vw]
   hover:text-gray-300
-  sm:h-[4.95vw]
-  sm:w-[25vw]
+  sm:h-[7.425vw]
+  sm:w-[37.5vw]
   bg-cover
   bg-no-repeat
   text-white
   font-bold
+  text-lg
+  sm:text-xl
+  md:text-2xl
+  lg:text-3xl
   text-shadow[#000 1px 0 10px;]
   // font-family[Tahoma]
   tracking-wide
@@ -193,8 +199,8 @@ const PlusButton = styled.button`
   bg-opacity-0
 h-[10vw]
 w-[10vw]
-sm:h-[5vw]
-sm:w-[5vw]
+sm:h-[7.5vw]
+sm:w-[7.5vw]
   bg-cover
   bg-no-repeat
 `};
@@ -206,8 +212,8 @@ const MinusButton = styled.button`
 bg-opacity-0
 h-[10vw]
 w-[10vw]
-sm:h-[5vw]
-sm:w-[5vw]
+sm:h-[7.5vw]
+sm:w-[7.5vw]
 bg-cover
 bg-no-repeat
 `};
@@ -219,8 +225,8 @@ const AmountFrame = styled.div`
   bg-opacity-0
   h-[10vw]
   w-[13.72vw]
-  sm:h-[5vw]
-  sm:w-[6.86vw]
+  sm:h-[7.5vw]
+  sm:w-[10.29vw]
   bg-cover
   bg-no-repeat
   flex
@@ -248,7 +254,9 @@ const InfoTitle = styled.div`
   text-shadow[#fff 1px 0 10px;]   
   text-white
   text-3xl
+  sm:text-5xl
   font-bold
+  text-center
   pb-4
   w-screen
   flex
@@ -265,13 +273,19 @@ const InfoContent = styled.div`
   ${tw`
   text-white
   text-lg
+  sm:text-2xl
   font-bold
-  pt-2
   pb-12
   w-[90vw]
   //font-family[MSJH]
   tracking-wide
-
+  justify-center
+  items-center
+  content-center
+  text-center
+  flex
+  flex-row
+  flex-wrap
 `};
 `;
 

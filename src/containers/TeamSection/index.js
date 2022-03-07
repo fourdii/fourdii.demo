@@ -18,8 +18,6 @@ import R0 from "../../images/r0.png";
 import gBoxBg from "../../images/teamBack.png";
 import blackRedBoxBg from "../../images/teamFront.png";
 
-
-
 const TeamSectionContainer = tw(Element)`
 w-full
 h-auto
@@ -30,26 +28,26 @@ h-auto
     // pb-1
     // xl:pt-2
     // xl:pb-2
-    items-center
-    mt-20
-    xs:mt-0
-
+    items-center   
 `;
 
 const Title = tw.h1`
+text-3xl
+sm:text-5xl  
     text-shadow[#fff 1px 0 10px;]   
-    text-3xl
     text-white
     font-bold
     text-center
     // font-family[Tahoma]
   tracking-wide
+  my-8
+  xsm:mb-8
+  xsm:mt-0
+
 `;
 
-
-
 const TitleWrapper = styled.div`
-${tw`
+  ${tw`
 flex
 flex-col
 justify-center
@@ -57,7 +55,13 @@ items-center
 w-screen
 h-full
 relative
-mb-4
+// mt-8
+// xs:-mt-8
+// sm:-mt-12
+// md:-mt-20
+// lg:-mt-24
+// xl:-mt-32
+// mb-8
 `};
 `;
 
@@ -75,7 +79,7 @@ const TeamMainWrapper = styled.div`
   ${tw`
   grid
   grid-cols-1  
-  xs:grid-cols-2
+  xsm:grid-cols-2
   sm:grid-cols-3
   bg-contain 
   bg-top
@@ -84,6 +88,8 @@ const TeamMainWrapper = styled.div`
   content-start
   gap-6
   p-12
+  sm:gap-12
+  sm:p-24
   w-[88vw]
   border-4
   border-[#86ffa0]
@@ -92,9 +98,8 @@ const TeamMainWrapper = styled.div`
   `};
 `;
 
-
 const MemberWrapper = styled.div`
-${tw`
+  ${tw`
   w-full
   h-full
   flex
@@ -110,7 +115,7 @@ const Member = styled.div`
   ${tw`
   bg-opacity-0
   mb-2
-
+  mx-10
   h-[200px]
   w-[200px]
 
@@ -120,7 +125,7 @@ const Member = styled.div`
   bg-cover
   bg-no-repeat
 `};
-background-image: url(${AvatarBg});
+  background-image: url(${AvatarBg});
 `;
 
 const GuanBg = styled.div`
@@ -133,7 +138,7 @@ const GuanBg = styled.div`
   bg-cover
   bg-no-repeat
 `};
-background-image: url(${Guan});
+  background-image: url(${Guan});
 `;
 
 const JoeBg = styled.div`
@@ -146,7 +151,7 @@ const JoeBg = styled.div`
   bg-cover
   bg-no-repeat
 `};
-background-image: url(${Joe});
+  background-image: url(${Joe});
 `;
 
 const JunbgoldBg = styled.div`
@@ -159,7 +164,7 @@ const JunbgoldBg = styled.div`
   bg-cover
   bg-no-repeat
 `};
-background-image: url(${Junbgold});
+  background-image: url(${Junbgold});
 `;
 
 const OnehandmadebarberBg = styled.div`
@@ -172,7 +177,7 @@ const OnehandmadebarberBg = styled.div`
   bg-cover
   bg-no-repeat
 `};
-background-image: url(${Onehandmadebarber});
+  background-image: url(${Onehandmadebarber});
 `;
 
 const PaulBg = styled.div`
@@ -185,7 +190,7 @@ const PaulBg = styled.div`
   bg-cover
   bg-no-repeat
 `};
-background-image: url(${Paul});
+  background-image: url(${Paul});
 `;
 
 const R0Bg = styled.div`
@@ -198,7 +203,7 @@ const R0Bg = styled.div`
   bg-cover
   bg-no-repeat
 `};
-background-image: url(${R0});
+  background-image: url(${R0});
 `;
 
 const Name = styled.div`
@@ -220,7 +225,6 @@ const Info = styled.div`
 `};
 `;
 
-
 const SocialIconsWrapper = styled.div`
   ${tw`
   flex
@@ -233,95 +237,106 @@ const SocialIconsWrapper = styled.div`
 
 const Instagram = styled.a`
   ${tw`
-  w-[32.5px]
-  h-[32.5px]
+  w-[25px]
+  h-[25px]
   bg-contain 
   bg-no-repeat
   m-1
   `};
-background-image: url(${InstagramBg});
-
+  background-image: url(${InstagramBg});
 `;
 
 const Gmail = styled.a`
   ${tw`
-  w-[32.5px]
-  h-[32.5px]
+  w-[25px]
+  h-[25px]
   bg-contain 
   bg-no-repeat
   m-1
 `};
-background-image: url(${GmailBg});
-
+  background-image: url(${GmailBg});
 `;
 
 const Twitter = styled.a`
   ${tw`
-  w-[32.5px]
-  h-[32.5px]
+  w-[25px]
+  h-[25px]
   bg-contain 
   bg-no-repeat
   m-1
 `};
-background-image: url(${TwitteBg});
-
+  background-image: url(${TwitteBg});
 `;
-
-
 
 const FrontBg = styled.div`
   ${tw`
   absolute
-  top-1/2
+
+   top-56
+  lg:top-36
+  xl:top-32
+  // md:top-20
+  // lg:top-28
+  // xl:top-24
   w-[100vw]
   h-[161.9vw]
   bg-contain 
   bg-no-repeat
 `};
-background-image: url(${blackRedBoxBg});
+  background-image: url(${blackRedBoxBg});
 `;
 
 const BackBg = styled.div`
   ${tw`
   absolute
-  top-1/4
+  top-28
   w-[100vw]
   h-[4vw]
   bg-contain 
   bg-no-repeat
   z-0
 `};
-background-image: url(${gBoxBg});
+  background-image: url(${gBoxBg});
 `;
 
 export function TeamSection() {
   return (
     <TeamSectionContainer name="Team">
-    <TitleWrapper><Title>Team</Title></TitleWrapper>  
+      <TitleWrapper>
+        <Title>Team</Title>
+      </TitleWrapper>
       <TeamSectionWrapper>
         <TeamMainWrapper>
-
-        <MemberWrapper>
+          <MemberWrapper>
             <Member>
               <JunbgoldBg />
             </Member>
             <Name>JunGold</Name>
-            <Info>-聯合創始人/藝術家</Info>
+            <Info>-聯合創始人/藝術家-</Info>
             <SocialIconsWrapper>
-              <Instagram href="https://instagram.com/jungold.0?utm_medium=copy_link" target="_blank"></Instagram>
-              <Twitter href="https://twitter.com/jungold_ccod" target="_blank"></Twitter>
+              <Instagram
+                href="https://instagram.com/jungold.0?utm_medium=copy_link"
+                target="_blank"
+              ></Instagram>
+              <Twitter
+                href="https://twitter.com/jungold_ccod"
+                target="_blank"
+              ></Twitter>
             </SocialIconsWrapper>
           </MemberWrapper>
 
           <MemberWrapper>
-          <Member>
-              <R0Bg />             
+            <Member>
+              <R0Bg />
             </Member>
             <Name>R0</Name>
-            <Info>-聯合創始人/社群開發</Info>
+            <Info>-聯合創始人/社群開發-</Info>
             <SocialIconsWrapper>
-              <Instagram href="https://www.instagram.com/r01319/" target="_blank"></Instagram>
-              <Gmail href="mailto:a12398s113@gmail.com"></Gmail>             
+              <Instagram
+                href="https://www.instagram.com/r01319/"
+                target="_blank"
+              ></Instagram>
+              <Gmail href="mailto:a12398s113@gmail.com"></Gmail>
             </SocialIconsWrapper>
           </MemberWrapper>
 
@@ -330,10 +345,16 @@ export function TeamSection() {
               <GuanBg />
             </Member>
             <Name>罐罐皇</Name>
-            <Info>-概念領導/社群開發</Info>
+            <Info>-概念領導/社群開發-</Info>
             <SocialIconsWrapper>
-              <Instagram href="https://www.instagram.com/EPforcan/" target="_blank"></Instagram>
-              <Twitter href="https://twitter.com/CLYang_1985" target="_blank"></Twitter>
+              <Instagram
+                href="https://www.instagram.com/EPforcan/"
+                target="_blank"
+              ></Instagram>
+              <Twitter
+                href="https://twitter.com/CLYang_1985"
+                target="_blank"
+              ></Twitter>
             </SocialIconsWrapper>
           </MemberWrapper>
 
@@ -342,42 +363,42 @@ export function TeamSection() {
               <JoeBg />
             </Member>
             <Name>Joe</Name>
-            <Info>-首席藝術家</Info>
+            <Info>-首席藝術家-</Info>
             <SocialIconsWrapper>
               <Gmail href="mailto:andykwsc@gmail.com"></Gmail>
             </SocialIconsWrapper>
           </MemberWrapper>
 
-         
-
           <MemberWrapper>
-          <Member>
+            <Member>
               <OnehandmadebarberBg />
             </Member>
             <Name>Onehandmadebarber</Name>
-            <Info>-獨家合作</Info>
+            <Info>-獨家合作-</Info>
             <SocialIconsWrapper>
-              <Instagram href="https://instagram.com/onehandmadebarber?utm_medium=copy_link" target="_blank"></Instagram>            
+              <Instagram
+                href="https://instagram.com/onehandmadebarber?utm_medium=copy_link"
+                target="_blank"
+              ></Instagram>
             </SocialIconsWrapper>
           </MemberWrapper>
 
           <MemberWrapper>
-          <Member>
+            <Member>
               <PaulBg />
             </Member>
             <Name>Paul</Name>
-            <Info>-品牌規劃/設計行銷</Info>
+            <Info>-品牌規劃/設計行銷-</Info>
             <SocialIconsWrapper>
-              <Instagram href="https://www.instagram.com/iwillbedie99/" target="_blank"></Instagram>              
+              <Instagram
+                href="https://www.instagram.com/iwillbedie99/"
+                target="_blank"
+              ></Instagram>
             </SocialIconsWrapper>
           </MemberWrapper>
-
-      
-
         </TeamMainWrapper>
         <FrontBg></FrontBg>
         <BackBg></BackBg>
-
       </TeamSectionWrapper>
     </TeamSectionContainer>
   );
