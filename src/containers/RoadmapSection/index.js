@@ -37,7 +37,7 @@ const Title = tw.h1`
   text-white
   // font-family[Tahoma]
   tracking-wide
-  mb-8
+  mb-6
   xsm:mb-2
 `;
 
@@ -111,6 +111,8 @@ const RoadmapMainWrapper = styled.div`
   bg-no-repeat
    w-[100vw]
    h-[105vw]
+   -my-2
+   lg:-my-8
     `};
  background-image: url(${RoadmapMainBg});
 `;
