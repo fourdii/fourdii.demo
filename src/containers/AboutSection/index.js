@@ -108,7 +108,7 @@ items-center
 text-white
 font-bold
 text-sm
-sm:text-2xl
+sm:text-xl
 bg-[#02befd]
 bg-opacity-80
 py-1
