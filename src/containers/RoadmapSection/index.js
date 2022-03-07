@@ -89,7 +89,7 @@ const RoadmapMainWrapperMobile = styled.div`
   bg-opacity-20
   items-center
   w-[88vw]
-  border-2
+  border-4
   border-[#30e6ff]
   rounded
   bg-[#30e6ff]
