@@ -91,7 +91,7 @@ items-center
 text-center
 text-white
 font-bold
-text-sm
+text-xs
 sm:text-lg
 `;
 
@@ -107,7 +107,7 @@ justify-center
 items-center
 text-white
 font-bold
-text-lg
+text-sm
 sm:text-2xl
 bg-[#02befd]
 bg-opacity-80
