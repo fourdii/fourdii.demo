@@ -307,7 +307,8 @@ flex-col
 justify-center
 items-center
 w-full
-h-auto
+h-[40vh]
+
 lg:w-[40vw]
 `};
 `;
@@ -317,14 +318,16 @@ const TopTextWrapper = styled.div`
   flex
   flex-col
   items-center 
-w-full
-h-auto
-pt-44
+  // w-full
+  // h-[30vh]
+  // pt-6
+  // lg:pt-44
 // w-[100vw]
 // h-[42.4vw]
 lg:w-[60vw]
 lg:h-[45vh]
 relative
+pt-36
 `};
 `;
 
@@ -353,8 +356,8 @@ const TopCatsWrapper = styled.div`
   lg:flex-row-reverse
   lg:items-end
 relative
-w-full
-h-auto
+// w-full
+// h-[30vh]
 lg:w-[60vw]
 lg:h-[45vh]
 `};
