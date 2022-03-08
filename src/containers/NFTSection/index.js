@@ -53,7 +53,7 @@ const Counter = styled.h1`
        text-white
        text-shadow[#fff 1px 0 10px;]   
       font-bold
-      mb-4
+      my-4
     `};
 `;
 
@@ -68,7 +68,7 @@ const ContractLink = styled.button`
        text-lg
        px-10
       py-2
-      mb-4
+      mb-2
       
     `};
 `;
@@ -139,7 +139,7 @@ const ConnectMintButtonWrapper = styled.div`
   justify-center
   items-center
   w-screen
-  h-auto
+  h-[10.35vw]
   sm:w-[75vw]
   sm:h-[20.7vw]
   bg-cover
@@ -402,9 +402,7 @@ export function NFTSection() {
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
-  const [feedback, setFeedback] = useState(
-    `Click button below to mint your NFT.`
-  );
+  const [feedback, setFeedback] = useState(`Click button below to mint your NFT.`);
   const [mintAmount, setMintAmount] = useState(1);
   const [loading, setLoading] = useState(false);
   const [mintCost, setMintCost] = useState(1);
@@ -412,6 +410,9 @@ export function NFTSection() {
   const [isInWhitelist, setIsInWhitelist] = useState(false);
   const [remainSupply, setRemainSupply] = useState(0);
   const [whitelistMintEnabled, setWhitelistMintEnabled] = useState(false);
+  const [maxSupply, setMaxSupply] = useState(1000);
+  const [currentWhiteTotal, setCurrentWhiteTotal] = useState(0);
+
 
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
@@ -423,12 +424,13 @@ export function NFTSection() {
     },
     NFT_NAME: "",
     SYMBOL: "",
-    MAX_SUPPLY: 1,
-    WEI_COST: 0,
-    DISPLAY_COST: 0,
+    // MAX_SUPPLY: 1,
+    // WEI_COST: 0,
+    // DISPLAY_COST: 0,
+    WHITE_MINT_SUPPLY: 0,
     GAS_LIMIT: 0,
-    MARKETPLACE: "",
-    MARKETPLACE_LINK: "",
+    // MARKETPLACE: "",
+    // MARKETPLACE_LINK: "",
     SHOW_BACKGROUND: false,
   });
 
@@ -500,45 +502,85 @@ export function NFTSection() {
   };
 
   async function CheckWhiteListMint() {
-    let isInWhitelist = await blockchain.smartContract.methods
+    let IsInWhitelist = await blockchain.smartContract.methods
       .isInWhiteList(blockchain.account)
       .call();
-    let remainSupply = await blockchain.smartContract.methods
+
+      setIsInWhitelist(IsInWhitelist);
+
+    let RemainSupply = await blockchain.smartContract.methods
       .remainSupply()
       .call();
+
+      let remainSupply = parseInt(RemainSupply);     
+      setRemainSupply(remainSupply);
+
+
+    let CurrentWhiteTotal = await blockchain.smartContract.methods
+      .currentWhiteTotal()
+      .call();
+
+      let currentWhiteTotal = parseInt(CurrentWhiteTotal);     
+      setCurrentWhiteTotal(parseInt(currentWhiteTotal));
+
+    let MaxSupply = await blockchain.smartContract.methods.MAX_SUPPLY().call();
+
+    let maxSupply = parseInt(MaxSupply);     
+    setMaxSupply(parseInt(maxSupply));
+
     let mintCost = await blockchain.smartContract.methods.mintPrice().call();
     let mintDisplayCost = blockchain.web3.utils.fromWei(mintCost, "ether");
     let wMintCost = await blockchain.smartContract.methods.wMintPrice().call();
     let wMintDisplayCost = blockchain.web3.utils.fromWei(wMintCost, "ether");
 
-    setIsInWhitelist(isInWhitelist);
-    setRemainSupply(remainSupply);
 
-    console.log(isInWhitelist);
-    console.log(remainSupply);
+    if(remainSupply <= currentWhiteTotal) {
 
-    if (remainSupply <= 10 && isInWhitelist) {
+      if(IsInWhitelist)
+      {
       document.getElementById("mintButton").disabled = false;
       document.getElementById("mintButton").innerHTML = "WHITELIST MINT";
       document.getElementById("message").innerHTML = "WhiteList Mint Enabled.";
       setMintCost(wMintCost);
       setDisplayCost(wMintDisplayCost);
       setWhitelistMintEnabled(true);
-    } else if (remainSupply <= 10 && !isInWhitelist) {
-      document.getElementById("mintButton").disabled = true;
-      document.getElementById("mintButton").innerHTML = "MINT DISABLED";
-      document.getElementById("message").innerHTML =
-        "WhiteList Mint is only for specific address.";
-      setMintCost(wMintCost);
-      setDisplayCost(wMintDisplayCost);
-      setWhitelistMintEnabled(true);
-    } else {
+      }
+      else
+      {
+        document.getElementById("mintButton").disabled = true;
+        document.getElementById("mintButton").innerHTML = "MINT DISABLED";
+        document.getElementById("message").innerHTML =
+          "WhiteList Mint is only for specific address.";
+        setMintCost(wMintCost);
+        setDisplayCost(wMintDisplayCost);
+        setWhitelistMintEnabled(true);
+      }
+    }    
+    else {
+      console.log("MINT");
       document.getElementById("mintButton").disabled = false;
       document.getElementById("mintButton").innerHTML = "MINT";
       setMintCost(mintCost);
       setDisplayCost(mintDisplayCost);
       setWhitelistMintEnabled(false);
     }
+  
+
+    // else if(remainSupply <= currentWhiteTotal && !isInWhitelist) {
+    //   console.log(isInWhitelist);
+    //   console.log(remainSupply);
+    //   console.log(currentWhiteTotal);
+    //   console.log("MINT DISABLED");
+
+    //   document.getElementById("mintButton").disabled = true;
+    //   document.getElementById("mintButton").innerHTML = "MINT DISABLED";
+    //   document.getElementById("message").innerHTML =
+    //     "WhiteList Mint is only for specific address.";
+    //   setMintCost(wMintCost);
+    //   setDisplayCost(wMintDisplayCost);
+    //   setWhitelistMintEnabled(true);
+    // }
+   
   }
 
   const decrementMintAmount = () => {
@@ -560,10 +602,11 @@ export function NFTSection() {
     setMintAmount(newMintAmount);
   };
 
-  const getData = () => {
+  const getData = async () => {
     if (blockchain.account !== "" && blockchain.smartContract !== null) {
+      console.log('get data');
       dispatch(fetchData(blockchain.account));
-      CheckWhiteListMint();
+      await CheckWhiteListMint();
     }
   };
 
@@ -581,6 +624,12 @@ export function NFTSection() {
 
   const isMobile = useMediaQuery({ maxWidth: 1024 });
 
+
+
+
+ 
+
+
   return (
     <NFTSectionContainer name="NFT">
       <NFTSectionWrapper>
@@ -592,7 +641,7 @@ export function NFTSection() {
               </TopTextWrapper>
               <NftMintWrapper>
                 <Counter>
-                  {data.totalSupply} / {CONFIG.MAX_SUPPLY}
+                  {data.totalSupply} / {maxSupply}
                 </Counter>
 
                 <ContractLink>
@@ -703,7 +752,7 @@ export function NFTSection() {
             </TopPlanets>
             <NftMintWrapper>
               <Counter>
-                {data.totalSupply} / {CONFIG.MAX_SUPPLY}
+              {data.totalSupply} / {maxSupply}
               </Counter>
 
               <ContractLink>
