@@ -29,8 +29,8 @@ ${tw`
 
 
 const Title = tw.h1`
-  text-3xl
-    sm:text-5xl  
+text-xl
+sm:text-3xl
     font-bold
     text-center
     text-shadow[#fff 1px 0 10px;]   
@@ -88,7 +88,7 @@ const RoadmapMainWrapperMobile = styled.div`
   relative
   bg-opacity-20
   items-center
-  w-[88vw]
+  w-[70vw]
   border-4
   border-[#30e6ff]
   rounded
@@ -109,8 +109,8 @@ const RoadmapMainWrapper = styled.div`
   bg-contain 
   bg-center
   bg-no-repeat
-   w-[100vw]
-   h-[105vw]
+   w-[70vw]
+   h-[73.5vw]
    -my-2
    lg:-my-8
     `};
@@ -169,12 +169,14 @@ flex-wrap
 items-start
 text-white
 font-bold
-text-[6pt]
-sm:text-xs
-md:text-sm
-mdlg:text-lg
-lg:text-xl
-xl:text-2xl
+text-xs
+mdlg:text-sm
+// text-[6pt]
+// sm:text-xs
+// md:text-sm
+// mdlg:text-lg
+// lg:text-xl
+// xl:text-2xl
 pl-1
 `;
 
@@ -189,26 +191,29 @@ flex-wrap
 items-start
 text-white
 font-bold
-text-[10pt]
-sm:text-sm
-md:text-lg
-mdlg:text-2xl
-lg:text-3xl
-xl:text-4xl
+
+text-sm
+mdlg:text-lg
+// text-[10pt]
+// sm:text-sm
+// md:text-lg
+// mdlg:text-2xl
+// lg:text-3xl
+// xl:text-4xl
 bg-opacity-80
 rounded-md
 mt-0
-xsm:mt-4
-sm:mt-6
-md:mt-6
-lg:mt-8
-xl:mt-16
+xsm:mt-2
+sm:mt-3
+md:mt-3
+lg:mt-4
+xl:mt-8
 `;
 
 
 export function RoadmapSection() {
 
-  const matches = useMediaQuery({ minWidth: 550 });
+  const matches = useMediaQuery({ minWidth: 720 });
 
 
   return (

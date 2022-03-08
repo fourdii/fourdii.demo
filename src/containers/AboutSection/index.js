@@ -20,8 +20,8 @@ h-auto
 `;
 
 const Title = tw.h1`
-text-3xl
-sm:text-5xl
+text-xl
+sm:text-3xl
     text-shadow[#fff 1px 0 10px;]      
     text-white
     font-bold
@@ -67,7 +67,7 @@ bg-contain
 bg-top
 bg-no-repeat
 bg-opacity-30
-w-[88vw]
+w-[70vw]
 py-6
 px-5
 sm:py-8
@@ -95,11 +95,11 @@ text-xs
 sm:text-lg
 
 px-2
-xs:px-4
-sm:px-12
-md:px-24
-lg:px-44
-xl:px-56
+xs:px-2
+sm:px-4
+md:px-12
+lg:px-24
+xl:px-28
 `;
 
 const Header = tw.h1`

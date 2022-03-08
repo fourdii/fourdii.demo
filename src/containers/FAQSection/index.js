@@ -24,7 +24,8 @@ h-auto
 `;
 
 const Title = tw.h1`
-    text-3xl
+text-xl
+sm:text-3xl
     text-shadow[#fff 1px 0 10px;]   
     text-white
     font-bold
@@ -77,8 +78,8 @@ bg-no-repeat
 bg-opacity-0
 w-[75vw]
 h-[12vw]
-sm:w-[50vw]
-sm:h-[8vw]
+sm:w-[35vw]
+sm:h-[5.6vw]
 // pb-1
 // pr-1
 `};
@@ -95,13 +96,13 @@ bg-contain
 bg-top
 bg-no-repeat
 bg-opacity-0
-w-[90vw]
-h-[99vw]
+w-[70vw]
+h-[77vw]
 `};
   background-image: url(${FAQMainBg});
-  -moz-background-size: 100% 100%;
-  -webkit-background-size: 100% 100%;
-  background-size: 100% 100%;
+  // -moz-background-size: 100% 100%;
+  // -webkit-background-size: 100% 100%;
+  // background-size: 100% 100%;
 `;
 
 const FAQMainWrapperMobile = styled.div`
@@ -148,7 +149,7 @@ const FAQWrapper = styled.div`
   bg-top
   bg-no-repeat
   bg-opacity-0
-  w-11/12
+  w-[50vw]
   rounded
   h-full
   relative
@@ -175,7 +176,7 @@ text-center
 text-white
 font-bold
 text-sm
-lg:text-2xl
+sm:text-xl
 px-4
 py-2
 `;
@@ -193,7 +194,7 @@ text-center
 text-white
 font-bold
 text-xs
-lg:text-lg
+sm:text-lg
 px-4
 py-2
 `;

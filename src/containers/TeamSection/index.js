@@ -32,8 +32,8 @@ h-auto
 `;
 
 const Title = tw.h1`
-text-3xl
-sm:text-5xl  
+text-xl
+sm:text-3xl 
     text-shadow[#fff 1px 0 10px;]   
     text-white
     font-bold
@@ -89,8 +89,8 @@ const TeamMainWrapper = styled.div`
   gap-6
   p-12
   sm:gap-12
-  sm:p-24
-  w-[88vw]
+  sm:p-16
+  w-[70vw]
   border-4
   border-[#86ffa0]
   rounded
@@ -113,7 +113,7 @@ const MemberWrapper = styled.div`
 
 const Member = styled.div`
   ${tw`
-  bg-opacity-0
+ // bg-opacity-0
   mb-2
   mx-10
   h-[200px]
@@ -122,10 +122,10 @@ const Member = styled.div`
   xs:w-[130px]
   xs:h-[130px]
 
-  bg-cover
-  bg-no-repeat
+  // bg-cover
+  // bg-no-repeat
 `};
-  background-image: url(${AvatarBg});
+//  background-image: url(${AvatarBg});
 `;
 
 const GuanBg = styled.div`

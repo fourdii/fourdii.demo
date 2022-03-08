@@ -12,8 +12,8 @@ const Container = styled.div`
   ${tw`
         w-screen
         flex
-        h-0
-        sm:h-20
+        h-[0vh]
+        lg:h-[10vh]
         pl-6
         pr-6        
         mt-0
@@ -21,7 +21,7 @@ const Container = styled.div`
         // sm:rounded-full
         bg-black
         border-0
-        sm:border-b-4
+        lg:border-b-4
         //sm:border-gray-200
         // sm:border-opacity-50
         items-center
@@ -52,7 +52,7 @@ const NavItem = tw.li`
     text-[#00fff7]
     cursor-pointer
     font-bold
-    text-2xl
+    text-xl
     transition-colors
     transition-duration[300ms]
     hover:text-gray-200
@@ -66,7 +66,7 @@ const NavItem = tw.li`
 
 export function NavBar() {
 
-    const isMobile = useMediaQuery({ maxWidth: 640 });
+    const isMobile = useMediaQuery({ maxWidth: 1024 });
 
     const navItems =( 
     <NavItems>
