@@ -79,8 +79,8 @@ const TeamMainWrapper = styled.div`
   ${tw`
   grid
   grid-cols-1  
-  xsm:grid-cols-2
-  sm:grid-cols-3
+  md:grid-cols-2
+  mdlg:grid-cols-3
   bg-contain 
   bg-top
   bg-no-repeat
