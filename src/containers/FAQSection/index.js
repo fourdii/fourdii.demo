@@ -136,6 +136,8 @@ flex-col
 content-start
 w-[100vw]
 xs:w-[70vw]
+py-2
+
 // py-1
 `};
 `;
@@ -150,7 +152,10 @@ const FAQWrapper = styled.div`
   bg-top
   bg-no-repeat
   bg-opacity-0
-  w-[50vw]
+  w-[60vw]
+
+  xs:w-[50vw]
+  
   rounded
   h-full
   relative
