@@ -91,7 +91,7 @@ const TeamMainWrapper = styled.div`
   sm:gap-12
   sm:p-16
   w-[70vw]
-  border-4
+  border-2
   border-[#86ffa0]
   rounded
   z-10
@@ -125,7 +125,7 @@ const Member = styled.div`
   // bg-cover
   // bg-no-repeat
 `};
-//  background-image: url(${AvatarBg});
+  //  background-image: url(${AvatarBg});
 `;
 
 const GuanBg = styled.div`
@@ -241,7 +241,7 @@ const Instagram = styled.a`
   h-[25px]
   bg-contain 
   bg-no-repeat
-  m-1
+  m-2
   `};
   background-image: url(${InstagramBg});
 `;
@@ -252,7 +252,10 @@ const Gmail = styled.a`
   h-[25px]
   bg-contain 
   bg-no-repeat
-  m-1
+  // mt-2
+  // mx-2
+  m-2
+  mt-3
 `};
   background-image: url(${GmailBg});
 `;
@@ -263,7 +266,10 @@ const Twitter = styled.a`
   h-[25px]
   bg-contain 
   bg-no-repeat
-  m-1
+  // mt-2
+  // mx-2
+  m-2
+  mt-3
 `};
   background-image: url(${TwitteBg});
 `;

@@ -4,7 +4,6 @@ import tw from "twin.macro";
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from "../../redux/blockchain/blockchainActions";
 import { fetchData } from "../../redux/data/dataActions";
-import config from "../.././config.json";
 // import NftBuyBg from "../../images/nftBuy.png";
 import NftInfoBg from "../../images/nftInfo.png";
 import AmountFrameBg from "../../images/amountFrame.png";
@@ -18,6 +17,14 @@ import TopPlanetsBg from "../../images/topplanets.png";
 import TopBackgroundBg from "../../images/topbg.png";
 
 import { useMediaQuery } from "react-responsive";
+
+
+// constants
+import Web3EthContract from "web3-eth-contract";
+import Web3 from "web3";
+import contract from "../../abi.json";
+import config from "../../config.json";
+
 
 const NFTSectionContainer = styled.div`
   ${tw`
@@ -38,38 +45,38 @@ const NFTSectionWrapper = styled.div`
   flex-col
   justify-center
   items-center
-
   bg-cover 
 bg-center
 bg-no-repeat
 bg-opacity-0
     `};
- 
 `;
 
 const Counter = styled.h1`
   ${tw`
-       text-6xl
+       text-5xl
        text-white
        text-shadow[#fff 1px 0 10px;]   
       font-bold
-      my-4
+     my-2
     `};
 `;
 
 const ContractLink = styled.button`
   ${tw`
-       bg-[#04f79b]
+      //  bg-[#04f79b]
        text-shadow[#000 1px 0 10px;]
        hover:text-gray-300
        rounded-full
        text-white
        font-bold
        text-lg
-       px-10
+      px-10
       py-2
-      mb-2
-      
+      // mb-2
+      bg-gradient-to-r from-indigo-500 via-purple-500 to-yellow-500
+      my-2
+
     `};
 `;
 
@@ -87,7 +94,8 @@ const ContractInfo = styled.p`
        text-xl
        text-white
        text-shadow[#fff 1px 0 10px;]
-       px-2       
+       my-2
+      // px-2       
     `};
 `;
 
@@ -98,8 +106,8 @@ const DynamicInfo = styled.p`
       font-bold
       text-lg
        xs:text-2xl
-       px-2
-       mb-2
+      //  px-2
+      //  mb-2
     `};
 `;
 
@@ -138,13 +146,19 @@ const ConnectMintButtonWrapper = styled.div`
   flex-nowrap
   justify-center
   items-center
-  w-screen
-  h-[10.35vw]
-  sm:w-[75vw]
-  sm:h-[20.7vw]
+  //w-screen
+  //h-[10.35vw]
+  h-full
+  w-full
+  
+  // m-0
+  // p-6
+  // sm:w-[75vw]
+ // sm:h-[20.7vw]
   bg-cover
   bg-no-repeat
   bg-opacity-0
+  
 `};
   // background-image: url(${NftBuyFrontBg});
 `;
@@ -152,19 +166,25 @@ const ConnectMintButtonWrapper = styled.div`
 const ConnectMintButton = styled.button`
   ${tw`
   bg-opacity-0
-  h-[9.9vw]
-  w-[50vw]
+  // h-full
+  // w-full
+  // my-4
+  // mx-8
+  h-[50px]
+  w-[200px]
+  xl:h-[4.95vw]
+  xl:w-[25vw]
   hover:text-gray-300
-  sm:h-[4.95vw]
-  sm:w-[25vw]
+ 
   bg-cover
+  bg-center
   bg-no-repeat
   text-white
   font-bold
   text-lg
-  sm:text-xl
   // md:text-2xl
-  lg:text-3xl
+  lg:text-xl
+  xl:text-2xl
   text-shadow[#000 1px 0 10px;]
   // font-family[Tahoma]
   tracking-wide
@@ -265,7 +285,7 @@ const InfoContent = styled.div`
   sm:text-lg
   font-bold
   pb-12
-  w-[60vw]
+  w-[50vw]
   //font-family[MSJH]
   tracking-wide
   justify-center
@@ -308,8 +328,7 @@ justify-center
 items-center
 w-full
 h-[40vh]
-
-lg:w-[40vw]
+lg:w-[50vw]
 `};
 `;
 
@@ -318,16 +337,18 @@ const TopTextWrapper = styled.div`
   flex
   flex-col
   items-center 
-  // w-full
-  // h-[30vh]
+  w-full
+  h-[30vh]
   // pt-6
   // lg:pt-44
 // w-[100vw]
 // h-[42.4vw]
-lg:w-[60vw]
-lg:h-[45vh]
+// lg:w-[60vw]
+ lg:h-[40vh]
 relative
-pt-36
+pt-0
+lg:pt-20
+// lg:pt-44
 `};
 `;
 
@@ -341,8 +362,8 @@ bg-contain
 bg-center
 bg-no-repeat
 bg-opacity-0
-w-[50vw]
-h-[21.2vw]
+w-[70vw]
+h-[40vh]
 relative
 `};
   background-image: url(${TopTextBg});
@@ -356,10 +377,10 @@ const TopCatsWrapper = styled.div`
   lg:flex-row-reverse
   lg:items-end
 relative
-// w-full
-// h-[30vh]
-lg:w-[60vw]
-lg:h-[45vh]
+w-full
+h-[30vh]
+// lg:w-[60vw]
+ lg:h-[45vh]
 `};
   // background-image: url(${TopCatsBg});
 `;
@@ -372,8 +393,8 @@ bg-bottom
 bg-no-repeat
 bg-opacity-100
 relative
-w-[100vw]
-h-[23.97vw]
+w-full
+h-[30vh]
 
 //h-[28.97vw]
 `};
@@ -386,19 +407,24 @@ flex
 flex-col
 flex-nowrap
 lg:flex-wrap
-justify-between
-lg:justify-center
-items-center
+justify-end
+// lg:justify-around
+//items-center
 bg-contain 
 bg-center
 bg-no-repeat
 bg-opacity-0
 w-full
 h-[100vh]
+lg:w-[100vw]
+lg:h-[90vh]
 relative
 `};
   background-image: url(${TopPlanetsBg});
 `;
+
+
+
 
 export function NFTSection() {
   const dispatch = useDispatch();
@@ -415,7 +441,10 @@ export function NFTSection() {
   const [whitelistMintEnabled, setWhitelistMintEnabled] = useState(false);
   const [maxSupply, setMaxSupply] = useState(1000);
   const [currentWhiteTotal, setCurrentWhiteTotal] = useState(0);
+  const [totalSupply, setTotalSupply] = useState(0);
+  const [accounts, setAccounts] = useState('');
 
+  
 
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
@@ -504,68 +533,194 @@ export function NFTSection() {
     }
   };
 
-  async function CheckWhiteListMint() {
-    let IsInWhitelist = await blockchain.smartContract.methods
-      .isInWhiteList(blockchain.account)
-      .call();
 
-      setIsInWhitelist(IsInWhitelist);
+  const networks = {
+    rinkeby: {
+      chainId: `0x4`,
+      chainName: "Rinkeby",
+      nativeCurrency: {
+        name: "ETH",
+        symbol: "ETH",
+        decimals: 18
+      },
+      rpcUrls: ["https://rinkeby.infura.io/v3/"],
+      blockExplorerUrls: ["https://www.rinkeby.io/"]
+    },
+  };
 
-    let RemainSupply = await blockchain.smartContract.methods
-      .remainSupply()
-      .call();
+  
+  const changeNetwork = async ({ networkName }) => {
 
-      let remainSupply = parseInt(RemainSupply);     
+
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: '0x4' }],
+      });
+    } catch (switchError) {
+      // This error code indicates that the chain has not been added to MetaMask.
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+              {
+                chainId: '0xf00',
+                chainName: '...',
+                rpcUrls: ['https://...'] /* ... */,
+              },
+            ],
+          });
+        } catch (addError) {
+          // handle "add" error
+        }
+      }
+      // handle other "switch" errors
+    }
+
+    // try {
+    //   if (!window.ethereum) throw new Error("No crypto wallet found");
+    //   await window.ethereum.request({
+    //     method: "wallet_addEthereumChain",
+    //     params: [
+    //       {
+    //         ...networks[networkName]
+    //       }
+    //     ]
+    //   });
+    // } catch (err) {
+    //   console.log(err.message);
+    // }
+  };
+  
+  const handleAccountLogin = async () =>{
+    window.ethereum
+    .request({ method: 'eth_requestAccounts' })
+    .then((newAccounts) => setAccounts(newAccounts));
+  }
+  
+    const handleNetworkSwitch = async (networkName) => {
+      await changeNetwork({ networkName });
+      getContractInfo();
+    };
+  
+    const networkChanged = (chainId) => {
+      console.log({ chainId });
+    };
+  
+    useEffect(() => {
+      window.ethereum.on("chainChanged", networkChanged);
+  
+      return () => {
+        window.ethereum.removeListener("chainChanged", networkChanged);
+      };
+    }, []);
+  
+    // onClick={() => handleNetworkSwitch("bsc")}
+  
+    
+
+  async function getContractInfo()
+  {
+
+    const CONFIG = config;
+    const abi = contract;
+
+    const { ethereum } = window;
+    const metamaskIsInstalled = ethereum && ethereum.isMetaMask;
+    if (metamaskIsInstalled) {
+      Web3EthContract.setProvider(ethereum);
+
+      const SmartContract = new Web3EthContract(abi, CONFIG.CONTRACT_ADDRESS);
+
+      console.log(SmartContract);
+
+      let MaxSupply = await SmartContract.methods.MAX_SUPPLY().call();
+      let maxSupply = parseInt(MaxSupply);
+      setMaxSupply(parseInt(maxSupply));
+      console.log(maxSupply);
+
+      let RemainSupply = await SmartContract.methods.remainSupply().call();
+      let remainSupply = parseInt(RemainSupply);
       setRemainSupply(remainSupply);
+      console.log(remainSupply);
 
+      let TotalSupply = await SmartContract.methods.totalSupply().call();
+      let totalSupply = parseInt(TotalSupply);
+      setTotalSupply(totalSupply);
+      console.log(totalSupply);
 
-    let CurrentWhiteTotal = await blockchain.smartContract.methods
-      .currentWhiteTotal()
-      .call();
-
-      let currentWhiteTotal = parseInt(CurrentWhiteTotal);     
+      let CurrentWhiteTotal = await SmartContract.methods
+        .currentWhiteTotal()
+        .call();
+      let currentWhiteTotal = parseInt(CurrentWhiteTotal);
       setCurrentWhiteTotal(parseInt(currentWhiteTotal));
+      console.log(currentWhiteTotal);
 
-    let MaxSupply = await blockchain.smartContract.methods.MAX_SUPPLY().call();
-
-    let maxSupply = parseInt(MaxSupply);     
-    setMaxSupply(parseInt(maxSupply));
-
-    let mintCost = await blockchain.smartContract.methods.mintPrice().call();
-    let mintDisplayCost = blockchain.web3.utils.fromWei(mintCost, "ether");
-    let wMintCost = await blockchain.smartContract.methods.wMintPrice().call();
-    let wMintDisplayCost = blockchain.web3.utils.fromWei(wMintCost, "ether");
+      document.getElementById("counter").innerHTML =  totalSupply+ ' / ' +  maxSupply ;     
 
 
-    if(remainSupply <= currentWhiteTotal) {
 
-      if(IsInWhitelist)
-      {
-      document.getElementById("mintButton").disabled = false;
-      document.getElementById("mintButton").innerHTML = "WHITELIST MINT";
-      document.getElementById("message").innerHTML = "WhiteList Mint Enabled.";
-      setMintCost(wMintCost);
-      setDisplayCost(wMintDisplayCost);
-      setWhitelistMintEnabled(true);
+      let nMintCost = await SmartContract.methods.mintPrice().call();
+      let nMintDisplayCost = Web3.utils.fromWei(nMintCost, "ether");
+      let wMintCost = await SmartContract.methods.wMintPrice().call();
+      let wMintDisplayCost = Web3.utils.fromWei(wMintCost, "ether");
+
+
+      if(remainSupply <= currentWhiteTotal) {
+        setWhitelistMintEnabled(true);
+        setMintCost(wMintCost);
+        setDisplayCost(wMintDisplayCost);
+  
       }
       else
       {
+        setWhitelistMintEnabled(false);
+        setMintCost(nMintCost);
+        setDisplayCost(nMintDisplayCost);
+      }
+    }
+
+  }
+
+  async function getCurrentState() {
+    let IsInWhitelist = await blockchain.smartContract.methods
+      .isInWhiteList(blockchain.account)
+      .call();
+    setIsInWhitelist(IsInWhitelist);
+   
+     getContractInfo();
+
+    // let mintCost = await blockchain.smartContract.methods.mintPrice().call();
+    // let mintDisplayCost = blockchain.web3.utils.fromWei(mintCost, "ether");
+    // let wMintCost = await blockchain.smartContract.methods.wMintPrice().call();
+    // let wMintDisplayCost = blockchain.web3.utils.fromWei(wMintCost, "ether");
+
+
+    if(whitelistMintEnabled) {
+     // setWhitelistMintEnabled(true);
+      // setMintCost(wMintCost);
+      // setDisplayCost(wMintDisplayCost);
+
+      if (IsInWhitelist) {
+        document.getElementById("mintButton").disabled = false;
+        document.getElementById("mintButton").innerHTML = "WHITELIST MINT";
+        document.getElementById("message").innerHTML =
+          "WhiteList Mint Enabled.";
+      } else {
         document.getElementById("mintButton").disabled = true;
         document.getElementById("mintButton").innerHTML = "MINT DISABLED";
         document.getElementById("message").innerHTML =
           "WhiteList Mint is only for specific address.";
-        setMintCost(wMintCost);
-        setDisplayCost(wMintDisplayCost);
-        setWhitelistMintEnabled(true);
       }
     }    
     else {
       console.log("MINT");
+      // setWhitelistMintEnabled(false);
+      // setMintCost(mintCost);
+      // setDisplayCost(mintDisplayCost);
       document.getElementById("mintButton").disabled = false;
-      document.getElementById("mintButton").innerHTML = "MINT";
-      setMintCost(mintCost);
-      setDisplayCost(mintDisplayCost);
-      setWhitelistMintEnabled(false);
+      document.getElementById("mintButton").innerHTML = "MINT";     
     }
   
 
@@ -609,7 +764,7 @@ export function NFTSection() {
     if (blockchain.account !== "" && blockchain.smartContract !== null) {
       console.log('get data');
       dispatch(fetchData(blockchain.account));
-      await CheckWhiteListMint();
+      await getCurrentState();
     }
   };
 
@@ -625,12 +780,22 @@ export function NFTSection() {
     getData();
   }, [blockchain.account]);
 
+  useEffect(() => {
+
+   
+    handleAccountLogin();
+    // getContractInfo();
+    handleNetworkSwitch("rinkeby");
+  }, []);
+
+
+
+
+    
+
+
+
   const isMobile = useMediaQuery({ maxWidth: 1024 });
-
-
-
-
- 
 
 
   return (
@@ -643,8 +808,8 @@ export function NFTSection() {
                 <TopText></TopText>
               </TopTextWrapper>
               <NftMintWrapper>
-                <Counter>
-                  {data.totalSupply} / {maxSupply}
+                <Counter id="counter">
+                  {totalSupply} / {maxSupply}
                 </Counter>
 
                 <ContractLink>
@@ -660,20 +825,20 @@ export function NFTSection() {
                     {CONFIG.NETWORK.SYMBOL}.
                   </ContractInfo>
                 )}
-                {remainSupply !== 0 && (
+                {/* {remainSupply !== 0 && (
                   <ContractInfo id="message">Excluding gas fees.</ContractInfo>
-                )}
+                )} */}
                 {blockchain.account === "" ||
                 blockchain.smartContract === null ? (
                   <ConnectorWrapper>
-                    <DynamicInfo
+                    {/* <DynamicInfo
                       style={{
                         textAlign: "center",
                         color: "var(--accent-text)",
                       }}
                     >
                       Connect to the {CONFIG.NETWORK.NAME} network
-                    </DynamicInfo>
+                    </DynamicInfo> */}
                     <ConnectMintButtonWrapper>
                       <ConnectMintButton
                         onClick={(e) => {
@@ -754,8 +919,8 @@ export function NFTSection() {
               </TopCatsWrapper>
             </TopPlanets>
             <NftMintWrapper>
-              <Counter>
-              {data.totalSupply} / {maxSupply}
+              <Counter id="counter">
+                {totalSupply} / {maxSupply}
               </Counter>
 
               <ContractLink>
@@ -771,20 +936,20 @@ export function NFTSection() {
                   {CONFIG.NETWORK.SYMBOL}.
                 </ContractInfo>
               )}
-              {remainSupply !== 0 && (
+              {/* {remainSupply !== 0 && (
                 <ContractInfo id="message">Excluding gas fees.</ContractInfo>
-              )}
+              )} */}
               {blockchain.account === "" ||
               blockchain.smartContract === null ? (
                 <ConnectorWrapper>
-                  <DynamicInfo
+                  {/* <DynamicInfo
                     style={{
                       textAlign: "center",
                       color: "var(--accent-text)",
                     }}
                   >
                     Connect to the {CONFIG.NETWORK.NAME} network
-                  </DynamicInfo>
+                  </DynamicInfo> */}
                   <ConnectMintButtonWrapper>
                     <ConnectMintButton
                       onClick={(e) => {

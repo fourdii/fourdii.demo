@@ -20,7 +20,6 @@ h-auto
     // xl:pt-2
     // xl:pb-2
     items-center
-    mb-4
 `;
 
 const Title = tw.h1`
@@ -30,12 +29,12 @@ sm:text-3xl
     text-white
     font-bold
     text-center
-    pt-3
-    pr-1
-    sm:pt-3
-    sm:pr-2
-    lg:pt-6
-    lg:pr-3
+    // pt-3
+    // pr-1
+    // sm:pt-3
+    // sm:pr-2
+    // lg:pt-6
+    // lg:pr-3
     // font-family[Tahoma]
   tracking-wide
 `;
@@ -63,7 +62,7 @@ w-screen
 h-full
 relative
 // -mb-20
-mt-12
+ mt-6
 `};
 `;
 
@@ -76,10 +75,12 @@ items-center
 bg-contain 
 bg-no-repeat
 bg-opacity-0
+//100
+//20.12
 w-[75vw]
-h-[12vw]
+h-[15.09vw]
 sm:w-[35vw]
-sm:h-[5.6vw]
+sm:h-[7.042vw]
 // pb-1
 // pr-1
 `};
@@ -117,7 +118,7 @@ border-4
 border-[#30e6ff]
 rounded
 mt-4
-w-[88vw]
+w-[70vw]
 bg-opacity-20
 bg-[#30e6ff]
 `};
@@ -135,7 +136,7 @@ flex-col
 content-start
 w-[100vw]
 xs:w-[70vw]
-py-1
+// py-1
 `};
 `;
 
@@ -154,7 +155,7 @@ const FAQWrapper = styled.div`
   h-full
   relative
   my-2
-  sm:my-8
+  sm:my-4
 `};
   background-image: url(${FAQBg});
   -moz-background-size: 100% 100%;

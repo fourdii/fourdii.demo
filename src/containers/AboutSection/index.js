@@ -74,7 +74,7 @@ sm:py-8
 sm:px-14
 border-[#30e6ff]
 bg-[#30e6ff]
-border-4
+border-2
 rounded
 `};
 `;
@@ -114,12 +114,14 @@ justify-center
 items-center
 text-white
 font-bold
-text-sm
+text-[8px]
 sm:text-xl
 bg-[#02befd]
 bg-opacity-80
+
 py-1
-px-6
+px-2
+sm:px-6
 rounded-md
 my-3
 sm:my-6
@@ -145,14 +147,11 @@ export function AboutSection() {
           </Paragraph>
           <br />
           <Paragraph>
-            隨著業績與客量逐步增長，
-            各方媒體也積極與品牌合作、曝光。在疫情肆虐各行各業大幅受挫的情況，以穩健且驚人的速度復甦，不外乎是品牌始終要求的：「高水準服務與品質」。
+          隨著業績與客量逐步增⻑，各方媒體也積極與品牌合作、曝光。 在疫情肆虐各行各業大幅受挫的情況，以穩健且驚人的速度復甦， 不外乎是品牌始終要求的:「高水準服務與品質」。
           </Paragraph>
           <br />
           <Paragraph>
-            我們公開實名且提供創業以來的業績績效與客戶數量成⻑率， 主要讓
-            真正了解與決定是否參與這個項目，
-            實體商業追求的不是短期暴利而是⻑期的穩定收益。
+          我們公開實名且提供創業以來的業績績效與客戶數量成⻑率， 主要讓您真正了解與決定是否參與這個項目， 實體商業追求的不是短期暴利而是⻑期的穩定收益。
           </Paragraph>
           <br />
           <Paragraph>
@@ -160,8 +159,7 @@ export function AboutSection() {
           </Paragraph>
           <br />
           <Paragraph>
-            這點我們感同身受! 團隊為此創立了Cocaine Cat OHM
-            DAO項目，建構社群對我們而言就像是第二次創業。從零開始從頭到尾，再次重拾心裡的激動與興奮。
+            這點我們感同身受! 團隊為此創立了Cocaine Cat OHM DAO項目，建構社群對我們而言就像是第二次創業。從零開始從頭到尾，再次重拾心裡的激動與興奮。
           </Paragraph>
           <br />
           <Header>每位持有者</Header>

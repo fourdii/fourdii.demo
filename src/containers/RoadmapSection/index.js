@@ -31,18 +31,18 @@ ${tw`
 const Title = tw.h1`
 text-xl
 sm:text-3xl
+    text-shadow[#fff 1px 0 10px;]      
+    text-white
     font-bold
     text-center
-    text-shadow[#fff 1px 0 10px;]   
-  text-white
-  // font-family[Tahoma]
+    // font-family[Tahoma]
   tracking-wide
-  mb-6
-  xsm:mb-2
-`;
+ `;
+
+
 
 const TitleWrapper = styled.div`
-  ${tw`
+${tw`
 flex
 flex-col
 justify-center
@@ -50,6 +50,7 @@ items-center
 w-screen
 h-full
 relative
+my-8
 `};
 `;
 
@@ -111,8 +112,8 @@ const RoadmapMainWrapper = styled.div`
   bg-no-repeat
    w-[70vw]
    h-[73.5vw]
-   -my-2
-   lg:-my-8
+  //  -my-2
+  //  lg:-my-8
     `};
  background-image: url(${RoadmapMainBg});
 `;
@@ -126,6 +127,9 @@ const MemberWrapper = styled.div`
   relative
   items-center
   justify-center  
+  py-2
+  px-2
+  mb-2
 `};
 `;
 
@@ -148,14 +152,14 @@ const Member = styled.div`
   h-auto
   relative
 
-  mt-0
-xsm:pb-4
-sm:pb-6
-md:pb-6
-lg:pb-12
-xl:pb-14
+//   mt-0
+// xsm:pb-4
+// sm:pb-6
+// md:pb-6
+// lg:pb-12
+// xl:pb-14
 
-
+// pt-6
 `};
 `;
 
@@ -171,6 +175,7 @@ text-white
 font-bold
 text-xs
 mdlg:text-sm
+xl:text-xl
 // text-[6pt]
 // sm:text-xs
 // md:text-sm
@@ -191,23 +196,20 @@ flex-wrap
 items-start
 text-white
 font-bold
-
 text-sm
 mdlg:text-lg
-// text-[10pt]
-// sm:text-sm
-// md:text-lg
-// mdlg:text-2xl
-// lg:text-3xl
-// xl:text-4xl
+xl:text-2xl
 bg-opacity-80
 rounded-md
-mt-0
-xsm:mt-2
-sm:mt-3
-md:mt-3
-lg:mt-4
-xl:mt-8
+my-1
+sm:my-1
+md:my-2
+// mt-0
+// xsm:mt-2
+// sm:mt-3
+// md:mt-3
+// lg:mt-4
+// xl:mt-8
 `;
 
 
@@ -264,7 +266,6 @@ export function RoadmapSection() {
             <Paragraph>♦️完售、啟動項目（尋找店面</Paragraph>
             <Paragraph>♦️票選台灣藝人協同合作</Paragraph>
             <Paragraph>♦️結合台灣在地商家5家給予持有者回饋</Paragraph>
-            <br/>
             <Header>2022 Q3</Header>
             <Paragraph>♦️發佈完整企劃內容</Paragraph>
             <Paragraph>♦️定案實體商店服務與持有者回饋</Paragraph>
@@ -273,16 +274,13 @@ export function RoadmapSection() {
             <Paragraph>♦️完整企劃定案與動工</Paragraph>
             <Paragraph>♦️社群資金低風險質押</Paragraph>
             <Paragraph>♦️打造全台最大最多元社群</Paragraph>
-            <br/>
             <Header>2022 Q4</Header>
             <Paragraph>♦️實體店面開幕</Paragraph>
             <Paragraph>♦️置產元宇宙</Paragraph>
-            <br/>
             <Header>2023 Q1</Header>
             <Paragraph>♦️發展實體二創與異業聯名</Paragraph>
             <Paragraph>♦️結合台灣在地商家10家給予持有者回饋</Paragraph>
             <Paragraph>♦️擴大台灣商家合作版圖</Paragraph>
-            <br/>
             <Header>2023 Q2</Header>
             <Paragraph>♦️社群開發NFt虛實整合App、CCOD map</Paragraph>
             <Paragraph>♦️DAO投票參與公益團體</Paragraph>

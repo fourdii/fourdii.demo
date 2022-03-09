@@ -43,6 +43,8 @@ const NavItems = tw.ul`
     self-center  
 `;
 
+
+
 const NavItem = tw.li`
     lg:mr-8
     flex
@@ -64,6 +66,26 @@ const NavItem = tw.li`
   text-shadow[#00fff7 1px 0 10px;]
 `;
 
+const NavItemLogo = tw.button`
+    lg:mr-8
+    flex
+    items-center
+    justify-center
+    min-h-full
+    text-[#00fff7]
+    cursor-pointer
+    font-bold
+    text-xl
+    transition-colors
+    transition-duration[300ms]
+    hover:text-gray-200
+    box-content
+    mx-6
+    lg:mb-0
+  tracking-wide
+  text-shadow[#00fff7 1px 0 10px;]
+`;
+
 export function NavBar() {
 
     const isMobile = useMediaQuery({ maxWidth: 1024 });
@@ -74,17 +96,21 @@ export function NavBar() {
             <Link to="NFT">NFT</Link>
         </NavItem>
         <NavItem>
-            <Link to="Roadmap">Roadmap</Link>
+            <Link to="Roadmap">ROADMAP</Link>
         </NavItem>
         <NavItem>
-            <Link to="Team">Team</Link>
+            <Link to="Team">TEAM</Link>
         </NavItem>
         <NavItem>
-            <Link to="About">About</Link>
+            <Link to="About">ABOUT</Link>
         </NavItem>
         <NavItem>
             <Link to="FAQ">FAQ</Link>
-        </NavItem>       
+        </NavItem>      
+        <NavItem>
+            <Link to="WhitePaper">WHITEPAPER</Link>
+        </NavItem> 
+       
     </NavItems>
     )
 
