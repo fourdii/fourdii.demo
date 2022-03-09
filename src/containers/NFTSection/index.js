@@ -134,7 +134,7 @@ bg-no-repeat
 bg-opacity-0
 w-screen
 border-t-2
-border-white
+border-[#02ef97]
 `};
   background-image: url(${NftInfoBg});
 `;
@@ -444,7 +444,7 @@ export function NFTSection() {
   const [totalSupply, setTotalSupply] = useState(0);
   const [accounts, setAccounts] = useState('');
 
-  
+
 
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
@@ -551,7 +551,6 @@ export function NFTSection() {
   
   const changeNetwork = async ({ networkName }) => {
 
-
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
@@ -593,36 +592,37 @@ export function NFTSection() {
     // }
   };
   
-  const handleAccountLogin = async () =>{
-    window.ethereum
-    .request({ method: 'eth_requestAccounts' })
-    .then((newAccounts) => setAccounts(newAccounts));
-  }
+  const handleAccountLogin = async () => {
+    console.log("newAccounts");
+
+    if (window.ethereum) {
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      console.log("MetaMask is installed!");
+    }
+  };
+
+  const handleNetworkSwitch = async (networkName) => {
+    await changeNetwork({ networkName });
+    console.log(networkName);
+  };
   
-    const handleNetworkSwitch = async (networkName) => {
-      await changeNetwork({ networkName });
-      getContractInfo();
-    };
+    // const networkChanged = (chainId) => {
+    //   console.log({ chainId });
+    // };
   
-    const networkChanged = (chainId) => {
-      console.log({ chainId });
-    };
+    // useEffect(() => {
+    //   window.ethereum.on("chainChanged", networkChanged);
   
-    useEffect(() => {
-      window.ethereum.on("chainChanged", networkChanged);
+    //   return () => {
+    //     window.ethereum.removeListener("chainChanged", networkChanged);
+    //   };
+    // }, []);
   
-      return () => {
-        window.ethereum.removeListener("chainChanged", networkChanged);
-      };
-    }, []);
-  
-    // onClick={() => handleNetworkSwitch("bsc")}
   
     
 
-  async function getContractInfo()
+  const getContractInfo = async () => 
   {
-
     const CONFIG = config;
     const abi = contract;
 
@@ -683,62 +683,53 @@ export function NFTSection() {
 
   }
 
+  const getInitialData = async () => {
+    await handleAccountLogin();
+    await handleNetworkSwitch("rinkeby");
+    await getContractInfo();
+  }
+
   async function getCurrentState() {
     let IsInWhitelist = await blockchain.smartContract.methods
       .isInWhiteList(blockchain.account)
       .call();
-    setIsInWhitelist(IsInWhitelist);
+
+     setIsInWhitelist(IsInWhitelist);
    
      getContractInfo();
 
-    // let mintCost = await blockchain.smartContract.methods.mintPrice().call();
-    // let mintDisplayCost = blockchain.web3.utils.fromWei(mintCost, "ether");
-    // let wMintCost = await blockchain.smartContract.methods.wMintPrice().call();
-    // let wMintDisplayCost = blockchain.web3.utils.fromWei(wMintCost, "ether");
+     console.log('whitelistMintEnabled');
 
-
+     console.log(whitelistMintEnabled);
     if(whitelistMintEnabled) {
-     // setWhitelistMintEnabled(true);
-      // setMintCost(wMintCost);
-      // setDisplayCost(wMintDisplayCost);
+      
+      console.log('IsInWhitelist');
+      console.log(IsInWhitelist);
+
 
       if (IsInWhitelist) {
-        document.getElementById("mintButton").disabled = false;
+
+        console.log("WHITELIST MINT");
         document.getElementById("mintButton").innerHTML = "WHITELIST MINT";
+        document.getElementById("mintButton").disabled = false;
         document.getElementById("message").innerHTML =
           "WhiteList Mint Enabled.";
       } else {
-        document.getElementById("mintButton").disabled = true;
+        console.log("MINT DISABLED");
         document.getElementById("mintButton").innerHTML = "MINT DISABLED";
+        document.getElementById("mintButton").disabled = true;
         document.getElementById("message").innerHTML =
-          "WhiteList Mint is only for specific address.";
+        "WhiteList Mint Disabled.";
       }
     }    
     else {
       console.log("MINT");
-      // setWhitelistMintEnabled(false);
-      // setMintCost(mintCost);
-      // setDisplayCost(mintDisplayCost);
       document.getElementById("mintButton").disabled = false;
-      document.getElementById("mintButton").innerHTML = "MINT";     
+      document.getElementById("mintButton").innerHTML = "MINT";  
+      document.getElementById("message").innerHTML =
+      "Click Button to Mint NFT.";   
     }
   
-
-    // else if(remainSupply <= currentWhiteTotal && !isInWhitelist) {
-    //   console.log(isInWhitelist);
-    //   console.log(remainSupply);
-    //   console.log(currentWhiteTotal);
-    //   console.log("MINT DISABLED");
-
-    //   document.getElementById("mintButton").disabled = true;
-    //   document.getElementById("mintButton").innerHTML = "MINT DISABLED";
-    //   document.getElementById("message").innerHTML =
-    //     "WhiteList Mint is only for specific address.";
-    //   setMintCost(wMintCost);
-    //   setDisplayCost(wMintDisplayCost);
-    //   setWhitelistMintEnabled(true);
-    // }
-   
   }
 
   const decrementMintAmount = () => {
@@ -781,23 +772,15 @@ export function NFTSection() {
   }, [blockchain.account]);
 
   useEffect(() => {
-
-   
-    handleAccountLogin();
-    // getContractInfo();
-    handleNetworkSwitch("rinkeby");
+    getInitialData();
   }, []);
 
 
 
 
-    
-
 
 
   const isMobile = useMediaQuery({ maxWidth: 1024 });
-
-
   return (
     <NFTSectionContainer name="NFT">
       <NFTSectionWrapper>
@@ -825,9 +808,9 @@ export function NFTSection() {
                     {CONFIG.NETWORK.SYMBOL}.
                   </ContractInfo>
                 )}
-                {/* {remainSupply !== 0 && (
+                {remainSupply !== 0 && (
                   <ContractInfo id="message">Excluding gas fees.</ContractInfo>
-                )} */}
+                )}
                 {blockchain.account === "" ||
                 blockchain.smartContract === null ? (
                   <ConnectorWrapper>
@@ -871,7 +854,7 @@ export function NFTSection() {
                     <ConnectMintButtonWrapper>
                       <ConnectMintButton
                         id="mintButton"
-                        disabled={claimingNft ? 1 : 0}
+                        disabled={loading ? true : false}
                         onClick={(e) => {
                           e.preventDefault();
                           claimNFTs();
@@ -883,7 +866,7 @@ export function NFTSection() {
                     </ConnectMintButtonWrapper>
                     <InputWrapperNew>
                       <MinusButton
-                        disabled={claimingNft ? 1 : 0}
+                        disabled={loading ? true : false}
                         onClick={(e) => {
                           e.preventDefault();
                           decrementMintAmount();
@@ -893,7 +876,7 @@ export function NFTSection() {
                         <Quantity>{mintAmount}</Quantity>
                       </AmountFrame>
                       <PlusButton
-                        disabled={claimingNft ? 1 : 0}
+                        disabled={loading ? true : false}
                         onClick={(e) => {
                           e.preventDefault();
                           incrementMintAmount();
@@ -936,9 +919,9 @@ export function NFTSection() {
                   {CONFIG.NETWORK.SYMBOL}.
                 </ContractInfo>
               )}
-              {/* {remainSupply !== 0 && (
+              {remainSupply !== 0 && (
                 <ContractInfo id="message">Excluding gas fees.</ContractInfo>
-              )} */}
+              )}
               {blockchain.account === "" ||
               blockchain.smartContract === null ? (
                 <ConnectorWrapper>
@@ -982,7 +965,7 @@ export function NFTSection() {
                   <ConnectMintButtonWrapper>
                     <ConnectMintButton
                       id="mintButton"
-                      disabled={claimingNft ? 1 : 0}
+                      disabled={loading ? true : false}
                       onClick={(e) => {
                         e.preventDefault();
                         claimNFTs();
@@ -994,8 +977,8 @@ export function NFTSection() {
                   </ConnectMintButtonWrapper>
                   <InputWrapperNew>
                     <MinusButton
-                      disabled={claimingNft ? 1 : 0}
-                      onClick={(e) => {
+                        disabled={loading ? true : false}
+                        onClick={(e) => {
                         e.preventDefault();
                         decrementMintAmount();
                       }}
@@ -1004,8 +987,8 @@ export function NFTSection() {
                       <Quantity>{mintAmount}</Quantity>
                     </AmountFrame>
                     <PlusButton
-                      disabled={claimingNft ? 1 : 0}
-                      onClick={(e) => {
+                        disabled={loading ? true : false}
+                        onClick={(e) => {
                         e.preventDefault();
                         incrementMintAmount();
                       }}
