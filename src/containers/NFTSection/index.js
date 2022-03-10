@@ -482,6 +482,7 @@ export function NFTSection() {
   const [CONFIG, setConfig] = useState(config);
   const [smartContract, setSmartContract] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [mintButtonEnabled, setMintButtonEnabled] = useState(false);
 
 
 
@@ -509,14 +510,17 @@ export function NFTSection() {
     input.length > len ? `${input.substring(0, len)}...` : input;
 
     const decrementMintAmount = () => {
-      let newMintAmount = mintAmount - 1;
-      if (newMintAmount < 1 || whitelistMintEnabled) {
-        newMintAmount = 1;
+      if (mintButtonEnabled) {
+        let newMintAmount = mintAmount - 1;
+        if (newMintAmount < 1 || whitelistMintEnabled) {
+          newMintAmount = 1;
+        }
+        setMintAmount(newMintAmount);
       }
-      setMintAmount(newMintAmount);
     };
 
     const incrementMintAmount = () => {
+      if (mintButtonEnabled) {
       let newMintAmount = mintAmount + 1;
   
       if (whitelistMintEnabled) {
@@ -525,6 +529,7 @@ export function NFTSection() {
         newMintAmount = remainSupply;
       }
       setMintAmount(newMintAmount);
+    }
     };
   
 
@@ -777,12 +782,15 @@ export function NFTSection() {
         // document.getElementById("mintButton").disabled = false;
         if(remainSupply !== 0){document.getElementById("message").innerHTML =
           "WhiteList Mint Enabled."};
+          setMintButtonEnabled(true);
       } else {
         console.log("MINT DISABLED");
         // document.getElementById("mintButton").innerHTML = "MINT DISABLED";
         // document.getElementById("mintButton").disabled = true;
        if(remainSupply !== 0){ document.getElementById("message").innerHTML =
         "WhiteList Mint Disabled."};
+        setMintButtonEnabled(false);
+
       }
     }    
     else {
@@ -792,6 +800,8 @@ export function NFTSection() {
       // document.getElementById("mintButton").innerHTML = "MINT";  
       if(remainSupply !== 0){document.getElementById("message").innerHTML =
       "Click Button to Mint NFT."};   
+      setMintButtonEnabled(true);
+
     }
   
 
@@ -907,7 +917,7 @@ export function NFTSection() {
                         <ButtonWrapper>
                           <MintButton
                             id="mintButton"
-                            disabled={whitelistMintEnabled ? true : false}
+                            disabled={mintButtonEnabled ? true : false}
                             onClick={async (e) => {
                               e.preventDefault();
                               claimNFTs();
@@ -1055,7 +1065,7 @@ export function NFTSection() {
                         {!loading && (
                           <MintButton
                             id="mintButton"
-                            disabled={whitelistMintEnabled ? true : false}
+                            disabled={mintButtonEnabled ? true : false}
                             onClick={async (e) => {
                               e.preventDefault();
                               claimNFTs();
