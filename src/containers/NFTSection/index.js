@@ -65,7 +65,7 @@ const Counter = styled.h1`
     `};
 `;
 
-const ContractLinkWrapper = styled.button`
+const ContractLinkWrapper = styled.div`
   ${tw`
       //  bg-[#04f79b]
        rounded-full
@@ -637,20 +637,20 @@ export function NFTSection() {
     } catch (switchError) {
       // This error code indicates that the chain has not been added to MetaMask.
       if (switchError.code === 4902) {
-        try {
-          await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
-            params: [
-              {
-                chainId: '0xf00',
-                chainName: '...',
-                rpcUrls: ['https://...'] /* ... */,
-              },
-            ],
-          });
-        } catch (addError) {
-          // handle "add" error
-        }
+        // try {
+        //   await window.ethereum.request({
+        //     method: 'wallet_addEthereumChain',
+        //     params: [
+        //       {
+        //         chainId: '0xf00',
+        //         chainName: '...',
+        //         rpcUrls: ['https://...'] /* ... */,
+        //       },
+        //     ],
+        //   });
+        // } catch (addError) {
+        //   // handle "add" error
+        // }
       }
       // handle other "switch" errors
     }
@@ -667,15 +667,23 @@ export function NFTSection() {
       let web3 = new Web3(ethereum);
       setWeb3(web3);
       try {
+
         const accounts = await ethereum.request({
           method: "eth_requestAccounts",
         });
         setAccount(accounts[0]);
         console.log(accounts[0]);
+
+        const IsInWhitelist = await smartContract.methods
+        .isInWhiteList(accounts[0])
+        .call();
+       setIsInWhitelist(IsInWhitelist);
+
         const networkId = await ethereum.request({
           method: "net_version",
         });
         setNetworkId(networkId);
+
         if (networkId === CONFIG.NETWORK.ID) {
        
           // Add listeners start
@@ -742,31 +750,41 @@ export function NFTSection() {
       setCurrentWhiteTotal(parseInt(currentWhiteTotal));
       console.log(currentWhiteTotal);
 
-      // document.getElementById("counter").innerHTML =  totalSupply+ ' / ' +  maxSupply ;     
-
-
-
       let nMintCost = await SmartContract.methods.mintPrice().call();
       let nMintDisplayCost = Web3.utils.fromWei(nMintCost, "ether");
       let wMintCost = await SmartContract.methods.wMintPrice().call();
       let wMintDisplayCost = Web3.utils.fromWei(wMintCost, "ether");
 
-
-      if(remainSupply <= currentWhiteTotal) {
-        setWhitelistMintEnabled(true);
-        setMintCost(wMintCost);
-        setDisplayCost(wMintDisplayCost);
-  
-      }
-      else
-      {
+      if (remainSupply === 0) {
         setWhitelistMintEnabled(false);
-        setMintCost(nMintCost);
-        setDisplayCost(nMintDisplayCost);
+        setMintButtonEnabled(false);
+      } else {
+        if (remainSupply <= currentWhiteTotal) {
+          setWhitelistMintEnabled(true);
+          setMintCost(wMintCost);
+          setDisplayCost(wMintDisplayCost);
+
+          if (isInWhitelist) {
+            console.log("WHITELIST MINT");
+
+            setMintButtonEnabled(true);
+          } else {
+            console.log("MINT DISABLED");
+
+            setMintButtonEnabled(false);
+          }
+        } else {
+          setWhitelistMintEnabled(false);
+          setMintCost(nMintCost);
+          setDisplayCost(nMintDisplayCost);
+          setMintButtonEnabled(true);
+        }
       }
     }
 
   }
+
+   
 
   const getInitialData = async () => {
     console.log("getInitialData");
@@ -782,57 +800,24 @@ export function NFTSection() {
 
   };
 
-  async function getCurrentState() {
-    console.log('getCurrentState');
+  // async function getCurrentState() {
+  //   console.log('getCurrentState');
 
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
+  //   // const accounts = await window.ethereum.request({
+  //   //   method: "eth_requestAccounts",
+  //   // });
 
-    let IsInWhitelist = await smartContract.methods
-      .isInWhiteList(accounts[0])
-      .call();
+  //   // setAccount(accounts[0]);
 
-     setIsInWhitelist(IsInWhitelist);
-     console.log('IsInWhitelist');
-     console.log(IsInWhitelist);
 
-     console.log('whitelistMintEnabled');
-     console.log(whitelistMintEnabled);
+  //   // let IsInWhitelist = await smartContract.methods
+  //   //   .isInWhiteList(accounts[0])
+  //   //   .call();
+  //   //  setIsInWhitelist(IsInWhitelist);
+ 
+    
 
-     if(whitelistMintEnabled) {
-      console.log('whitelistMintEnabled');
-
-      if (IsInWhitelist) {
-        console.log("WHITELIST MINT");
-        // document.getElementById("mintButton").innerHTML = "WHITELIST MINT";
-        // document.getElementById("mintButton").disabled = false;
-        // if(remainSupply !== 0){document.getElementById("message").innerHTML =
-        //   "WhiteList Mint Enabled."};
-          setMintButtonEnabled(true);
-      } else {
-        console.log("MINT DISABLED");
-        // document.getElementById("mintButton").innerHTML = "MINT DISABLED";
-        // document.getElementById("mintButton").disabled = true;
-      //  if(remainSupply !== 0){ document.getElementById("message").innerHTML =
-      //   "WhiteList Mint Disabled."};
-        setMintButtonEnabled(false);
-
-      }
-    }    
-    else {
-      console.log('whitelistMintDisabled');
-      console.log("MINT");
-      // document.getElementById("mintButton").disabled = false;
-      // document.getElementById("mintButton").innerHTML = "MINT";  
-      // if(remainSupply !== 0){document.getElementById("message").innerHTML =
-      // "Click Button to Mint NFT."};   
-      setMintButtonEnabled(true);
-
-    }
-  
-
-  }
+  // }
 
 // Web3 end
 
@@ -913,7 +898,7 @@ export function NFTSection() {
                           onClick={async (e) => {
                             e.preventDefault();
                             await handleAccountLogin();
-                            await getCurrentState();
+                            await getContractInfo();
                             // dispatch(connect());
                             // getData();
                           }}
@@ -949,7 +934,7 @@ export function NFTSection() {
                             onClick={async (e) => {
                               e.preventDefault();
                               claimNFTs();
-                              await getCurrentState();
+                              await getContractInfo();
                               // getData();
                             }}
                           >
@@ -1058,7 +1043,7 @@ export function NFTSection() {
                           onClick={async (e) => {
                             e.preventDefault();
                             await handleAccountLogin();
-                            await getCurrentState();
+                            await getContractInfo();
                             // dispatch(connect());
                             // getData();
                           }}
@@ -1100,7 +1085,7 @@ export function NFTSection() {
                             onClick={async (e) => {
                               e.preventDefault();
                               claimNFTs();
-                              await getCurrentState();
+                              await getContractInfo();
                               // getData();
                             }}
                           >
