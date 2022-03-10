@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { useDispatch, useSelector } from "react-redux";
-import { connect } from "../../redux/blockchain/blockchainActions";
-import { fetchData } from "../../redux/data/dataActions";
+// import { useDispatch, useSelector } from "react-redux";
+// import { connect } from "../../redux/blockchain/blockchainActions";
+// import { fetchData } from "../../redux/data/dataActions";
 // import NftBuyBg from "../../images/nftBuy.png";
 import NftInfoBg from "../../images/nftInfo.png";
 import AmountFrameBg from "../../images/amountFrame.png";
@@ -15,8 +15,9 @@ import TopCatsBg from "../../images/topcats.png";
 import TopTextBg from "../../images/toptext.png";
 import TopPlanetsBg from "../../images/topplanets.png";
 import TopBackgroundBg from "../../images/topbg.png";
-
 import { useMediaQuery } from "react-responsive";
+import RingLoader from "react-spinners/RingLoader";
+import { css } from "@emotion/react";
 
 
 // constants
@@ -139,7 +140,7 @@ border-[#02ef97]
   background-image: url(${NftInfoBg});
 `;
 
-const ConnectMintButtonWrapper = styled.div`
+const ButtonWrapper = styled.div`
   ${tw`
   flex
   flex-row
@@ -163,7 +164,36 @@ const ConnectMintButtonWrapper = styled.div`
   // background-image: url(${NftBuyFrontBg});
 `;
 
-const ConnectMintButton = styled.button`
+const MintButton = styled.button`
+  ${tw`
+  bg-opacity-0
+  // h-full
+  // w-full
+  // my-4
+  // mx-8
+  h-[50px]
+  w-[200px]
+  xl:h-[4.95vw]
+  xl:w-[25vw]
+  hover:text-gray-300
+ 
+  bg-cover
+  bg-center
+  bg-no-repeat
+  text-white
+  font-bold
+  text-lg
+  // md:text-2xl
+  lg:text-xl
+  xl:text-2xl
+  text-shadow[#000 1px 0 10px;]
+  // font-family[Tahoma]
+  tracking-wide
+`};
+  background-image: url(${ConnectMintButtonBg});
+`;
+
+const ConnectButton = styled.button`
   ${tw`
   bg-opacity-0
   // h-full
@@ -423,17 +453,21 @@ relative
   background-image: url(${TopPlanetsBg});
 `;
 
-
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: #00fff7;
+  align-self: center;
+`;
 
 
 export function NFTSection() {
-  const dispatch = useDispatch();
-  const blockchain = useSelector((state) => state.blockchain);
-  const data = useSelector((state) => state.data);
+  // const dispatch = useDispatch();
+  // const blockchain = useSelector((state) => state.blockchain);
+  // const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
   const [feedback, setFeedback] = useState(`Click button below to mint your NFT.`);
   const [mintAmount, setMintAmount] = useState(1);
-  const [loading, setLoading] = useState(false);
   const [mintCost, setMintCost] = useState(1);
   const [displayCost, setDisplayCost] = useState(1);
   const [isInWhitelist, setIsInWhitelist] = useState(false);
@@ -442,32 +476,60 @@ export function NFTSection() {
   const [maxSupply, setMaxSupply] = useState(1000);
   const [currentWhiteTotal, setCurrentWhiteTotal] = useState(0);
   const [totalSupply, setTotalSupply] = useState(0);
-  const [accounts, setAccounts] = useState('');
+  const [account, setAccount] = useState("");
+  const [web3, setWeb3] = useState(null);
+  const [networkId, setNetworkId] = useState(0);
+  const [CONFIG, setConfig] = useState(config);
+  const [smartContract, setSmartContract] = useState(null);
+  const [loading, setLoading] = useState(true);
 
 
 
-  const [CONFIG, SET_CONFIG] = useState({
-    CONTRACT_ADDRESS: "",
-    SCAN_LINK: "",
-    NETWORK: {
-      NAME: "",
-      SYMBOL: "",
-      ID: 0,
-    },
-    NFT_NAME: "",
-    SYMBOL: "",
-    // MAX_SUPPLY: 1,
-    // WEI_COST: 0,
-    // DISPLAY_COST: 0,
-    WHITE_MINT_SUPPLY: 0,
-    GAS_LIMIT: 0,
-    // MARKETPLACE: "",
-    // MARKETPLACE_LINK: "",
-    SHOW_BACKGROUND: false,
-  });
+  // const [CONFIG, SET_CONFIG] = useState({
+  //   CONTRACT_ADDRESS: "",
+  //   SCAN_LINK: "",
+  //   NETWORK: {
+  //     NAME: "",
+  //     SYMBOL: "",
+  //     ID: 0,
+  //   },
+  //   NFT_NAME: "",
+  //   SYMBOL: "",
+  //   // MAX_SUPPLY: 1,
+  //   // WEI_COST: 0,
+  //   // DISPLAY_COST: 0,
+  //   WHITE_MINT_SUPPLY: 0,
+  //   GAS_LIMIT: 0,
+  //   // MARKETPLACE: "",
+  //   // MARKETPLACE_LINK: "",
+  //   SHOW_BACKGROUND: false,
+  // });
 
-  const truncate = (input, len) =>
+    const truncate = (input, len) =>
     input.length > len ? `${input.substring(0, len)}...` : input;
+
+    const decrementMintAmount = () => {
+      let newMintAmount = mintAmount - 1;
+      if (newMintAmount < 1 || whitelistMintEnabled) {
+        newMintAmount = 1;
+      }
+      setMintAmount(newMintAmount);
+    };
+
+    const incrementMintAmount = () => {
+      let newMintAmount = mintAmount + 1;
+  
+      if (whitelistMintEnabled) {
+        newMintAmount = 1;
+      } else if (newMintAmount >= remainSupply) {
+        newMintAmount = remainSupply;
+      }
+      setMintAmount(newMintAmount);
+    };
+  
+
+
+// Web3 start
 
   const claimNFTs = () => {
     setLoading(true);
@@ -483,12 +545,12 @@ export function NFTSection() {
       if (whitelistMintEnabled) {
         console.log("White Mint");
 
-        blockchain.smartContract.methods
+        smartContract.methods
           .wMintNFT()
           .send({
             gasLimit: String(gasLimit),
             to: CONFIG.CONTRACT_ADDRESS,
-            from: blockchain.account,
+            from: account,
             value: cost,
           })
           .once("error", (err) => {
@@ -499,19 +561,19 @@ export function NFTSection() {
           })
           .then((receipt) => {
             console.log(receipt);
-            setFeedback(`The ${CONFIG.NFT_NAME} is yours!`);
+            // setFeedback(`The ${CONFIG.NFT_NAME} is yours!`);
             setClaimingNft(false);
-            dispatch(fetchData(blockchain.account));
+            // dispatch(fetchData(blockchain.account));
             setLoading(false);
           });
       } else {
         console.log("Mint");
-        blockchain.smartContract.methods
+        smartContract.methods
           .mintNFT(mintAmount)
           .send({
             gasLimit: String(totalGasLimit),
             to: CONFIG.CONTRACT_ADDRESS,
-            from: blockchain.account,
+            from: account,
             value: totalCostWei,
           })
           .once("error", (err) => {
@@ -522,9 +584,9 @@ export function NFTSection() {
           })
           .then((receipt) => {
             console.log(receipt);
-            setFeedback(`The ${CONFIG.NFT_NAME} is yours!`);
+            // setFeedback(`The ${CONFIG.NFT_NAME} is yours!`);
             setClaimingNft(false);
-            dispatch(fetchData(blockchain.account));
+            // dispatch(fetchData(blockchain.account));
             setLoading(false);
           });
       }
@@ -533,22 +595,6 @@ export function NFTSection() {
     }
   };
 
-
-  const networks = {
-    rinkeby: {
-      chainId: `0x4`,
-      chainName: "Rinkeby",
-      nativeCurrency: {
-        name: "ETH",
-        symbol: "ETH",
-        decimals: 18
-      },
-      rpcUrls: ["https://rinkeby.infura.io/v3/"],
-      blockExplorerUrls: ["https://www.rinkeby.io/"]
-    },
-  };
-
-  
   const changeNetwork = async ({ networkName }) => {
 
     try {
@@ -577,53 +623,60 @@ export function NFTSection() {
       // handle other "switch" errors
     }
 
-    // try {
-    //   if (!window.ethereum) throw new Error("No crypto wallet found");
-    //   await window.ethereum.request({
-    //     method: "wallet_addEthereumChain",
-    //     params: [
-    //       {
-    //         ...networks[networkName]
-    //       }
-    //     ]
-    //   });
-    // } catch (err) {
-    //   console.log(err.message);
-    // }
   };
   
-  const handleAccountLogin = async () => {
-    console.log("newAccounts");
+  async function handleAccountLogin() {
+    console.log("handleAccountLogin");
 
-    if (window.ethereum) {
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-      console.log("MetaMask is installed!");
+    const { ethereum } = window;
+    const metamaskIsInstalled = ethereum && ethereum.isMetaMask;
+    if (metamaskIsInstalled) {
+      Web3EthContract.setProvider(ethereum);
+      let web3 = new Web3(ethereum);
+      setWeb3(web3);
+      try {
+        const accounts = await ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        setAccount(accounts[0]);
+        console.log(accounts[0]);
+        const networkId = await ethereum.request({
+          method: "net_version",
+        });
+        setNetworkId(networkId);
+        if (networkId === CONFIG.NETWORK.ID) {
+       
+          // Add listeners start
+          ethereum.on("accountsChanged", (accounts) => {
+            setAccount(accounts[0]);
+            // dispatch(updateAccount(accounts[0]));
+          });
+          ethereum.on("chainChanged", () => {
+            window.location.reload();
+          });
+          // Add listeners end
+        } else {
+          // dispatch(connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`));
+        }
+      } catch (err) {
+        // dispatch(connectFailed("Something went wrong."));
+      }
+    } else {
+      // dispatch(connectFailed("Install Metamask."));
     }
-  };
+
+   
+  }
 
   const handleNetworkSwitch = async (networkName) => {
     await changeNetwork({ networkName });
     console.log(networkName);
   };
   
-    // const networkChanged = (chainId) => {
-    //   console.log({ chainId });
-    // };
-  
-    // useEffect(() => {
-    //   window.ethereum.on("chainChanged", networkChanged);
-  
-    //   return () => {
-    //     window.ethereum.removeListener("chainChanged", networkChanged);
-    //   };
-    // }, []);
-  
-  
-    
-
   const getContractInfo = async () => 
   {
-    const CONFIG = config;
+    // const CONFIG = config;
+    //setConfig(config);
     const abi = contract;
 
     const { ethereum } = window;
@@ -632,7 +685,7 @@ export function NFTSection() {
       Web3EthContract.setProvider(ethereum);
 
       const SmartContract = new Web3EthContract(abi, CONFIG.CONTRACT_ADDRESS);
-
+      setSmartContract(SmartContract);
       console.log(SmartContract);
 
       let MaxSupply = await SmartContract.methods.MAX_SUPPLY().call();
@@ -657,7 +710,7 @@ export function NFTSection() {
       setCurrentWhiteTotal(parseInt(currentWhiteTotal));
       console.log(currentWhiteTotal);
 
-      document.getElementById("counter").innerHTML =  totalSupply+ ' / ' +  maxSupply ;     
+      // document.getElementById("counter").innerHTML =  totalSupply+ ' / ' +  maxSupply ;     
 
 
 
@@ -684,92 +737,63 @@ export function NFTSection() {
   }
 
   const getInitialData = async () => {
+    console.log("getInitialData");
+    setLoading(true);
+
+    setConfig(config);
     await handleAccountLogin();
     await handleNetworkSwitch("rinkeby");
     await getContractInfo();
-  }
+
+    setLoading(false);
+
+  };
 
   async function getCurrentState() {
-    let IsInWhitelist = await blockchain.smartContract.methods
-      .isInWhiteList(blockchain.account)
+
+    let IsInWhitelist = await smartContract.methods
+      .isInWhiteList(account)
       .call();
 
      setIsInWhitelist(IsInWhitelist);
-   
-     getContractInfo();
+     console.log('IsInWhitelist');
+     console.log(IsInWhitelist);
 
      console.log('whitelistMintEnabled');
-
      console.log(whitelistMintEnabled);
-    if(whitelistMintEnabled) {
-      
-      console.log('IsInWhitelist');
-      console.log(IsInWhitelist);
 
+     if(whitelistMintEnabled) {
+      console.log('whitelistMintEnabled');
 
       if (IsInWhitelist) {
-
         console.log("WHITELIST MINT");
-        document.getElementById("mintButton").innerHTML = "WHITELIST MINT";
-        document.getElementById("mintButton").disabled = false;
-        document.getElementById("message").innerHTML =
-          "WhiteList Mint Enabled.";
+        // document.getElementById("mintButton").innerHTML = "WHITELIST MINT";
+        // document.getElementById("mintButton").disabled = false;
+        if(remainSupply !== 0){document.getElementById("message").innerHTML =
+          "WhiteList Mint Enabled."};
       } else {
         console.log("MINT DISABLED");
-        document.getElementById("mintButton").innerHTML = "MINT DISABLED";
-        document.getElementById("mintButton").disabled = true;
-        document.getElementById("message").innerHTML =
-        "WhiteList Mint Disabled.";
+        // document.getElementById("mintButton").innerHTML = "MINT DISABLED";
+        // document.getElementById("mintButton").disabled = true;
+       if(remainSupply !== 0){ document.getElementById("message").innerHTML =
+        "WhiteList Mint Disabled."};
       }
     }    
     else {
+      console.log('whitelistMintDisabled');
       console.log("MINT");
-      document.getElementById("mintButton").disabled = false;
-      document.getElementById("mintButton").innerHTML = "MINT";  
-      document.getElementById("message").innerHTML =
-      "Click Button to Mint NFT.";   
+      // document.getElementById("mintButton").disabled = false;
+      // document.getElementById("mintButton").innerHTML = "MINT";  
+      if(remainSupply !== 0){document.getElementById("message").innerHTML =
+      "Click Button to Mint NFT."};   
     }
   
+
   }
 
-  const decrementMintAmount = () => {
-    let newMintAmount = mintAmount - 1;
-    if (newMintAmount < 1 || whitelistMintEnabled) {
-      newMintAmount = 1;
-    }
-    setMintAmount(newMintAmount);
-  };
+// Web3 end
 
-  const incrementMintAmount = () => {
-    let newMintAmount = mintAmount + 1;
 
-    if (whitelistMintEnabled) {
-      newMintAmount = 1;
-    } else if (newMintAmount >= remainSupply) {
-      newMintAmount = remainSupply;
-    }
-    setMintAmount(newMintAmount);
-  };
-
-  const getData = async () => {
-    if (blockchain.account !== "" && blockchain.smartContract !== null) {
-      console.log('get data');
-      dispatch(fetchData(blockchain.account));
-      await getCurrentState();
-    }
-  };
-
-  const getConfig = () => {
-    SET_CONFIG(config);
-  };
-
-  useEffect(() => {
-    getConfig();
-  }, []);
-
-  useEffect(() => {
-    getData();
-  }, [blockchain.account]);
 
   useEffect(() => {
     getInitialData();
@@ -790,6 +814,152 @@ export function NFTSection() {
               <TopTextWrapper>
                 <TopText></TopText>
               </TopTextWrapper>
+
+              {loading && (
+              <NftMintWrapper>
+                <RingLoader
+                  color={"#fff"}
+                  loading={loading}
+                  css={override}
+                  size={100}
+                />
+              </NftMintWrapper>
+            )}
+              {!loading && (
+                <NftMintWrapper>
+                  <Counter id="counter">
+                    {totalSupply} / {maxSupply}
+                  </Counter>
+
+                  <ContractLink>
+                    <a href={CONFIG.SCAN_LINK} target="_blank" rel="noreferrer">
+                      {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
+                    </a>
+                  </ContractLink>
+
+                  {remainSupply !== 0 && (
+                    <ContractInfo>
+                      {mintAmount} {CONFIG.SYMBOL} costs{" "}
+                      {(displayCost * mintAmount).toFixed(6)}{" "}
+                      {CONFIG.NETWORK.SYMBOL}.
+                    </ContractInfo>
+                  )}
+                  {remainSupply !== 0 && (
+                    <ContractInfo id="message">
+                      Excluding gas fees.
+                    </ContractInfo>
+                  )}
+                  {account === "" || smartContract === null ? (
+                    <ConnectorWrapper>
+                      {/* <DynamicInfo
+       style={{
+         textAlign: "center",
+         color: "var(--accent-text)",
+       }}
+     >
+       Connect to the {CONFIG.NETWORK.NAME} network
+     </DynamicInfo> */}
+                      <ButtonWrapper>
+                        (
+                        <ConnectButton
+                          id="connectButton"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            getCurrentState();
+                            // dispatch(connect());
+                            // getData();
+                          }}
+                        >
+                          CONNECT
+                        </ConnectButton>
+                        )
+                      </ButtonWrapper>
+                      {/* {blockchain.errorMsg !== "" ? (
+       <>
+         <DynamicInfo
+           style={{
+             textAlign: "center",
+             color: "var(--accent-text)",
+           }}
+         >
+           {blockchain.errorMsg}
+         </DynamicInfo>
+       </>
+     ) : null} */}
+                    </ConnectorWrapper>
+                  ) : (
+                    <>
+                      {/* <DynamicInfo>
+       {feedback}
+     </DynamicInfo>                    */}
+
+                      <ButtonWrapper>
+                        <MintButton
+                          id="mintButton"
+                          disabled={whitelistMintEnabled ? true : false}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            claimNFTs();
+                            getCurrentState();
+                            // getData();
+                          }}
+                        >
+                          {whitelistMintEnabled ? "WHITELIST MINT" : "MINT"}
+                        </MintButton>
+                      </ButtonWrapper>
+
+                      <InputWrapperNew>
+                        <MinusButton
+                          disabled={loading ? true : false}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            decrementMintAmount();
+                          }}
+                        ></MinusButton>
+                        <AmountFrame>
+                          <Quantity>{mintAmount}</Quantity>
+                        </AmountFrame>
+                        <PlusButton
+                          disabled={loading ? true : false}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            incrementMintAmount();
+                          }}
+                        ></PlusButton>
+                      </InputWrapperNew>
+                    </>
+                  )}
+                </NftMintWrapper>
+              )}
+
+              <TopCatsWrapper>
+                <TopCats></TopCats>
+              </TopCatsWrapper>
+            </TopPlanets>
+          </TopBg>
+        ) : (
+          <TopBg>
+            <TopPlanets>
+              <TopTextWrapper>
+                <TopText></TopText>
+              </TopTextWrapper>
+              <TopCatsWrapper>
+                <TopCats></TopCats>
+              </TopCatsWrapper>
+            </TopPlanets>
+
+            {loading && (
+              <NftMintWrapper>
+                <RingLoader
+                  color={"#fff"}
+                  loading={loading}
+                  css={override}
+                  size={100}
+                />
+              </NftMintWrapper>
+            )}
+
+            {!loading && (
               <NftMintWrapper>
                 <Counter id="counter">
                   {totalSupply} / {maxSupply}
@@ -811,59 +981,67 @@ export function NFTSection() {
                 {remainSupply !== 0 && (
                   <ContractInfo id="message">Excluding gas fees.</ContractInfo>
                 )}
-                {blockchain.account === "" ||
-                blockchain.smartContract === null ? (
+                {account === "" || smartContract === null ? (
                   <ConnectorWrapper>
                     {/* <DynamicInfo
-                      style={{
-                        textAlign: "center",
-                        color: "var(--accent-text)",
-                      }}
-                    >
-                      Connect to the {CONFIG.NETWORK.NAME} network
-                    </DynamicInfo> */}
-                    <ConnectMintButtonWrapper>
-                      <ConnectMintButton
-                        onClick={(e) => {
-                          e.preventDefault();
-                          dispatch(connect());
-                          getData();
-                        }}
-                      >
-                        CONNECT
-                      </ConnectMintButton>
-                    </ConnectMintButtonWrapper>
-                    {blockchain.errorMsg !== "" ? (
-                      <>
-                        <DynamicInfo
-                          style={{
-                            textAlign: "center",
-                            color: "var(--accent-text)",
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                    }}
+                  >
+                    Connect to the {CONFIG.NETWORK.NAME} network
+                  </DynamicInfo> */}
+                    <ButtonWrapper>
+                      <RingLoader color={"#fff"} loading={loading} size={25} />
+                      {!loading && (
+                        <ConnectButton
+                          id="connectButton"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            getCurrentState();
+                            // dispatch(connect());
+                            // getData();
                           }}
                         >
-                          {blockchain.errorMsg}
-                        </DynamicInfo>
-                      </>
-                    ) : null}
+                          CONNECT
+                        </ConnectButton>
+                      )}
+                    </ButtonWrapper>
+                    {/* {blockchain.errorMsg !== "" ? (
+                    <>
+                      <DynamicInfo
+                        style={{
+                          textAlign: "center",
+                          color: "var(--accent-text)",
+                        }}
+                      >
+                        {blockchain.errorMsg}
+                      </DynamicInfo>
+                    </>
+                  ) : null} */}
                   </ConnectorWrapper>
                 ) : (
                   <>
                     {/* <DynamicInfo>
                       {feedback}
                     </DynamicInfo>                    */}
-                    <ConnectMintButtonWrapper>
-                      <ConnectMintButton
-                        id="mintButton"
-                        disabled={loading ? true : false}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          claimNFTs();
-                          getData();
-                        }}
-                      >
-                        MINT
-                      </ConnectMintButton>
-                    </ConnectMintButtonWrapper>
+                    <ButtonWrapper>
+                      <RingLoader color={"#fff"} loading={loading} size={25} />
+                      {!loading && (
+                        <MintButton
+                          id="mintButton"
+                          disabled={whitelistMintEnabled ? true : false}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            claimNFTs();
+                            getCurrentState();
+                            // getData();
+                          }}
+                        >
+                          {whitelistMintEnabled ? "WHITELIST MINT" : "MINT"}
+                        </MintButton>
+                      )}
+                    </ButtonWrapper>
                     <InputWrapperNew>
                       <MinusButton
                         disabled={loading ? true : false}
@@ -886,117 +1064,7 @@ export function NFTSection() {
                   </>
                 )}
               </NftMintWrapper>
-              <TopCatsWrapper>
-                <TopCats></TopCats>
-              </TopCatsWrapper>
-            </TopPlanets>
-          </TopBg>
-        ) : (
-          <TopBg>
-            <TopPlanets>
-              <TopTextWrapper>
-                <TopText></TopText>
-              </TopTextWrapper>
-              <TopCatsWrapper>
-                <TopCats></TopCats>
-              </TopCatsWrapper>
-            </TopPlanets>
-            <NftMintWrapper>
-              <Counter id="counter">
-                {totalSupply} / {maxSupply}
-              </Counter>
-
-              <ContractLink>
-                <a href={CONFIG.SCAN_LINK} target="_blank" rel="noreferrer">
-                  {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
-                </a>
-              </ContractLink>
-
-              {remainSupply !== 0 && (
-                <ContractInfo>
-                  {mintAmount} {CONFIG.SYMBOL} costs{" "}
-                  {(displayCost * mintAmount).toFixed(6)}{" "}
-                  {CONFIG.NETWORK.SYMBOL}.
-                </ContractInfo>
-              )}
-              {remainSupply !== 0 && (
-                <ContractInfo id="message">Excluding gas fees.</ContractInfo>
-              )}
-              {blockchain.account === "" ||
-              blockchain.smartContract === null ? (
-                <ConnectorWrapper>
-                  {/* <DynamicInfo
-                    style={{
-                      textAlign: "center",
-                      color: "var(--accent-text)",
-                    }}
-                  >
-                    Connect to the {CONFIG.NETWORK.NAME} network
-                  </DynamicInfo> */}
-                  <ConnectMintButtonWrapper>
-                    <ConnectMintButton
-                      onClick={(e) => {
-                        e.preventDefault();
-                        dispatch(connect());
-                        getData();
-                      }}
-                    >
-                      CONNECT
-                    </ConnectMintButton>
-                  </ConnectMintButtonWrapper>
-                  {blockchain.errorMsg !== "" ? (
-                    <>
-                      <DynamicInfo
-                        style={{
-                          textAlign: "center",
-                          color: "var(--accent-text)",
-                        }}
-                      >
-                        {blockchain.errorMsg}
-                      </DynamicInfo>
-                    </>
-                  ) : null}
-                </ConnectorWrapper>
-              ) : (
-                <>
-                  {/* <DynamicInfo>
-                      {feedback}
-                    </DynamicInfo>                    */}
-                  <ConnectMintButtonWrapper>
-                    <ConnectMintButton
-                      id="mintButton"
-                      disabled={loading ? true : false}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        claimNFTs();
-                        getData();
-                      }}
-                    >
-                      MINT
-                    </ConnectMintButton>
-                  </ConnectMintButtonWrapper>
-                  <InputWrapperNew>
-                    <MinusButton
-                        disabled={loading ? true : false}
-                        onClick={(e) => {
-                        e.preventDefault();
-                        decrementMintAmount();
-                      }}
-                    ></MinusButton>
-                    <AmountFrame>
-                      <Quantity>{mintAmount}</Quantity>
-                    </AmountFrame>
-                    <PlusButton
-                        disabled={loading ? true : false}
-                        onClick={(e) => {
-                        e.preventDefault();
-                        incrementMintAmount();
-                      }}
-                    ></PlusButton>
-                  </InputWrapperNew>
-                </>
-              )}
-            </NftMintWrapper>
+            )}
           </TopBg>
         )}
 
