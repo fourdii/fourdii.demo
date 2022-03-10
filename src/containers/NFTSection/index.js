@@ -741,18 +741,24 @@ export function NFTSection() {
     setLoading(true);
 
     setConfig(config);
-    await handleAccountLogin();
+    // await handleAccountLogin();
     await handleNetworkSwitch("rinkeby");
     await getContractInfo();
+    // await getCurrentState();
 
     setLoading(false);
 
   };
 
   async function getCurrentState() {
+    console.log('getCurrentState');
+
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
 
     let IsInWhitelist = await smartContract.methods
-      .isInWhiteList(account)
+      .isInWhiteList(accounts[0])
       .call();
 
      setIsInWhitelist(IsInWhitelist);
@@ -866,9 +872,10 @@ export function NFTSection() {
                         (
                         <ConnectButton
                           id="connectButton"
-                          onClick={(e) => {
+                          onClick={async (e) => {
                             e.preventDefault();
-                            getCurrentState();
+                            await handleAccountLogin();
+                            await getCurrentState();
                             // dispatch(connect());
                             // getData();
                           }}
@@ -901,10 +908,10 @@ export function NFTSection() {
                           <MintButton
                             id="mintButton"
                             disabled={whitelistMintEnabled ? true : false}
-                            onClick={(e) => {
+                            onClick={async (e) => {
                               e.preventDefault();
                               claimNFTs();
-                              getCurrentState();
+                              await getCurrentState();
                               // getData();
                             }}
                           >
@@ -1007,9 +1014,10 @@ export function NFTSection() {
                       {!loading && (
                         <ConnectButton
                           id="connectButton"
-                          onClick={(e) => {
+                          onClick={async (e) => {
                             e.preventDefault();
-                            getCurrentState();
+                            await handleAccountLogin();
+                            await getCurrentState();
                             // dispatch(connect());
                             // getData();
                           }}
@@ -1048,10 +1056,10 @@ export function NFTSection() {
                           <MintButton
                             id="mintButton"
                             disabled={whitelistMintEnabled ? true : false}
-                            onClick={(e) => {
+                            onClick={async (e) => {
                               e.preventDefault();
                               claimNFTs();
-                              getCurrentState();
+                              await getCurrentState();
                               // getData();
                             }}
                           >
