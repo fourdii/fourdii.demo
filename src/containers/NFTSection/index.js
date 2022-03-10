@@ -869,7 +869,7 @@ export function NFTSection() {
        Connect to the {CONFIG.NETWORK.NAME} network
      </DynamicInfo> */}
                       <ButtonWrapper>
-                        (
+                        
                         <ConnectButton
                           id="connectButton"
                           onClick={async (e) => {
@@ -882,7 +882,7 @@ export function NFTSection() {
                         >
                           CONNECT
                         </ConnectButton>
-                        )
+                        
                       </ButtonWrapper>
                       {/* {blockchain.errorMsg !== "" ? (
        <>
@@ -1011,7 +1011,7 @@ export function NFTSection() {
 
                     <ButtonWrapper>
                       <RingLoader color={"#fff"} loading={loading} size={25} />
-                      {!loading && (
+                      {!loading && 
                         <ConnectButton
                           id="connectButton"
                           onClick={async (e) => {
@@ -1024,7 +1024,7 @@ export function NFTSection() {
                         >
                           CONNECT
                         </ConnectButton>
-                      )}
+                      }
                     </ButtonWrapper>
                     {/* {blockchain.errorMsg !== "" ? (
                     <>
