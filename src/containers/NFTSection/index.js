@@ -60,6 +60,21 @@ const Counter = styled.h1`
        text-shadow[#fff 1px 0 10px;]   
       font-bold
      my-2
+     flex
+     justify-center
+    `};
+`;
+
+const ContractLinkWrapper = styled.button`
+  ${tw`
+      //  bg-[#04f79b]
+       rounded-full
+      // px-1
+      // py-2
+      // mb-2
+      // my-2
+      flex
+      justify-center
     `};
 `;
 
@@ -72,12 +87,16 @@ const ContractLink = styled.button`
        text-white
        font-bold
        text-lg
-      px-10
-      py-2
+      // px-1
+      // py-2
       // mb-2
+      w-[250px]
+      h-[40px]
       bg-gradient-to-r from-indigo-500 via-purple-500 to-yellow-500
-      my-2
-
+      // my-2
+      flex
+      justify-center
+      items-center
     `};
 `;
 
@@ -95,7 +114,9 @@ const ContractInfo = styled.p`
        text-xl
        text-white
        text-shadow[#fff 1px 0 10px;]
-       my-2
+      //  my-2
+       flex
+       justify-center
       // px-2       
     `};
 `;
@@ -352,13 +373,16 @@ relative
 
 const NftMintWrapper = styled.div`
   ${tw`
-flex
-flex-col
+grid
+grid-cols-1
+gap-1
+self-center
 justify-center
 items-center
 w-full
-h-[40vh]
+// h-[40vh]
 lg:w-[50vw]
+p-2
 `};
 `;
 
@@ -376,7 +400,7 @@ const TopTextWrapper = styled.div`
 // lg:w-[60vw]
  lg:h-[40vh]
 relative
-pt-0
+pt-2
 lg:pt-20
 // lg:pt-44
 `};
@@ -392,8 +416,10 @@ bg-contain
 bg-center
 bg-no-repeat
 bg-opacity-0
-w-[70vw]
-h-[40vh]
+w-full
+h-full
+// w-[70vw]
+// h-[40vh]
 relative
 `};
   background-image: url(${TopTextBg});
@@ -411,6 +437,7 @@ w-full
 h-[30vh]
 // lg:w-[60vw]
  lg:h-[45vh]
+ pt-2
 `};
   // background-image: url(${TopCatsBg});
 `;
@@ -424,7 +451,7 @@ bg-no-repeat
 bg-opacity-100
 relative
 w-full
-h-[30vh]
+h-full
 
 //h-[28.97vw]
 `};
@@ -780,15 +807,15 @@ export function NFTSection() {
         console.log("WHITELIST MINT");
         // document.getElementById("mintButton").innerHTML = "WHITELIST MINT";
         // document.getElementById("mintButton").disabled = false;
-        if(remainSupply !== 0){document.getElementById("message").innerHTML =
-          "WhiteList Mint Enabled."};
+        // if(remainSupply !== 0){document.getElementById("message").innerHTML =
+        //   "WhiteList Mint Enabled."};
           setMintButtonEnabled(true);
       } else {
         console.log("MINT DISABLED");
         // document.getElementById("mintButton").innerHTML = "MINT DISABLED";
         // document.getElementById("mintButton").disabled = true;
-       if(remainSupply !== 0){ document.getElementById("message").innerHTML =
-        "WhiteList Mint Disabled."};
+      //  if(remainSupply !== 0){ document.getElementById("message").innerHTML =
+      //   "WhiteList Mint Disabled."};
         setMintButtonEnabled(false);
 
       }
@@ -798,8 +825,8 @@ export function NFTSection() {
       console.log("MINT");
       // document.getElementById("mintButton").disabled = false;
       // document.getElementById("mintButton").innerHTML = "MINT";  
-      if(remainSupply !== 0){document.getElementById("message").innerHTML =
-      "Click Button to Mint NFT."};   
+      // if(remainSupply !== 0){document.getElementById("message").innerHTML =
+      // "Click Button to Mint NFT."};   
       setMintButtonEnabled(true);
 
     }
@@ -847,12 +874,13 @@ export function NFTSection() {
                     {totalSupply} / {maxSupply}
                   </Counter>
 
+<ContractLinkWrapper>
                   <ContractLink>
                     <a href={CONFIG.SCAN_LINK} target="_blank" rel="noreferrer">
                       {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
                     </a>
                   </ContractLink>
-
+</ContractLinkWrapper>
                   {remainSupply !== 0 && (
                     <ContractInfo>
                       {mintAmount} {CONFIG.SYMBOL} costs{" "}
@@ -917,7 +945,7 @@ export function NFTSection() {
                         <ButtonWrapper>
                           <MintButton
                             id="mintButton"
-                            disabled={mintButtonEnabled ? true : false}
+                            disabled={mintButtonEnabled ? false : true}
                             onClick={async (e) => {
                               e.preventDefault();
                               claimNFTs();
@@ -989,11 +1017,14 @@ export function NFTSection() {
                   {totalSupply} / {maxSupply}
                 </Counter>
 
+                <ContractLinkWrapper>
                 <ContractLink>
                   <a href={CONFIG.SCAN_LINK} target="_blank" rel="noreferrer">
                     {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
                   </a>
                 </ContractLink>
+                </ContractLinkWrapper>
+
 
                 {remainSupply !== 0 && (
                   <ContractInfo>
@@ -1065,7 +1096,7 @@ export function NFTSection() {
                         {!loading && (
                           <MintButton
                             id="mintButton"
-                            disabled={mintButtonEnabled ? true : false}
+                            disabled={mintButtonEnabled ? false : true}
                             onClick={async (e) => {
                               e.preventDefault();
                               claimNFTs();
