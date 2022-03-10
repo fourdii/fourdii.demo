@@ -250,7 +250,7 @@ export function RoadmapSection() {
                 <Paragraph>♦️結合台灣在地商家10家給予持有者回饋</Paragraph>
                 <Paragraph>♦️擴大台灣商家合作版圖</Paragraph>
                 <Header>2023 Q2</Header>
-                <Paragraph>♦️社群開發NFt虛實整合App、CCOD map</Paragraph>
+                <Paragraph>♦️社群開發NFT虛實整合App、CCOD map</Paragraph>
                 <Paragraph>♦️DAO投票參與公益團體</Paragraph>
                 <Paragraph> ♦️發佈Roadmap 2.0</Paragraph>
               </Member>
@@ -282,7 +282,7 @@ export function RoadmapSection() {
             <Paragraph>♦️結合台灣在地商家10家給予持有者回饋</Paragraph>
             <Paragraph>♦️擴大台灣商家合作版圖</Paragraph>
             <Header>2023 Q2</Header>
-            <Paragraph>♦️社群開發NFt虛實整合App、CCOD map</Paragraph>
+            <Paragraph>♦️社群開發NFT虛實整合App、CCOD map</Paragraph>
             <Paragraph>♦️DAO投票參與公益團體</Paragraph>
             <Paragraph> ♦️發佈Roadmap 2.0</Paragraph>
           </Member>

@@ -510,6 +510,7 @@ export function NFTSection() {
   const [smartContract, setSmartContract] = useState(null);
   const [loading, setLoading] = useState(true);
   const [mintButtonEnabled, setMintButtonEnabled] = useState(false);
+  const [batchMaxSupply, setBatchMaxSupply] = useState(0);
 
 
 
@@ -547,13 +548,16 @@ export function NFTSection() {
     };
 
     const incrementMintAmount = () => {
+
+     let remainNormalSupply = batchMaxSupply - (currentWhiteTotal + totalSupply);
+
       if (mintButtonEnabled) {
       let newMintAmount = mintAmount + 1;
   
       if (whitelistMintEnabled) {
         newMintAmount = 1;
-      } else if (newMintAmount >= remainSupply) {
-        newMintAmount = remainSupply;
+      } else if (newMintAmount >= remainNormalSupply) {
+        newMintAmount = remainNormalSupply;
       }
       setMintAmount(newMintAmount);
     }
@@ -732,6 +736,14 @@ export function NFTSection() {
       let maxSupply = parseInt(MaxSupply);
       setMaxSupply(parseInt(maxSupply));
       console.log(maxSupply);
+
+      let BatchMaxSupply = await SmartContract.methods.batchMaxSupply().call();
+      let batchMaxSupply = parseInt(BatchMaxSupply);
+      setMaxSupply(parseInt(batchMaxSupply));
+      console.log(batchMaxSupply);
+      setBatchMaxSupply(batchMaxSupply);
+      console.log(batchMaxSupply);
+
 
       let RemainSupply = await SmartContract.methods.remainSupply().call();
       let remainSupply = parseInt(RemainSupply);

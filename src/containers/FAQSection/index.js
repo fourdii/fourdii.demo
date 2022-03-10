@@ -245,7 +245,7 @@ export function FAQSection() {
           <FAQWrapper>
             <ParagraphQ>Q:我該如何鑄造?</ParagraphQ>
             <ParagraphA>
-              A:您可以訪問我們的網站https://Cocainecat.com/連接您的 MetaMask
+              A:您可以訪問我們的網站連接您的 MetaMask
               錢包。 MetaMask 可以分別從 iOS、Android 和 PC 設備上的 App
               Store、Google Play 和 Chrome 擴展程序下載。{" "}
             </ParagraphA>
@@ -300,7 +300,7 @@ export function FAQSection() {
           <FAQWrapper>
             <ParagraphQ>Q:我該如何鑄造?</ParagraphQ>
             <ParagraphA>
-              A:您可以訪問我們的網站https://Cocainecat.com/連接您的 MetaMask
+              A:您可以訪問我們的網站連接您的 MetaMask
               錢包。 MetaMask 可以分別從 iOS、Android 和 PC 設備上的 App
               Store、Google Play 和 Chrome 擴展程序下載。{" "}
             </ParagraphA>
