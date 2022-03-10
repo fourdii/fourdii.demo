@@ -816,15 +816,15 @@ export function NFTSection() {
               </TopTextWrapper>
 
               {loading && (
-              <NftMintWrapper>
-                <RingLoader
-                  color={"#fff"}
-                  loading={loading}
-                  css={override}
-                  size={100}
-                />
-              </NftMintWrapper>
-            )}
+                <NftMintWrapper>
+                  <RingLoader
+                    color={"#fff"}
+                    loading={loading}
+                    css={override}
+                    size={100}
+                  />
+                </NftMintWrapper>
+              )}
               {!loading && (
                 <NftMintWrapper>
                   <Counter id="counter">
@@ -848,6 +848,9 @@ export function NFTSection() {
                     <ContractInfo id="message">
                       Excluding gas fees.
                     </ContractInfo>
+                  )}
+                  {remainSupply === 0 && (
+                    <ContractInfo id="message">SOLD OUT</ContractInfo>
                   )}
                   {account === "" || smartContract === null ? (
                     <ConnectorWrapper>
@@ -893,40 +896,44 @@ export function NFTSection() {
        {feedback}
      </DynamicInfo>                    */}
 
-                      <ButtonWrapper>
-                        <MintButton
-                          id="mintButton"
-                          disabled={whitelistMintEnabled ? true : false}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            claimNFTs();
-                            getCurrentState();
-                            // getData();
-                          }}
-                        >
-                          {whitelistMintEnabled ? "WHITELIST MINT" : "MINT"}
-                        </MintButton>
-                      </ButtonWrapper>
+                      {remainSupply !== 0 && (
+                        <ButtonWrapper>
+                          <MintButton
+                            id="mintButton"
+                            disabled={whitelistMintEnabled ? true : false}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              claimNFTs();
+                              getCurrentState();
+                              // getData();
+                            }}
+                          >
+                            {whitelistMintEnabled ? "WHITELIST MINT" : "MINT"}
+                          </MintButton>
+                        </ButtonWrapper>
+                      )}
 
-                      <InputWrapperNew>
-                        <MinusButton
-                          disabled={loading ? true : false}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            decrementMintAmount();
-                          }}
-                        ></MinusButton>
-                        <AmountFrame>
-                          <Quantity>{mintAmount}</Quantity>
-                        </AmountFrame>
-                        <PlusButton
-                          disabled={loading ? true : false}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            incrementMintAmount();
-                          }}
-                        ></PlusButton>
-                      </InputWrapperNew>
+                      {remainSupply !== 0 && (
+                        <InputWrapperNew>
+                          <MinusButton
+                            disabled={loading ? true : false}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              decrementMintAmount();
+                            }}
+                          ></MinusButton>
+                          <AmountFrame>
+                            <Quantity>{mintAmount}</Quantity>
+                          </AmountFrame>
+                          <PlusButton
+                            disabled={loading ? true : false}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              incrementMintAmount();
+                            }}
+                          ></PlusButton>
+                        </InputWrapperNew>
+                      )}
                     </>
                   )}
                 </NftMintWrapper>
@@ -981,6 +988,9 @@ export function NFTSection() {
                 {remainSupply !== 0 && (
                   <ContractInfo id="message">Excluding gas fees.</ContractInfo>
                 )}
+                {remainSupply === 0 && (
+                  <ContractInfo id="message">SOLD OUT</ContractInfo>
+                )}
                 {account === "" || smartContract === null ? (
                   <ConnectorWrapper>
                     {/* <DynamicInfo
@@ -991,6 +1001,7 @@ export function NFTSection() {
                   >
                     Connect to the {CONFIG.NETWORK.NAME} network
                   </DynamicInfo> */}
+
                     <ButtonWrapper>
                       <RingLoader color={"#fff"} loading={loading} size={25} />
                       {!loading && (
@@ -1025,42 +1036,52 @@ export function NFTSection() {
                     {/* <DynamicInfo>
                       {feedback}
                     </DynamicInfo>                    */}
-                    <ButtonWrapper>
-                      <RingLoader color={"#fff"} loading={loading} size={25} />
-                      {!loading && (
-                        <MintButton
-                          id="mintButton"
-                          disabled={whitelistMintEnabled ? true : false}
+
+                    {remainSupply !== 0 && (
+                      <ButtonWrapper>
+                        <RingLoader
+                          color={"#fff"}
+                          loading={loading}
+                          size={25}
+                        />
+                        {!loading && (
+                          <MintButton
+                            id="mintButton"
+                            disabled={whitelistMintEnabled ? true : false}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              claimNFTs();
+                              getCurrentState();
+                              // getData();
+                            }}
+                          >
+                            {whitelistMintEnabled ? "WHITELIST MINT" : "MINT"}
+                          </MintButton>
+                        )}
+                      </ButtonWrapper>
+                    )}
+
+                    {remainSupply !== 0 && (
+                      <InputWrapperNew>
+                        <MinusButton
+                          disabled={loading ? true : false}
                           onClick={(e) => {
                             e.preventDefault();
-                            claimNFTs();
-                            getCurrentState();
-                            // getData();
+                            decrementMintAmount();
                           }}
-                        >
-                          {whitelistMintEnabled ? "WHITELIST MINT" : "MINT"}
-                        </MintButton>
-                      )}
-                    </ButtonWrapper>
-                    <InputWrapperNew>
-                      <MinusButton
-                        disabled={loading ? true : false}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          decrementMintAmount();
-                        }}
-                      ></MinusButton>
-                      <AmountFrame>
-                        <Quantity>{mintAmount}</Quantity>
-                      </AmountFrame>
-                      <PlusButton
-                        disabled={loading ? true : false}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          incrementMintAmount();
-                        }}
-                      ></PlusButton>
-                    </InputWrapperNew>
+                        ></MinusButton>
+                        <AmountFrame>
+                          <Quantity>{mintAmount}</Quantity>
+                        </AmountFrame>
+                        <PlusButton
+                          disabled={loading ? true : false}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            incrementMintAmount();
+                          }}
+                        ></PlusButton>
+                      </InputWrapperNew>
+                    )}
                   </>
                 )}
               </NftMintWrapper>
