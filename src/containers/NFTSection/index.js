@@ -269,10 +269,10 @@ const InputWrapperNew = styled.div`
 const PlusButton = styled.button`
   ${tw`
   bg-opacity-0
-h-[10vw]
-w-[10vw]
-sm:h-[7.5vw]
-sm:w-[7.5vw]
+h-[15vw]
+w-[15vw]
+sm:h-[5vw]
+sm:w-[5vw]
   bg-cover
   bg-no-repeat
   font-Source
@@ -284,10 +284,10 @@ sm:w-[7.5vw]
 const MinusButton = styled.button`
   ${tw`
 bg-opacity-0
-h-[10vw]
-w-[10vw]
-sm:h-[7.5vw]
-sm:w-[7.5vw]
+h-[15vw]
+w-[15vw]
+sm:h-[5vw]
+sm:w-[5vw]
 bg-cover
 bg-no-repeat
 font-Source
@@ -299,8 +299,8 @@ font-Source
 const AmountFrame = styled.div`
   ${tw`
   bg-opacity-0
-  h-[10vw]
-  w-[13.72vw]
+  h-[15vw]
+  w-[20.6vw]
   sm:h-[7.5vw]
   sm:w-[10.29vw]
   bg-cover
@@ -398,8 +398,10 @@ self-center
 justify-center
 items-center
 w-full
+h-full
 // h-[40vh]
 lg:w-[50vw]
+lg:h-auto
 p-2
 `};
 `;
