@@ -61,7 +61,7 @@ const NavItem = tw.li`
     box-content
     mx-6
     lg:mb-0
-    // font-family[Tahoma]
+    font-Source
   tracking-wide
   text-shadow[#00fff7 1px 0 10px;]
 `;
@@ -136,7 +136,10 @@ export function NavBar() {
         </NavItem>      
         <NavItem>
         <a  target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1PnEgQiHxVN6zAaHBRDAcEl6wg-I903Xj/view">WHITEPAPER</a>
-        </NavItem>        
+        </NavItem>    
+        <NavItem>
+        <a  target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1PnEgQiHxVN6zAaHBRDAcEl6wg-I903Xj/view">OPENSEA</a>
+        </NavItem>      
     </NavItems>
     )
 
@@ -159,6 +162,9 @@ export function NavBar() {
         </NavItem>
         <NavItem>
           <a  target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1PnEgQiHxVN6zAaHBRDAcEl6wg-I903Xj/view">WHITEPAPER</a>
+        </NavItem>
+        <NavItem>
+          <a  target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1PnEgQiHxVN6zAaHBRDAcEl6wg-I903Xj/view">OPENSEA</a>
         </NavItem>
         <NavItem>INSTAGRAM</NavItem>
         <NavItem>DISCORD</NavItem>

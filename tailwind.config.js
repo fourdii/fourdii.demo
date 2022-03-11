@@ -7,7 +7,11 @@ module.exports = {
         "dark-blue": {
           500: "#212526",
         },
-      },
+      },    
+      fontFamily: {
+        Noto: ["Noto Sans TC", "sans-serif"],
+        Source: ["Source Sans Pro", "sans-serif"],
+       },
     },
     screens: {
       '2xs': '380px',

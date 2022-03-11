@@ -26,7 +26,7 @@ sm:text-3xl
     text-white
     font-bold
     text-center
-    // font-family[Tahoma]
+    font-Source
   tracking-wide
  `;
 
@@ -93,6 +93,7 @@ text-white
 font-bold
 text-xs
 sm:text-lg
+font-Noto
 
 px-2
 xs:px-2
@@ -118,6 +119,33 @@ text-[8px]
 sm:text-xl
 bg-[#02befd]
 bg-opacity-80
+font-Noto
+
+py-1
+px-2
+sm:px-6
+rounded-md
+my-3
+sm:my-6
+`;
+
+const HeaderEN = tw.h1`
+text-shadow[#02befd 1px 0 10px;]   
+w-auto
+h-auto
+relative
+flex
+flex-row
+flex-wrap
+justify-center
+items-center
+text-white
+font-bold
+text-[8px]
+sm:text-xl
+bg-[#02befd]
+bg-opacity-80
+font-Source
 
 py-1
 px-2
@@ -137,7 +165,7 @@ export function AboutSection() {
       </TitleWrapper>
       <AboutSectionWrapper>
         <AboutMainWrapper>
-          <Header>ONE HAND MADE BARBER</Header>
+          <HeaderEN>ONE HAND MADE BARBER</HeaderEN>
           <Paragraph>
             一手製造理髮廳於2017年由JunGold創辦，成立至今四年半的時間，秉持著提供顧客高品質服務與感受為初衷。
           </Paragraph>

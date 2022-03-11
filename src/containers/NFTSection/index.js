@@ -62,6 +62,7 @@ const Counter = styled.h1`
      my-2
      flex
      justify-center
+     font-Source
     `};
 `;
 
@@ -97,14 +98,18 @@ const ContractLink = styled.button`
       flex
       justify-center
       items-center
+      font-Source
+
     `};
 `;
 
 const Quantity = styled.p`
   ${tw`
-       text-lg
+       text-2xl
        text-[#04f79b]
        font-bold    
+       font-Source
+
        `};
 `;
 
@@ -117,6 +122,7 @@ const ContractInfo = styled.p`
       //  my-2
        flex
        justify-center
+       font-Source
       // px-2       
     `};
 `;
@@ -128,6 +134,8 @@ const DynamicInfo = styled.p`
       font-bold
       text-lg
        xs:text-2xl
+       font-Source
+
       //  px-2
       //  mb-2
     `};
@@ -208,8 +216,9 @@ const MintButton = styled.button`
   lg:text-xl
   xl:text-2xl
   text-shadow[#000 1px 0 10px;]
-  // font-family[Tahoma]
   tracking-wide
+  font-Source
+
 `};
   background-image: url(${ConnectMintButtonBg});
 `;
@@ -237,8 +246,9 @@ const ConnectButton = styled.button`
   lg:text-xl
   xl:text-2xl
   text-shadow[#000 1px 0 10px;]
-  // font-family[Tahoma]
   tracking-wide
+  font-Source
+
 `};
   background-image: url(${ConnectMintButtonBg});
 `;
@@ -251,6 +261,8 @@ const InputWrapperNew = styled.div`
   flex-nowrap
   justify-center
   items-center
+  font-Source
+
   `};
 `;
 
@@ -263,6 +275,8 @@ sm:h-[7.5vw]
 sm:w-[7.5vw]
   bg-cover
   bg-no-repeat
+  font-Source
+
 `};
   background-image: url(${PlusButtonBg});
 `;
@@ -276,6 +290,8 @@ sm:h-[7.5vw]
 sm:w-[7.5vw]
 bg-cover
 bg-no-repeat
+font-Source
+
 `};
   background-image: url(${MinusButtonBg});
 `;
@@ -323,8 +339,8 @@ const InfoTitle = styled.div`
   flex-row
   flex-nowrap
   justify-center
-  // font-family[Tahoma]
   tracking-wide
+  font-Source
   
 `};
 `;
@@ -333,7 +349,7 @@ const InfoContent = styled.div`
   ${tw`
   text-white
   text-sm
-  sm:text-lg
+  sm:text-xl
   font-bold
   pb-12
   w-[50vw]
@@ -346,6 +362,8 @@ const InfoContent = styled.div`
   flex
   flex-row
   flex-wrap
+  font-Noto
+
 `};
 `;
 
@@ -739,8 +757,6 @@ export function NFTSection() {
 
       let BatchMaxSupply = await SmartContract.methods.batchMaxSupply().call();
       let batchMaxSupply = parseInt(BatchMaxSupply);
-      setMaxSupply(parseInt(batchMaxSupply));
-      console.log(batchMaxSupply);
       setBatchMaxSupply(batchMaxSupply);
       console.log(batchMaxSupply);
 

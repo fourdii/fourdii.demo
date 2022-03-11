@@ -38,11 +38,11 @@ sm:text-3xl
     text-white
     font-bold
     text-center
-    // font-family[Tahoma]
   tracking-wide
   my-8
   xsm:mb-8
   xsm:mt-0
+  font-Source
 
 `;
 
@@ -211,8 +211,9 @@ const Name = styled.div`
   text-white
   text-lg
   font-bold
-  // font-family[Tahoma]
   tracking-wide
+  font-Noto
+
 `};
 `;
 
@@ -221,6 +222,7 @@ const Info = styled.div`
   text-white
   text-sm
   font-bold
+  font-Noto
   my-1
 `};
 `;

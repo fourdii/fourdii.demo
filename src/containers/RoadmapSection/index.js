@@ -35,8 +35,9 @@ sm:text-3xl
     text-white
     font-bold
     text-center
-    // font-family[Tahoma]
   tracking-wide
+  font-Source
+
  `;
 
 
@@ -176,6 +177,8 @@ font-bold
 text-xs
 mdlg:text-sm
 xl:text-xl
+font-Noto
+
 // text-[6pt]
 // sm:text-xs
 // md:text-sm
@@ -204,6 +207,8 @@ rounded-md
 my-1
 sm:my-1
 md:my-2
+font-Noto
+
 // mt-0
 // xsm:mt-2
 // sm:mt-3
