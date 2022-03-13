@@ -76,7 +76,7 @@ function AnimationWrapper() {
 
   React.useEffect(() => {
     scene.rotation.set(0, 0, 0);
-    camera.position.set(0, 3, 20);
+    camera.position.set(0, 3, 30);
     camera.rotation.set(0, 0, 0);
 
     let animateCameraIn = gsap
