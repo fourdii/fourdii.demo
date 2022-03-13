@@ -1,14 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import store from "./redux/store";
-import { Provider } from "react-redux";
+import { render } from 'react-dom'
+import React , {Suspense }from 'react'
+import App from './App'
+import './index.css'
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App/>
-  </Provider>,
-  document.getElementById('root')
-);
-
+render(
+    <Suspense fallback={null}>
+<App />
+</Suspense>
+, document.querySelector('#root'))
