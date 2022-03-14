@@ -12,8 +12,12 @@ import tw from "twin.macro";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Timeline } from "gsap/gsap-core";
 import gsap from "gsap";
-import './style.css'
- 
+import './style.css';
+ import C1 from './C1.png';
+ import C2 from './C2.png';
+ import C3 from './C3.png';
+ import C4 from './C4.png';
+ import C5 from './C5.png';
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -37,25 +41,57 @@ function CarModel(props) {
 
 function Cylinder({ clicked, ...props }) {
 
-  const [video] = useState(() => {
-    const vid = document.createElement("video");
-    vid.src = url;
-    vid.crossOrigin = "Anonymous";
-    vid.loop = true;
-    vid.muted = true;
-    vid.play();
-    return vid;
-  });
+  // const [video] = useState(() => {
+  //   const vid = document.createElement("video");
+  //   vid.src = url;
+  //   vid.crossOrigin = "Anonymous";
+  //   vid.loop = true;
+  //   vid.muted = true;
+  //   vid.play();
+  //   return vid;
+  // });
+
+  const [c1, c2, c3, c4, c5] = useTexture([C1, C2, C3, C4, C5]);
 
   
   // useEffect(() => void (clicked && video.play()), [video, clicked])
   return (
-    <mesh rotation={[0, Math.PI +1.2, 0]}>
-      <cylinderGeometry args={[4, 4, 2, 50, 10, true]} />
-      <meshBasicMaterial attachArray="material" side={THREE.DoubleSide}>
-        <videoTexture wrapS={THREE.RepeatWrapping}  wrapT={THREE.RepeatWrapping} repeat={[5,1]} attach="map" args={[video]} />       
+<>
+    <mesh rotation={[0,0,0]} >
+      <cylinderGeometry args={[4, 4, 2, 60, 10, true, 0, 2 * Math.PI / 5]} />
+      <meshBasicMaterial attachArray="material" side={THREE.DoubleSide} map={c1}>
+        {/* <videoTexture wrapS={THREE.RepeatWrapping}  wrapT={THREE.RepeatWrapping} repeat={[5,1]} attach="map" args={[video]} />        */}
+      </meshBasicMaterial>
+      </mesh>
+
+    <mesh rotation={[0, 2 * Math.PI / 5, 0 ]}>
+      <cylinderGeometry args={[4, 4, 2, 60, 10, true, 0, 2 * Math.PI / 5]}  />
+      <meshBasicMaterial attachArray="material" side={THREE.DoubleSide} map={c2}>
+        {/* <videoTexture wrapS={THREE.RepeatWrapping}  wrapT={THREE.RepeatWrapping} repeat={[5,1]} attach="map" args={[video]} />        */}
+      </meshBasicMaterial>
+      </mesh>
+
+<mesh rotation={[0, 4 * Math.PI / 5, 0]} >
+      <cylinderGeometry args={[4, 4, 2, 60, 10, true, 0, 2 * Math.PI / 5]}  />
+      <meshBasicMaterial attachArray="material" side={THREE.DoubleSide} map={c3}>
+        {/* <videoTexture wrapS={THREE.RepeatWrapping}  wrapT={THREE.RepeatWrapping} repeat={[5,1]} attach="map" args={[video]} />        */}
+      </meshBasicMaterial>
+      </mesh>
+
+<mesh rotation={[0, 6 * Math.PI / 5, 0]} >
+      <cylinderGeometry args={[4, 4, 2, 60, 10, true, 0, 2 * Math.PI / 5]}/>
+      <meshBasicMaterial attachArray="material" side={THREE.DoubleSide}  map={c4}>
+        {/* <videoTexture wrapS={THREE.RepeatWrapping}  wrapT={THREE.RepeatWrapping} repeat={[5,1]} attach="map" args={[video]} />        */}
+      </meshBasicMaterial>
+      </mesh>
+
+<mesh rotation={[0, 8 * Math.PI / 5, 0]}>
+      <cylinderGeometry args={[4, 4, 2, 60, 10, true, 0, 2 * Math.PI / 5]}   />
+      <meshBasicMaterial attachArray="material" side={THREE.DoubleSide} map={c5}>
+        {/* <videoTexture wrapS={THREE.RepeatWrapping}  wrapT={THREE.RepeatWrapping} repeat={[5,1]} attach="map" args={[video]} />        */}
       </meshBasicMaterial>
     </mesh>
+    </>
   )
 }
 
