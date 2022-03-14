@@ -172,10 +172,10 @@ export function TopSection() {
         }}
       gl={{ alpha: false }} dpr={[1, 1.5]} camera={{ fov: 45, position: [0, 0, 0] }}>
         <OrbitControls maxPolarAngle={Math.PI / 2} minPolarAngle={0} enableDamping={false} enablePan={false} enableZoom={false}/>
-        <color attach="background" args={['#191920']} />
-        <fog attach="fog" args={['#191920', 0, 15]} />
+        <color attach="background" args={['#ffffff']} />
+        {/* <fog attach="fog" args={['#191920', 0, 15]} /> */}
         <Environment preset="city" />
-        <group position={[0, 0, 0]}>
+        <group position={[0, 0.5, 0]}>
         <CarModel rotation={[0, Math.PI -2, 0]} position={[-2, -1, 5]}  scale={[0.26, 0.26, 0.26]} />
           <Cylinder {...store}  />
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>

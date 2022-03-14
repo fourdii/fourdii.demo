@@ -4,6 +4,7 @@ import React from 'react'
 import tw from "twin.macro";
 import styled from "styled-components";
 import ring from './ring.png'
+import floor from './floor.jpg'
 
 
 const FooterContainer = styled.div`
@@ -11,15 +12,17 @@ const FooterContainer = styled.div`
     flex
     flex-col
     w-screen
-    h-[20vh]
+    h-[10vh]
     fixed  
-    bottom-[50px]
-    px-8
-    pt-16
+    bottom-0
+    // px-8
+    // pt-16
     z-50
     // overflow-x-hidden
     // overflow-y-auto
     `};
+    background-image: url(${floor});
+
 `;
 
 const Footer = styled.div`
@@ -29,9 +32,9 @@ const Footer = styled.div`
     w-full
     h-full
     border-opacity-10
-    border-b-[1px]
-    border-l-[1px]
-    border-r-[1px]
+    // border-b-[1px]
+    // border-l-[1px]
+    // border-r-[1px]
     border-gray-500  
     // overflow-x-hidden
     // overflow-y-auto
@@ -92,12 +95,12 @@ pt-10
 export default function Overlay({ ready, clicked, setClicked }) {
   return (
     <FooterContainer>
-        <RingWrapper>
+        {/* <RingWrapper>
         <ContentWrapper>
           <Content>2022 Car Launches Red Bull Unveil The RB18</Content>
         </ContentWrapper>
           <Ring/>
-        </RingWrapper>
+        </RingWrapper> */}
       <Footer>      
       </Footer>
     </FooterContainer>
