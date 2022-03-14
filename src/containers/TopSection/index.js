@@ -13,11 +13,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Timeline } from "gsap/gsap-core";
 import gsap from "gsap";
 import './style.css';
- import C1 from './C1.png';
- import C2 from './C2.png';
- import C3 from './C3.png';
- import C4 from './C4.png';
- import C5 from './C5.png';
+ import C1 from "./C1.png";
+ import C2 from "./C2.png";
+ import C3 from "./C3.png";
+ import C4 from "./C4.png";
+ import C5 from "./C5.png";
+ import DatGui, { DatBoolean, DatColor, DatNumber, DatString } from 'react-dat-gui';
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -160,6 +161,8 @@ export function TopSection() {
   const [ready, setReady] = useState(false)
   const store = { clicked, setClicked, ready, setReady }
 
+
+
   return (
  
     <>
@@ -172,8 +175,8 @@ export function TopSection() {
         }}
       gl={{ alpha: false }} dpr={[1, 1.5]} camera={{ fov: 45, position: [0, 0, 0] }}>
         <OrbitControls maxPolarAngle={Math.PI / 2} minPolarAngle={0} enableDamping={false} enablePan={false} enableZoom={false}/>
-        <color attach="background" args={['#ffffff']} />
-        {/* <fog attach="fog" args={['#191920', 0, 15]} /> */}
+        <color attach="background" args={['#191920']} />
+        <fog attach="fog" args={['#191920', 0, 15]} />
         <Environment preset="city" />
         <group position={[0, 0.5, 0]}>
         <CarModel rotation={[0, Math.PI -2, 0]} position={[-2, -1, 5]}  scale={[0.26, 0.26, 0.26]} />
