@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/fourdii.demo/static/css/main.cd71aff2.chunk.css",
-    "main.js": "/fourdii.demo/static/js/main.f24433bc.chunk.js",
-    "main.js.map": "/fourdii.demo/static/js/main.f24433bc.chunk.js.map",
+    "main.js": "/fourdii.demo/static/js/main.b53ed727.chunk.js",
+    "main.js.map": "/fourdii.demo/static/js/main.b53ed727.chunk.js.map",
     "runtime-main.js": "/fourdii.demo/static/js/runtime-main.392fd8f1.js",
     "runtime-main.js.map": "/fourdii.demo/static/js/runtime-main.392fd8f1.js.map",
     "static/js/2.e22fffc4.chunk.js": "/fourdii.demo/static/js/2.e22fffc4.chunk.js",
@@ -23,6 +23,6 @@
     "static/js/runtime-main.392fd8f1.js",
     "static/js/2.e22fffc4.chunk.js",
     "static/css/main.cd71aff2.chunk.css",
-    "static/js/main.f24433bc.chunk.js"
+    "static/js/main.b53ed727.chunk.js"
   ]
 }
