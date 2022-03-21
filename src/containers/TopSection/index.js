@@ -175,10 +175,10 @@ export function TopSection() {
         }}
       gl={{ alpha: false }} dpr={[1, 1.5]} camera={{ fov: 45, position: [0, 0, 0] }}>
         <OrbitControls maxPolarAngle={Math.PI / 2} minPolarAngle={0} enableDamping={false} enablePan={false} enableZoom={false}/>
-        <color attach="background" args={['#191920']} />
-        <fog attach="fog" args={['#191920', 0, 15]} />
+        <color attach="background" args={['#ffffff']} />
+        {/* <fog attach="fog" args={['#191920', 0, 15]} /> */}
         <Environment preset="city" />
-        <group position={[0, 0.5, 0]}>
+        <group position={[0, 0.5, 0]} rotation={[0,0,Math.PI+3]}>
         <CarModel rotation={[0, Math.PI -2, 0]} position={[-2, -1, 5]}  scale={[0.26, 0.26, 0.26]} />
           <Cylinder {...store}  />
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
@@ -186,14 +186,14 @@ export function TopSection() {
             <MeshReflectorMaterial
               blur={[300, 100]}
               resolution={2048}
-              mixBlur={1}
+              mixBlur={10}
               mixStrength={40}
               roughness={1}
-              depthScale={1.2}
+              depthScale={12}
               minDepthThreshold={0.4}
               maxDepthThreshold={1.4}
-              color="#101010"
-              metalness={0.5}
+              color="#f5f5f5"
+              metalness={0}
             />
           </mesh>
         </group>
