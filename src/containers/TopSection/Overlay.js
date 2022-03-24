@@ -12,16 +12,17 @@ const FooterContainer = styled.div`
     flex
     flex-col
     w-screen
-    h-[10vh]
+    h-[5vh]
     fixed  
     bottom-0
     // px-8
     // pt-16
     z-50
+    bg-opacity-0
     // overflow-x-hidden
     // overflow-y-auto
     `};
-    background-image: url(${floor});
+    // background-image: url(${floor});
 
 `;
 
@@ -72,22 +73,44 @@ const ContentWrapper = styled.div`
   ${tw`
 flex
 flex-row
-justify-end
+flex-nowrap
+justify-between
 items-center
+w-screen
 `};
 `;
 
 const Content = styled.div`
   ${tw`
 flex
-flex-col
+flex-row
+flex-nowrap
 justify-center
 items-center
-font-semibold
-text-gray-300
 text-xs
-pl-6
-pt-10
+// pl-6
+px-4
+font-family[Roboto]
+text-[#9EA9B4]
+pb-4
+
+// pt-10
+`};
+`;
+
+const ContentButton = styled.button`
+  ${tw`
+flex
+flex-row
+justify-center
+items-center
+text-xs
+px-4
+font-family[Roboto]
+text-[#9EA9B4]
+pb-4
+// pl-6
+// pt-10
 `};
 `;
 
@@ -95,13 +118,14 @@ pt-10
 export default function Overlay({ ready, clicked, setClicked }) {
   return (
     <FooterContainer>
-        {/* <RingWrapper>
+      <Footer>
         <ContentWrapper>
-          <Content>2022 Car Launches Red Bull Unveil The RB18</Content>
+          <Content>© 2022 Motorsport Network, All Rights Reserved</Content>
+          <Content>
+            <ContentButton>Terms of Service</ContentButton>
+            <ContentButton>PrivacyPolicy</ContentButton>
+          </Content>
         </ContentWrapper>
-          <Ring/>
-        </RingWrapper> */}
-      <Footer>      
       </Footer>
     </FooterContainer>
   );

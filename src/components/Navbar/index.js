@@ -18,7 +18,7 @@ const Container = styled.div`
         pl-6
         pr-6        
         mt-0
-        bg-gray-300
+        bg-[#1D1E22]
         items-center
         self-center  
         justify-center 
@@ -44,21 +44,24 @@ const NavItems = tw.ul`
 const NavItem = tw.li`
     lg:mr-8
     flex
+    flex-row
     items-center
     justify-center
-    min-h-full
-    text-[#e20620]
+    // min-h-full
+    text-white
     cursor-pointer
-    font-bold
     text-sm
-    transition-colors
-    transition-duration[300ms]
+    //transition-colors
+    //transition-duration[300ms]
     hover:text-gray-200
-    box-content
-    mx-6
-    lg:mb-0
-  tracking-wide
-   text-shadow[#e20620 1px 0 10px;]
+    // box-content
+    // w-[100px]
+    // mx-6
+    // lg:mb-0
+  flex-nowrap
+  whitespace-nowrap
+  font-family[Roboto]
+  // text-shadow[#e20620 1px 0 10px;]
 `;
 
 // const NavItemLogo = tw.button`
@@ -158,20 +161,20 @@ h-[2.71vw]
 
 export function NavBar() {
 
-    const isMobile = useMediaQuery({ maxWidth: 1024 });
+   // const isMobile = useMediaQuery({ maxWidth: 1024 });
 
     const navItems =( 
     <NavItems>
+        <NavItem>
+           NIGEL MANSELL COLLECTION
+        </NavItem>
+        <NavItem>
+           MOTORSPORT MOMENTS
+        </NavItem>
+        <NavItem>
+           OUR STORY & ROADMAP
+        </NavItem>
         {/* <NavItem>
-            <Link to="NFT">NFT</Link>
-        </NavItem>
-        <NavItem>
-            <Link to="Roadmap">ROADMAP</Link>
-        </NavItem>
-        <NavItem>
-            <Link to="Team">TEAM</Link>
-        </NavItem>
-        <NavItem>
             <Link to="About">ABOUT</Link>
         </NavItem>     
         <NavItem>
@@ -180,25 +183,25 @@ export function NavBar() {
     </NavItems>
     )
 
-    const navItemsMobile = (
-      <NavItems>
-       {/* <NavItem>
-            <Link to="NFT">NFT</Link>
-        </NavItem>
-        <NavItem>
-            <Link to="Roadmap">ROADMAP</Link>
-        </NavItem>
-        <NavItem>
-            <Link to="Team">TEAM</Link>
-        </NavItem>
-        <NavItem>
-            <Link to="About">ABOUT</Link>
-        </NavItem>     
-        <NavItem>
-            <Link to="Marketplace">MARKETPLACE</Link>
-        </NavItem>  */}
-      </NavItems>
-    );
+    // const navItemsMobile = (
+    //   <NavItems>
+    //    {/* <NavItem>
+    //         <Link to="NFT">NFT</Link>
+    //     </NavItem>
+    //     <NavItem>
+    //         <Link to="Roadmap">ROADMAP</Link>
+    //     </NavItem>
+    //     <NavItem>
+    //         <Link to="Team">TEAM</Link>
+    //     </NavItem>
+    //     <NavItem>
+    //         <Link to="About">ABOUT</Link>
+    //     </NavItem>     
+    //     <NavItem>
+    //         <Link to="Marketplace">MARKETPLACE</Link>
+    //     </NavItem>  */}
+    //   </NavItems>
+    // );
 
 
   return (
@@ -221,6 +224,7 @@ export function NavBar() {
           </svg>
         </NavItemLogo>
       </LogosLeft>
+      {navItems}
       {/* {isMobile && (
         <Menu right styles={styles}>
           {navItemsMobile}
@@ -236,8 +240,8 @@ export function NavBar() {
         <NavItemLogo>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
+            width="20"
+            height="20"
             fill="currentColor"
             className="bi bi-cart"
             viewBox="0 0 16 16"
@@ -248,8 +252,8 @@ export function NavBar() {
         <NavItemLogo>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
+            width="20"
+            height="20"
             fill="currentColor"
             className="bi bi-person-circle"
             viewBox="0 0 16 16"
@@ -264,8 +268,8 @@ export function NavBar() {
         <NavItemLogo>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
+            width="20"
+            height="20"
             fill="currentColor"
             className="bi bi-list"
             viewBox="0 0 16 16"
