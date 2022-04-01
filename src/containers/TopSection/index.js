@@ -1,26 +1,54 @@
-import * as THREE from 'three'
-import React, { Suspense, useEffect, useLayoutEffect, useState, useRef } from 'react'
-import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
-import { MeshReflectorMaterial, Text, useTexture, useGLTF, OrbitControls, Environment, Reflector } from '@react-three/drei'
-// import { TextureLoader } from 'three/src/loaders/TextureLoader'
-import Overlay from './Overlay'
-import url from './f1.mp4'
-import carModelUrl from './f1.glb'
+import * as THREE from "three";
+import React, {
+  Suspense,
+  useEffect,
+  useLayoutEffect,
+  useState,
+  useRef,
+} from "react";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+import {
+  Html,
+  useProgress,
+  MeshReflectorMaterial,
+  Text,
+  useTexture,
+  useGLTF,
+  OrbitControls,
+  Environment,
+  Reflector,
+  Stats, 
+  RoundedBox
+} from "@react-three/drei";
+import { TextureLoader } from 'three/src/loaders/TextureLoader';
+// import Overlay from "./Overlay";
+import carModelUrl from "./f1.glb";
+import carModelUrl2 from "./f2.glb";
 import styled from "styled-components";
 import tw from "twin.macro";
 // import { Controls, PlayState, Timeline, Tween } from 'react-gsap';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Timeline } from "gsap/gsap-core";
+//import { Timeline } from "gsap/gsap-core";
 import gsap from "gsap";
-import './style.css';
- import C1 from "./C1.png";
- import C2 from "./C2.png";
- import C3 from "./C3.png";
- import C4 from "./C4.png";
- import C5 from "./C5.png";
- import DatGui, { DatBoolean, DatColor, DatNumber, DatString } from 'react-dat-gui';
+import "./style.css";
+import C1 from "./C1.jpg";
+import C2 from "./C2.jpg";
+import V1 from "./V1.mp4";
+import url from './pill2.glb'
+import url3 from './empty_warehouse_01_2k.hdr'
+import texture1 from './texture_1.jpg'
+import { proxy, useSnapshot, subscribe } from "valtio"
+
 
 gsap.registerPlugin(ScrollTrigger);
+
+const leftState = proxy({
+  count: 0,
+})
+
+const rightState = proxy({
+  count: 0,
+})
 
 // const TopSectionContainer = styled.div`
 //   ${tw`
@@ -28,152 +56,119 @@ gsap.registerPlugin(ScrollTrigger);
 //   h-full
 //   overflow-y-scroll
 //   overflow-x-hidden
-//   relative  
+//   relative
 //   m-0
 //   `};
 // `;
 
-
-function CarModel(props) {
-  const { scene } = useGLTF(carModelUrl)
-  return <primitive object={scene} {...props} />
+const Car = (props) => {
+  const { scene } = useGLTF(carModelUrl);
+  return <primitive object={scene} {...props} />;
 }
 
-function Cylinder({ clicked, ...props }) {
+const CarModel = (props) => {
+  const {scene} = useGLTF(carModelUrl2);
+  return <primitive object={scene} {...props} />;
+}
 
-  // const [video] = useState(() => {
-  //   const vid = document.createElement("video");
-  //   vid.src = url;
-  //   vid.crossOrigin = "Anonymous";
-  //   vid.loop = true;
-  //   vid.muted = true;
-  //   vid.play();
-  //   return vid;
-  // });
 
-  const [c1, c2, c3, c4, c5] = useTexture([C1, C2, C3, C4, C5]);
+const Cylinder = ({ clicked, ...props }) => {
+  const [video] = useState(() => {
+    const vid = document.createElement("video");
+    vid.src = V1;
+    vid.crossOrigin = "Anonymous";
+    vid.loop = true;
+    vid.muted = true;
+    vid.play();
+    return vid;
+  });
+
+  const [c1, c2] = useTexture([C1, C2]);
 
   c1.wrapS = THREE.RepeatWrapping;
-  c1.repeat.x = - 1;
+  c1.repeat.x = -1;
   c2.wrapS = THREE.RepeatWrapping;
-  c2.repeat.x = - 1;
-  c3.wrapS = THREE.RepeatWrapping;
-  c3.repeat.x = - 1;
-  c4.wrapS = THREE.RepeatWrapping;
-  c4.repeat.x = - 1;
-  c5.wrapS = THREE.RepeatWrapping;
-  c5.repeat.x = - 1;
-  
+  c2.repeat.x = -1;
+
+  const state = {
+    radius : 16,
+    height: 15
+  }
+  // c3.wrapS = THREE.RepeatWrapping;
+  // c3.repeat.x = -1;
+  // c4.wrapS = THREE.RepeatWrapping;
+  // c4.repeat.x = -1;
+  // c5.wrapS = THREE.RepeatWrapping;
+  // c5.repeat.x = -1;
+
   // useEffect(() => void (clicked && video.play()), [video, clicked])
   return (
-<>
-
-
-<mesh rotation={[0,0,0]} >
-      <cylinderGeometry args={[4, 4, 2, 60, 10, true, 0, 2 * Math.PI / 5]} />
-      <meshBasicMaterial attachArray="material" side={THREE.DoubleSide} map={c1}>
-        {/* <videoTexture wrapS={THREE.RepeatWrapping}  wrapT={THREE.RepeatWrapping} repeat={[5,1]} attach="map" args={[video]} />        */}
-      </meshBasicMaterial>
+    <group  position={[0, 7.5, 0]}>
+      <mesh rotation={[0, 0, 0]} position={[0, 0, 0]}>
+        <cylinderGeometry
+          args={[state.radius, state.radius, state.height, 60, 10, true, 0, (2 * Math.PI) / 3]}
+        />
+        <meshBasicMaterial
+          attachArray="material"
+          side={THREE.BackSide}
+          map={c1}
+        >
+        </meshBasicMaterial>
       </mesh>
 
-    <mesh rotation={[0, 2 * Math.PI / 5, 0 ]}>
-      <cylinderGeometry args={[4, 4, 2, 60, 10, true, 0, 2 * Math.PI / 5]}  />
-      <meshBasicMaterial attachArray="material" side={THREE.DoubleSide} map={c2}>
-        {/* <videoTexture wrapS={THREE.RepeatWrapping}  wrapT={THREE.RepeatWrapping} repeat={[5,1]} attach="map" args={[video]} />        */}
-      </meshBasicMaterial>
+      <mesh rotation={[0, (2 * Math.PI) / 3, 0]} position={[0, 0, 0]}>
+        <cylinderGeometry
+          args={[state.radius, state.radius, state.height, 60, 10, true, 0, (2 * Math.PI) / 3]}
+        />
+        <meshBasicMaterial
+          attachArray="material"
+          side={THREE.BackSide}
+          // map={c2}
+        >
+          <videoTexture  attach="map" args={[video]} />       
+        </meshBasicMaterial>
       </mesh>
 
-<mesh rotation={[0, 4 * Math.PI / 5, 0]} >
-      <cylinderGeometry args={[4, 4, 2, 60, 10, true, 0, 2 * Math.PI / 5]}  />
-      <meshBasicMaterial attachArray="material" side={THREE.DoubleSide} map={c3}>
-        {/* <videoTexture wrapS={THREE.RepeatWrapping}  wrapT={THREE.RepeatWrapping} repeat={[5,1]} attach="map" args={[video]} />        */}
-      </meshBasicMaterial>
+      <mesh rotation={[0, (4 * Math.PI) / 3, 0]} position={[0, 0, 0]}>
+        <cylinderGeometry
+          args={[state.radius, state.radius, state.height, 60, 10, true, 0, (2 * Math.PI) / 3]}
+        />
+        <meshBasicMaterial
+          attachArray="material"
+          side={THREE.BackSide}
+          map={c2}
+        >
+        </meshBasicMaterial>
       </mesh>
 
-<mesh rotation={[0, 6 * Math.PI / 5, 0]} >
-      <cylinderGeometry args={[4, 4, 2, 60, 10, true, 0, 2 * Math.PI / 5]}/>
-      <meshBasicMaterial attachArray="material" side={THREE.DoubleSide}  map={c4}>
-        {/* <videoTexture wrapS={THREE.RepeatWrapping}  wrapT={THREE.RepeatWrapping} repeat={[5,1]} attach="map" args={[video]} />        */}
-      </meshBasicMaterial>
-      </mesh>
-
-<mesh rotation={[0, 8 * Math.PI / 5, 0]}>
-      <cylinderGeometry args={[4, 4, 2, 60, 10, true, 0, 2 * Math.PI / 5]}   />
-      <meshBasicMaterial attachArray="material" side={THREE.DoubleSide} map={c5}>
-        {/* <videoTexture wrapS={THREE.RepeatWrapping}  wrapT={THREE.RepeatWrapping} repeat={[5,1]} attach="map" args={[video]} />        */}
-      </meshBasicMaterial>
-    </mesh>
    
-    </>
-  )
+    </group>
+  );
 }
 
-function Dots() {
-  const ref = useRef()
-  useLayoutEffect(() => {
-    const transform = new THREE.Matrix4()
-    for (let i = 0; i < 10000; ++i) {
-      const x = (i % 100) - 50
-      const y = Math.floor(i / 100) - 50
-      transform.setPosition(x, y, 0)
-      ref.current.setMatrixAt(i, transform)
-    }
-   			
-  }, [])
-  return (
-    <instancedMesh ref={ref} args={[null, null, 10000]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.99, 0]}>
-      <planeBufferGeometry args={[0.1, 0.1]} />
-      <meshBasicMaterial />
-    </instancedMesh>
-  )
-}
-
-
-
-// function Intro({ start, set }) {
-//   const [vec] = useState(() => new THREE.Vector3())
-//   useEffect(() => setTimeout(() => set(true), 500), [])
-//   return useFrame((state) => {
-//     if (start) {
-//       // state.camera.position.lerp(vec.set(state.mouse.x * 5, 3 + state.mouse.y * 2, 14), 0.05)
-//       // state.camera.lookAt(0, 0, 0)
-//     }
-//   })
-// }
-
-function AnimationWrapper() {
+const AnimationWrapper = () =>{
   const { scene, camera } = useThree();
-  const tl = React.useRef();
+ // const tl = React.useRef();
+
+
+
 
   React.useEffect(() => {
-    scene.rotation.set(0, 0, 0);
-    camera.position.set(0, 2, 0);
-    // camera.rotation.set(0, 0, 0);
-
-    let spherical = new THREE.Spherical(0.1, Math.PI, 0);
-    spherical.makeSafe();
-    camera.position.setFromSpherical(spherical);
-
-    // let animateCameraIn = gsap
-    //   .timeline({
-    //     defaults: {
-    //       ease: "expo",
-    //     },
-    //   });
-
-    // animateCameraIn.to(camera.position, { x: 0, y: 2, z:0, duration:5})
+    scene.rotation.set(0, 1.4, 0);
+    camera.position.set(0,0,0);
 
 
-    
-    // let animateModelIn = gsap
-    // .timeline({
-    //   defaults: {
-    //     ease: "expo",
-    //   },
-    // });
+    // let spherical = new THREE.Spherical(0, Math.PI, 0);
+    // spherical.makeSafe();
+    // camera.position.setFromSpherical(spherical);
 
-   // animateModelIn.to(scene.rotation, { y: 6.3, duration:3})
+    let animateModelIn = gsap.timeline({
+      defaults: {
+        ease: "power2",
+      },
+    });
 
+    animateModelIn.to(scene.rotation, { y: 6.28, duration: 5, delay: 0.5 });
 
     // tl.current = gsap
     //   .timeline({
@@ -184,72 +179,729 @@ function AnimationWrapper() {
     //       end: "bottom bottom",
     //       scrub: 1
     //     }
-    //   })      
+    //   })
     //   .to(scene.rotation, { y: 12.6})
-      // .to(camera.position, { x: -0.1 })
-      // .to(scene.rotation, { z: 1.6 })
-      // .to(scene.rotation, { z: 0.02, y: 3.1 }, "simultaneously")
-      // .to(camera.position, { x: 0.16 }, "simultaneously");
+    // .to(camera.position, { x: -0.1 })
+    // .to(scene.rotation, { z: 1.6 })
+    // .to(scene.rotation, { z: 0.02, y: 3.1 }, "simultaneously")
+    // .to(camera.position, { x: 0.16 }, "simultaneously");
   }, []);
 
   return null;
 }
 
+const SpinCylinderLeft = () => {
+  const { scene } = useThree();
+  let animateModelIn = gsap.timeline({
+    defaults: {
+      ease: "power2",
+    },
+  });
+
+  const spin = () => {
+    console.log("spin left");
+
+    animateModelIn.to(scene.rotation, {
+      y: scene.rotation.y - 2.093333,
+      duration: 2,
+    });
+  };
+
+
+  React.useEffect(() => {
+    subscribe(leftState, () =>  spin());
+  }, []);
+
+
+  return null;
+};
+
+const SpinCylinderRight = () => {
+  const { scene } = useThree();
+  let animateModelIn = gsap.timeline({
+    defaults: {
+      ease: "power2",
+    },
+  });
+
+  const spin = () => {
+    console.log("spin right");
+
+    animateModelIn.to(scene.rotation, {
+      y: scene.rotation.y + 2.093333,
+      duration: 2,
+    });
+  };
+
+
+  React.useEffect(() => {
+    subscribe(rightState, () =>  spin());
+  }, []);
+
+
+  return null;
+};
+
+
+
+
+
+ const GlassBox = ({pos, rot}) => {
+   const ref = useRef(null);
+
+   const [active, setActive] = useState(false);
+   useFrame((state, delta) => {
+     if (active) {
+       ref.current.rotation.y += 0.02;
+     }
+   });
+
+   const { nodes } = useGLTF(url);
+
+   return (
+     <group
+       onPointerEnter={() => setActive(true)}
+       onPointerLeave={() => setActive(false)}       
+       scale={[0.5, 0.5, 0.5]}
+       position={pos}
+       rotation={rot}
+       ref={ref}
+     >
+       {/* <spotLight
+         intensity={1}
+         position={[0, 1, 3]}
+         angle={0.2}
+         penumbra={1}
+       /> */}
+       {/* <Environment files={url3} /> */}
+       <CarModel
+         position={[0, 1.1, 0]}
+         rotation={[1.5, 0.4, 0]}
+         scale={[0.4, 0.4, 0.4]}
+       />
+       <mesh
+         geometry={nodes.ChamferBox001.geometry}
+         scale={[0.02, 0.02, 0.02]}
+         position={[0, -1, 0]}
+       >
+         <meshPhysicalMaterial
+           color={0xffffff}
+           metalness={0}
+           roughness={0.05}
+           transmission={1}
+           envMapIntensity={1.5}
+           clearcoat={1}
+           clearcoatRoughness={0.1}
+           transparent={true}
+           opacity={0.2}
+           reflectivity={0.5}
+           refractionRatio={0.985}
+           ior={1}
+           thickness={0.1}
+           normalScale={0.3}
+           clearcoatNormalScale={0.2}
+           side={THREE.DoubleSide}
+           depthTest={true}
+           depthWrite={true}
+         />
+       </mesh>
+       <mesh
+         
+         geometry={nodes.Cylinder001.geometry}
+         scale={[0.02, 0.02, 0.02]}
+         position={[0, -1, 0]}
+       >
+         <meshPhysicalMaterial
+           color={0xffffff}
+           metalness={0}
+           roughness={0.05}
+           transmission={1}
+           envMapIntensity={1.5}
+           clearcoat={1}
+           clearcoatRoughness={0.1}
+           transparent={true}
+           opacity={0.5}
+           reflectivity={0.5}
+           refractionRatio={0.985}
+           ior={1}
+           thickness={0.5}
+           normalScale={0.3}
+           clearcoatNormalScale={0.2}
+           side={THREE.DoubleSide}
+           depthTest={true}
+           depthWrite={true}
+         />
+       </mesh>
+       <mesh
+         
+         geometry={nodes.Cylinder002.geometry}
+         scale={[0.02, 0.02, 0.02]}
+         position={[0, -1, 0]}
+       >
+         <meshPhysicalMaterial
+           color={0xffffff}
+           metalness={0}
+           roughness={0.05}
+           transmission={1}
+           envMapIntensity={1.5}
+           clearcoat={1}
+           clearcoatRoughness={0.1}
+           transparent={true}
+           opacity={0.5}
+           reflectivity={0.5}
+           refractionRatio={0.985}
+           ior={1}
+           thickness={0.5}
+           normalScale={0.3}
+           clearcoatNormalScale={0.2}
+           side={THREE.DoubleSide}
+           depthTest={true}
+           depthWrite={true}
+         />
+       </mesh>
+       <mesh
+         
+         geometry={nodes.Object001.geometry}
+         scale={[0.02, 0.02, 0.02]}
+         position={[0, -1, 0]}
+       >
+         <meshPhysicalMaterial
+           color={0xffffff}
+           metalness={0}
+           roughness={0.05}
+           transmission={1}
+           envMapIntensity={1.5}
+           clearcoat={1}
+           clearcoatRoughness={0.1}
+           transparent={true}
+           opacity={0.5}
+           reflectivity={0.5}
+           refractionRatio={0.985}
+           ior={1}
+           thickness={0.5}
+           normalScale={0.3}
+           clearcoatNormalScale={0.2}
+           side={THREE.DoubleSide}
+           depthTest={true}
+           depthWrite={true}
+         />
+       </mesh>
+       <mesh
+         
+         geometry={nodes.Object004.geometry}
+         scale={[0.02, 0.02, 0.02]}
+         position={[0, -1, 0]}
+       >
+         <meshPhysicalMaterial
+           color={0xffffff}
+           metalness={0}
+           roughness={0.05}
+           transmission={1}
+           envMapIntensity={1.5}
+           clearcoat={1}
+           clearcoatRoughness={0.1}
+           transparent={true}
+           opacity={0.5}
+           reflectivity={0.5}
+           refractionRatio={0.985}
+           ior={1}
+           thickness={0.5}
+           normalScale={0.3}
+           clearcoatNormalScale={0.2}
+           side={THREE.DoubleSide}
+           depthTest={true}
+           depthWrite={true}
+         />
+       </mesh>
+       <mesh
+         
+         geometry={nodes.Object005.geometry}
+         scale={[0.02, 0.02, 0.02]}
+         position={[0, -1, 0]}
+       >
+         <meshPhysicalMaterial
+           color={0xffffff}
+           metalness={0}
+           roughness={0.05}
+           transmission={1}
+           envMapIntensity={1.5}
+           clearcoat={1}
+           clearcoatRoughness={0.1}
+           transparent={true}
+           opacity={0.5}
+           reflectivity={0.5}
+           refractionRatio={0.985}
+           ior={1}
+           thickness={0.5}
+           normalScale={0.3}
+           clearcoatNormalScale={0.2}
+           side={THREE.DoubleSide}
+           depthTest={true}
+           depthWrite={true}
+         />
+       </mesh>
+       <mesh
+         
+         geometry={nodes.Object006.geometry}
+         scale={[0.02, 0.02, 0.02]}
+         position={[0, -1, 0]}
+       >
+         <meshPhysicalMaterial
+           color={0xffffff}
+           metalness={0}
+           roughness={0.05}
+           transmission={1}
+           envMapIntensity={1.5}
+           clearcoat={1}
+           clearcoatRoughness={0.1}
+           transparent={true}
+           opacity={0.5}
+           reflectivity={0.5}
+           refractionRatio={0.985}
+           ior={1}
+           thickness={0.5}
+           normalScale={0.3}
+           clearcoatNormalScale={0.2}
+           side={THREE.DoubleSide}
+           depthTest={true}
+           depthWrite={true}
+         />
+       </mesh>
+       <mesh
+         
+         geometry={nodes.Object008.geometry}
+         scale={[0.02, 0.02, 0.02]}
+         position={[0, -1, 0]}
+       >
+         <meshPhysicalMaterial
+           color={0xffffff}
+           metalness={0.2}
+           roughness={0.05}
+           transmission={0.5}
+           envMapIntensity={2}
+           clearcoat={1}
+           clearcoatRoughness={0.1}
+           transparent={true}
+           opacity={0.5}
+           reflectivity={0.5}
+           refractionRatio={0.985}
+           ior={1}
+           thickness={0.5}
+           normalScale={0.3}
+           clearcoatNormalScale={0.2}
+           side={THREE.DoubleSide}
+           depthTest={true}
+           depthWrite={true}
+         />
+       </mesh>
+     </group>
+   );
+ };
+
+ const Box = ({pos, rot}) => {
+   const ref = useRef(null);
+ 
+
+   const [active, setActive] = useState(false);
+   useFrame((state, delta) => {
+     if (active) {
+       ref.current.rotation.y += 0.02;
+     }
+   });
+
+   return (
+     <mesh position={pos} rotation={rot} ref={ref} >
+       <RoundedBox args={[1, 1, 1]} radius={0.1}>
+         <meshPhysicalMaterial
+           color={0xffffff}
+           metalness={0.1}
+           roughness={0.05}
+           transmission={1}
+           envMapIntensity={1.5}
+           clearcoat={1}
+           clearcoatRoughness={0.1}
+           transparent={true}
+           opacity={0.2}
+           reflectivity={0.5}
+           refractionRatio={0.985}
+           ior={1}
+           thickness={0.1}
+           normalScale={0.3}
+           clearcoatNormalScale={0.2}
+           side={THREE.DoubleSide}
+           depthTest={true}
+           depthWrite={true}
+         />
+      <Cube/>
+       </RoundedBox>
+     </mesh>
+   );
+ };
+
+ const Cube = (pos) => {
+   const ref = useRef(null);
+
+   const texture_1 = useLoader(TextureLoader, texture1)
+   const texture_2 = useLoader(TextureLoader, texture1)
+   const texture_3 = useLoader(TextureLoader, texture1)
+   const texture_4 = useLoader(TextureLoader, texture1)
+   const texture_5 = useLoader(TextureLoader, texture1)
+   const texture_6 = useLoader(TextureLoader, texture1)
+
+   const [active, setActive] = useState(false);
+   useFrame((state, delta) => {
+     if (active) {
+       ref.current.rotation.y += 0.02;
+     }
+   });
+
+   return (
+     <mesh position={pos.pos} ref={ref} args={[1, 1, 1]}  scale={[0.8,0.8,0.8]}>
+       <boxGeometry />
+       <meshStandardMaterial map={texture_1} attach="material" />
+       <meshStandardMaterial map={texture_2} attach="material" />
+       <meshStandardMaterial map={texture_3} attach="material" />
+       <meshStandardMaterial map={texture_4} attach="material" />
+       <meshStandardMaterial map={texture_5} attach="material" />
+       <meshStandardMaterial map={texture_6} attach="material" />
+     </mesh>
+   );
+ };
+
+
 
 export function TopSection() {
-  const [clicked, setClicked] = useState(false)
-  const [ready, setReady] = useState(false)
-  const store = { clicked, setClicked, ready, setReady }
+  const [clicked, setClicked] = useState(false);
+  const [ready, setReady] = useState(false);
+  const store = { clicked, setClicked, ready, setReady };
 
 
+  function Loader() {
+    const { progress } = useProgress();
+    return <Html center>{progress}</Html>;
+  }
 
   return (
- 
     <>
-      <Canvas 
+      <Canvas
         style={{
           width: "100vw",
-          height: "100vh",
-          zIndex: 40,
-          position: "fixed"
+          height: "90vh",
+          marginTop: "10vh",
+          zIndex: 30,
+          position: "fixed",
         }}
-      gl={{ alpha: false }} dpr={[1, 1.5]} camera={{ fov: 60, position: [0, 0, 0] }}>
-        <OrbitControls maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 2} enableDamping={false} enablePan={false} enableZoom={false} />
-        <color attach="background" args={['#ffffff']} />
-        {/* <fog attach="fog" args={['#191920', 0, 15]} /> */}
-        <Environment preset="city" />
-        <group position={[0, 0.5, 0]} rotation={[0,0,0]}>
-        <CarModel rotation={[0, Math.PI -3.9, 0]} position={[0, -1, -1.5]}  scale={[0.15, 0.15, 0.15]} />
-          <Cylinder {...store}  />
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
-            <planeGeometry args={[50, 50]} />
-            <MeshReflectorMaterial
-              blur={[300, 100]}
-              resolution={2048}
-              mixBlur={10}
-              mixStrength={40}
-              roughness={1}
-              depthScale={12}
-              minDepthThreshold={0.4}
-              maxDepthThreshold={1.4}
-              color="#555251"
-              metalness={0}
-              opacity={0.2}
+        gl={{ alpha: false }}
+        dpr={[1, 1.5]}
+        camera={{ fov: 65 }}
+      >
+        {/* <OrbitControls /> */}
+        <color attach="background" args={["#7f7f7f"]} />
+        {/* <fog attach="fog" args={['#d3d3d3', 0, 40]} /> */}
+        <Environment preset="warehouse" />
+        <Suspense fallback={<Loader />}>
+          <group position={[0, -4.5, 0]} >
+
+            <group position={[-3, 0.8, -4]} scale={[1.8,1.8,1.8]}>
+              <Box 
+                {...{
+                  pos: [7, 0, -4],
+                  rot: [0, 0, 0],
+                }}              
+              />
+              <Box 
+                {...{
+                  pos: [4.5, 0, -2.5],
+                  rot: [0, 0, 0],
+                }} 
+               />
+              <Box 
+                {...{
+                  pos:[4, 0, -4],
+                  rot: [0, 0, 0],
+                }} 
+              />
+            </group>
+
+            <group position={[-1.3, 0.5, -5]} scale={[1.1,1.1,1.1]}>
+              <GlassBox              
+                {...{
+                  pos: [-2.5, 0, -4.5],
+                  rot: [0, 0., 0],
+                }}
+              />
+              <GlassBox              
+                {...{
+                  pos: [-4, 0, -3.5],
+                  rot: [0, 0, 0],
+                }}            
+              />
+              <GlassBox               
+                {...{
+                  pos: [-5.5, 0, -4],
+                  rot: [0, 0, 0],
+                }}            
+              />
+            </group>
+
+            <Car
+              rotation={[0, Math.PI - 4.1, 0]}
+              position={[0, 0, -13]}
+              scale={[1, 1, 1]}
             />
-          </mesh>
-          {/* <Dots/> */}
-        </group>
+
+            <Cylinder {...store} />
+
+            <gridHelper
+              scale={[2, 0, 2]}
+              position={[0, 0, 0]}
+              rotation={[-Math.PI, 0, 0]}
+              args={[20, 20]}
+            />
+
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+              <planeGeometry args={[50, 50]} />
+              <MeshReflectorMaterial
+                blur={[300, 100]}
+                resolution={2048}
+                mixBlur={10}
+                mixStrength={40}
+                roughness={1}
+                depthScale={12}
+                minDepthThreshold={0.4}
+                maxDepthThreshold={1.4}
+                color="#555251"
+                metalness={0}
+                opacity={0.2}
+              />
+            </mesh>
+          </group>
+        </Suspense>
         <AnimationWrapper />
-        {/* <Intro start={ready && clicked} set={setReady} /> */}
+        <SpinCylinderLeft/>
+        <SpinCylinderRight/>
       </Canvas>
-     <Overlay {...store} /> 
-      {/* <section className="section-one"></section>
-      <section className="section-two"></section>
-      <section className="section-three"></section>
-      <section className="section-four"></section>
-      <section className="section-five"></section> */}
-      </>
-  )
+      <Overlay />
+    </>
+  );
 }
 
 
+const OverlayContainer = styled.div`
+  ${tw`
+    flex
+    flex-col
+    w-screen
+    h-[100vh]
+    fixed  
+    bottom-0
+    // px-8
+    // pt-16
+    z-50
+    bg-opacity-0
+    // overflow-x-hidden
+    // overflow-y-auto
+    `};
+
+`;
+
+// const Footer = styled.div`
+//   ${tw`
+//     flex
+//     flex-row
+//     w-full
+//     h-full
+//     border-opacity-10
+//     // border-b-[1px]
+//     // border-l-[1px]
+//     // border-r-[1px]
+//     border-gray-500  
+//     // overflow-x-hidden
+//     // overflow-y-auto
+//     `};
+// `;
+
+// const RingWrapper = styled.div`
+//   ${tw`
+// flex
+// flex-row
+// justify-between
+// items-center
+// `};
+// `;
+
+// const Ring = styled.div`
+//   ${tw`
+// flex
+// flex-col
+// justify-center
+// items-center
+// bg-cover 
+// bg-center
+// bg-no-repeat
+// w-[5.99vw]
+// h-[3.85vw]
+// `};
+// `;
+
+// const ContentWrapper = styled.div`
+//   ${tw`
+// flex
+// flex-row
+// flex-nowrap
+// justify-between
+// items-center
+// w-screen
+// `};
+// `;
+
+// const Content = styled.div`
+//   ${tw`
+// flex
+// flex-row
+// flex-nowrap
+// justify-center
+// items-center
+// text-xs
+// // pl-6
+// px-4
+// font-family[Roboto]
+// text-[#9EA9B4]
+// pb-4
+
+// // pt-10
+// `};
+// `;
+
+// const ContentButton = styled.button`
+//   ${tw`
+// flex
+// flex-row
+// justify-center
+// items-center
+// text-xs
+// px-4
+// font-family[Roboto]
+// text-[#9EA9B4]
+// pb-4
+// // pl-6
+// // pt-10
+// `};
+// `;
+
+const ArrowsWrapper = styled.div`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+items-center
+justify-around
+w-screen
+h-full
+`};
+`;
+
+const ArrowLeftWrapper = styled.div`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-start
+items-center
+w-1/2
+h-full
+text-gray-500  
+text-sm
+`};
+`;
+
+const ArrowRightWrapper = styled.div`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-end
+items-center
+w-1/2
+h-full
+text-gray-500 
+text-sm
+`};
+`;
+
+const ArrowLeft = styled.button`
+  ${tw`
+flex
+flex-col
+justify-center
+items-center
+`};
+`;
+
+const ArrowRight = styled.button`
+  ${tw`
+  flex
+  flex-col
+  justify-center
+  items-center
+`};
+`;
+
+export default function Overlay({ ready, clicked, setClicked }){
+
+  const snap1 = useSnapshot(leftState)
+  const snap2 = useSnapshot(rightState)
+
+
+  return (
+    <OverlayContainer>
+      <ArrowsWrapper>
+        <ArrowLeftWrapper>
+          <ArrowLeft onClick={ (e) => (leftState.count ++)}  >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-36 w-36"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </ArrowLeft>
+        </ArrowLeftWrapper>
+        <ArrowRightWrapper>
+          <ArrowRight onClick={ (e) => (rightState.count ++)} >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-36 w-36"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </ArrowRight>
+        </ArrowRightWrapper>
+      </ArrowsWrapper>
+      {/* <Footer>
+        <ContentWrapper>
+          <Content>© 2022 Motorsport Network, All Rights Reserved</Content>
+          <Content>
+            <ContentButton>Terms of Service</ContentButton>
+            <ContentButton>PrivacyPolicy</ContentButton>
+          </Content>
+        </ContentWrapper>
+      </Footer> */}
+    </OverlayContainer>
+  );
+    }

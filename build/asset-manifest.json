@@ -1,28 +1,30 @@
 {
   "files": {
-    "main.css": "/fourdii.demo/static/css/main.cd71aff2.chunk.css",
-    "main.js": "/fourdii.demo/static/js/main.b53ed727.chunk.js",
-    "main.js.map": "/fourdii.demo/static/js/main.b53ed727.chunk.js.map",
+    "main.css": "/fourdii.demo/static/css/main.7b207b8d.chunk.css",
+    "main.js": "/fourdii.demo/static/js/main.5a42abf5.chunk.js",
+    "main.js.map": "/fourdii.demo/static/js/main.5a42abf5.chunk.js.map",
     "runtime-main.js": "/fourdii.demo/static/js/runtime-main.392fd8f1.js",
     "runtime-main.js.map": "/fourdii.demo/static/js/runtime-main.392fd8f1.js.map",
-    "static/js/2.e22fffc4.chunk.js": "/fourdii.demo/static/js/2.e22fffc4.chunk.js",
-    "static/js/2.e22fffc4.chunk.js.map": "/fourdii.demo/static/js/2.e22fffc4.chunk.js.map",
+    "static/js/2.926e612e.chunk.js": "/fourdii.demo/static/js/2.926e612e.chunk.js",
+    "static/js/2.926e612e.chunk.js.map": "/fourdii.demo/static/js/2.926e612e.chunk.js.map",
     "index.html": "/fourdii.demo/index.html",
-    "static/css/main.cd71aff2.chunk.css.map": "/fourdii.demo/static/css/main.cd71aff2.chunk.css.map",
-    "static/js/2.e22fffc4.chunk.js.LICENSE.txt": "/fourdii.demo/static/js/2.e22fffc4.chunk.js.LICENSE.txt",
+    "static/css/main.7b207b8d.chunk.css.map": "/fourdii.demo/static/css/main.7b207b8d.chunk.css.map",
+    "static/js/2.926e612e.chunk.js.LICENSE.txt": "/fourdii.demo/static/js/2.926e612e.chunk.js.LICENSE.txt",
     "static/media/C1.c81c5cdc.png": "/fourdii.demo/static/media/C1.c81c5cdc.png",
     "static/media/C2.aee9b4c8.png": "/fourdii.demo/static/media/C2.aee9b4c8.png",
     "static/media/C3.90a8d9a0.png": "/fourdii.demo/static/media/C3.90a8d9a0.png",
     "static/media/C4.1a340fe1.png": "/fourdii.demo/static/media/C4.1a340fe1.png",
     "static/media/C5.529cda40.png": "/fourdii.demo/static/media/C5.529cda40.png",
+    "static/media/adams_place_bridge_1k.9d5b6e44.hdr": "/fourdii.demo/static/media/adams_place_bridge_1k.9d5b6e44.hdr",
     "static/media/f1.10937831.mp4": "/fourdii.demo/static/media/f1.10937831.mp4",
     "static/media/f1.cce25a85.glb": "/fourdii.demo/static/media/f1.cce25a85.glb",
-    "static/media/floor.523244db.jpg": "/fourdii.demo/static/media/floor.523244db.jpg"
+    "static/media/floor.523244db.jpg": "/fourdii.demo/static/media/floor.523244db.jpg",
+    "static/media/pill2.7c5ffc4f.glb": "/fourdii.demo/static/media/pill2.7c5ffc4f.glb"
   },
   "entrypoints": [
     "static/js/runtime-main.392fd8f1.js",
-    "static/js/2.e22fffc4.chunk.js",
-    "static/css/main.cd71aff2.chunk.css",
-    "static/js/main.b53ed727.chunk.js"
+    "static/js/2.926e612e.chunk.js",
+    "static/css/main.7b207b8d.chunk.css",
+    "static/js/main.5a42abf5.chunk.js"
   ]
 }

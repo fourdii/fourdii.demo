@@ -1,18 +1,23 @@
-import React from 'react'
+import React , {useImperativeHandle, useRef ,forwardRef} from 'react'
 // import { css } from "@emotion/react";
 // import RingLoader from "react-spinners/RingLoader";
 import tw from "twin.macro";
 import styled from "styled-components";
-import ring from './ring.png'
 import floor from './floor.jpg'
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+import { proxy, useSnapshot } from "valtio"
 
 
-const FooterContainer = styled.div`
+const state = proxy({
+  isLeft: true,
+})
+
+const OverlayContainer = styled.div`
   ${tw`
     flex
     flex-col
     w-screen
-    h-[5vh]
+    h-[100vh]
     fixed  
     bottom-0
     // px-8
@@ -66,7 +71,6 @@ bg-no-repeat
 w-[5.99vw]
 h-[3.85vw]
 `};
-  background-image: url(${ring});
 `;
 
 const ContentWrapper = styled.div`
@@ -114,11 +118,112 @@ pb-4
 `};
 `;
 
+const ArrowsWrapper = styled.div`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+items-center
+justify-around
+w-screen
+h-full
+`};
+`;
 
-export default function Overlay({ ready, clicked, setClicked }) {
+
+const ArrowLeftWrapper = styled.div`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-start
+items-center
+w-1/2
+h-full
+text-gray-500  
+text-sm
+`};
+`;
+
+const ArrowRightWrapper = styled.div`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-end
+items-center
+w-1/2
+h-full
+text-gray-500 
+text-sm
+`};
+`;
+
+const ArrowLeft = styled.button`
+  ${tw`
+flex
+flex-col
+justify-center
+items-center
+`};
+`;
+
+const ArrowRight = styled.button`
+  ${tw`
+  flex
+  flex-col
+  justify-center
+  items-center
+`};
+`;
+
+
+export default function Overlay({ ready, clicked, setClicked }){
+
+  const snap = useSnapshot(state)
+
+
   return (
-    <FooterContainer>
-      <Footer>
+    <OverlayContainer>
+      <ArrowsWrapper>
+        <ArrowLeftWrapper>
+          <ArrowLeft onClick={ (e) => (state.leftButtonClick = true)}  >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-36 w-36"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </ArrowLeft>
+        </ArrowLeftWrapper>
+        <ArrowRightWrapper>
+          <ArrowRight onClick={ (e) => (state.rightButtonClick = true)} >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-36 w-36"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </ArrowRight>
+        </ArrowRightWrapper>
+      </ArrowsWrapper>
+      {/* <Footer>
         <ContentWrapper>
           <Content>© 2022 Motorsport Network, All Rights Reserved</Content>
           <Content>
@@ -126,9 +231,11 @@ export default function Overlay({ ready, clicked, setClicked }) {
             <ContentButton>PrivacyPolicy</ContentButton>
           </Content>
         </ContentWrapper>
-      </Footer>
-    </FooterContainer>
+      </Footer> */}
+    </OverlayContainer>
   );
-}
+    }
+
+
 
 
