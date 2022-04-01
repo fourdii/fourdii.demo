@@ -23,7 +23,10 @@ import {
 import { TextureLoader } from 'three/src/loaders/TextureLoader';
 // import Overlay from "./Overlay";
 import carModelUrl from "./f1.glb";
-import carModelUrl2 from "./f2.glb";
+import car1 from "./car1.glb";
+import car2 from "./car2.glb";
+import car3 from "./car3.glb";
+
 import styled from "styled-components";
 import tw from "twin.macro";
 // import { Controls, PlayState, Timeline, Tween } from 'react-gsap';
@@ -66,8 +69,18 @@ const Car = (props) => {
   return <primitive object={scene} {...props} />;
 }
 
-const CarModel = (props) => {
-  const {scene} = useGLTF(carModelUrl2);
+const CarModel1 = (props) => {
+  const {scene} = useGLTF(car1);
+  return <primitive object={scene} {...props} />;
+}
+
+const CarModel2 = (props) => {
+  const {scene} = useGLTF(car2);
+  return <primitive object={scene} {...props} />;
+}
+
+const CarModel3 = (props) => {
+  const {scene} = useGLTF(car3);
   return <primitive object={scene} {...props} />;
 }
 
@@ -202,7 +215,7 @@ const SpinCylinderLeft = () => {
     console.log("spin left");
 
     animateModelIn.to(scene.rotation, {
-      y: scene.rotation.y - 2.093333,
+      y: scene.rotation.y - 2.1,
       duration: 2,
     });
   };
@@ -228,7 +241,7 @@ const SpinCylinderRight = () => {
     console.log("spin right");
 
     animateModelIn.to(scene.rotation, {
-      y: scene.rotation.y + 2.093333,
+      y: scene.rotation.y + 2.1,
       duration: 2,
     });
   };
@@ -246,7 +259,7 @@ const SpinCylinderRight = () => {
 
 
 
- const GlassBox = ({pos, rot}) => {
+ const GlassBox1 = ({pos, rot}) => {
    const ref = useRef(null);
 
    const [active, setActive] = useState(false);
@@ -274,7 +287,7 @@ const SpinCylinderRight = () => {
          penumbra={1}
        /> */}
        {/* <Environment files={url3} /> */}
-       <CarModel
+       <CarModel1
          position={[0, 1.1, 0]}
          rotation={[1.5, 0.4, 0]}
          scale={[0.4, 0.4, 0.4]}
@@ -498,6 +511,510 @@ const SpinCylinderRight = () => {
    );
  };
 
+ const GlassBox2 = ({pos, rot}) => {
+  const ref = useRef(null);
+
+  const [active, setActive] = useState(false);
+  useFrame((state, delta) => {
+    if (active) {
+      ref.current.rotation.y += 0.02;
+    }
+  });
+
+  const { nodes } = useGLTF(url);
+
+  return (
+    <group
+      onPointerEnter={() => setActive(true)}
+      onPointerLeave={() => setActive(false)}       
+      scale={[0.5, 0.5, 0.5]}
+      position={pos}
+      rotation={rot}
+      ref={ref}
+    >
+      {/* <spotLight
+        intensity={1}
+        position={[0, 1, 3]}
+        angle={0.2}
+        penumbra={1}
+      /> */}
+      {/* <Environment files={url3} /> */}
+      <CarModel2
+        position={[0, 1.1, 0]}
+        rotation={[1.5, 0.4, 0]}
+        scale={[0.4, 0.4, 0.4]}
+      />
+      <mesh
+        geometry={nodes.ChamferBox001.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.2}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.1}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Cylinder001.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Cylinder002.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Object001.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Object004.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Object005.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Object006.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Object008.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0.2}
+          roughness={0.05}
+          transmission={0.5}
+          envMapIntensity={2}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+    </group>
+  );
+};
+
+const GlassBox3 = ({pos, rot}) => {
+  const ref = useRef(null);
+
+  const [active, setActive] = useState(false);
+  useFrame((state, delta) => {
+    if (active) {
+      ref.current.rotation.y += 0.02;
+    }
+  });
+
+  const { nodes } = useGLTF(url);
+
+  return (
+    <group
+      onPointerEnter={() => setActive(true)}
+      onPointerLeave={() => setActive(false)}       
+      scale={[0.5, 0.5, 0.5]}
+      position={pos}
+      rotation={rot}
+      ref={ref}
+    >
+      {/* <spotLight
+        intensity={1}
+        position={[0, 1, 3]}
+        angle={0.2}
+        penumbra={1}
+      /> */}
+      {/* <Environment files={url3} /> */}
+      <CarModel3
+        position={[0, 1.1, 0]}
+        rotation={[1.5, 0.4, 0]}
+        scale={[0.4, 0.4, 0.4]}
+      />
+      <mesh
+        geometry={nodes.ChamferBox001.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.2}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.1}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Cylinder001.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Cylinder002.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Object001.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Object004.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Object005.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Object006.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0}
+          roughness={0.05}
+          transmission={1}
+          envMapIntensity={1.5}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+      <mesh
+        
+        geometry={nodes.Object008.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+      >
+        <meshPhysicalMaterial
+          color={0xffffff}
+          metalness={0.2}
+          roughness={0.05}
+          transmission={0.5}
+          envMapIntensity={2}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.5}
+          reflectivity={0.5}
+          refractionRatio={0.985}
+          ior={1}
+          thickness={0.5}
+          normalScale={0.3}
+          clearcoatNormalScale={0.2}
+          side={THREE.DoubleSide}
+          depthTest={true}
+          depthWrite={true}
+        />
+      </mesh>
+    </group>
+  );
+};
+
  const Box = ({pos, rot}) => {
    const ref = useRef(null);
  
@@ -624,19 +1141,19 @@ export function TopSection() {
             </group>
 
             <group position={[-1.3, 0.5, -5]} scale={[1.1,1.1,1.1]}>
-              <GlassBox              
+              <GlassBox1              
                 {...{
                   pos: [-2.5, 0, -4.5],
                   rot: [0, 0., 0],
                 }}
               />
-              <GlassBox              
+              <GlassBox2              
                 {...{
                   pos: [-4, 0, -3.5],
                   rot: [0, 0, 0],
                 }}            
               />
-              <GlassBox               
+              <GlassBox3               
                 {...{
                   pos: [-5.5, 0, -4],
                   rot: [0, 0, 0],
