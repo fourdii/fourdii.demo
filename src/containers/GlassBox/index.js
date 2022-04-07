@@ -12,7 +12,7 @@ import { LayerMaterial, Depth, Noise } from 'lamina'
 
 
 function CarModel(props) {
-  const { scene } = useGLTF(carModelUrl)
+  const { scene } = useGLTF(url)
   return <primitive castShadow={true}  object={scene} {...props} />
   
 }
@@ -43,7 +43,7 @@ export const Model = () => {
         rotation={[1.5, 0.3, 0]}
         scale={[0.4, 0.4, 0.4]}
       />
-      <mesh      
+      {/* <mesh      
       receiveShadow
         geometry={nodes.ChamferBox001.geometry}
         scale={[0.02, 0.02, 0.02]}
@@ -258,7 +258,7 @@ export const Model = () => {
           depthTest={true}
           depthWrite={true}
         />         
-      </mesh>
+      </mesh> */}
     </group>
   );
 }
