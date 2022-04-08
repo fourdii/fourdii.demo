@@ -11,7 +11,9 @@ import {
   Environment,
   RoundedBox,
   softShadows,
-  Loader
+  Loader,
+  Text, 
+  TrackballControls,
 } from "@react-three/drei";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
@@ -46,6 +48,9 @@ import instagramButton from "./instagram.svg";
 import discordButton from "./discord.svg";
 import arrowLeft from "./arrowLeft.svg";
 import arrowRight from "./arrowRight.svg";
+import arrow from "./arrow.svg";
+import ring from "./ring.svg";
+
 
 gsap.registerPlugin(ScrollTrigger);
 softShadows();
@@ -54,7 +59,7 @@ const params = {
   color: 0xffffff,
   transmission: 1,
   opacity: 1,
-  metalness: 0.01,
+  metalness: 0.05,
   roughness: 0,
   ior: 2,
   thickness: 0,
@@ -321,11 +326,17 @@ const GlassBox1 = ({ pos, rot, scale }) => {
   useFrame((state) => {
     if (active) {
       const t = state.clock.getElapsedTime();
-      ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
-      ref.current.rotation.x = Math.cos(t / 4) / 8;
-      ref.current.rotation.y = Math.sin(t / 4) / 8;
-      ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
+      ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 10;
+      ref.current.rotation.x = Math.cos(t / 4) / 4;
+      // ref.current.rotation.y = Math.sin(t / 4) / 4;
+      ref.current.rotation.y = ref.current.rotation.y + 0.01;
+      ref.current.position.y = (1 + Math.sin(t / 1.5)) / 5;
     }
+    // else
+    // {
+    //   ref.current.rotation = rot;
+    //   ref.current.position = pos;
+    // }
   });
 
   const envMapFrame = new RGBELoader().load(envMapFrameURL);
@@ -823,15 +834,15 @@ const GlassBox2 = ({ pos, rot, scale }) => {
 
   const [active, setActive] = useState(false);
 
-  useFrame((state) => {
-    if (active) {
-      const t = state.clock.getElapsedTime();
-      ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
-      ref.current.rotation.x = Math.cos(t / 4) / 8;
-      ref.current.rotation.y = Math.sin(t / 4) / 8;
-      ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
-    }
-  });
+  // useFrame((state) => {
+  //   if (active) {
+  //     const t = state.clock.getElapsedTime();
+  //     ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
+  //     ref.current.rotation.x = Math.cos(t / 4) / 8;
+  //     ref.current.rotation.y = Math.sin(t / 4) / 8;
+  //     ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
+  //   }
+  // });
 
   const envMapFrame = new RGBELoader().load(envMapFrameURL);
 
@@ -1328,15 +1339,15 @@ const GlassBox3 = ({ pos, rot, scale }) => {
 
   const [active, setActive] = useState(false);
 
-  useFrame((state) => {
-    if (active) {
-      const t = state.clock.getElapsedTime();
-      ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
-      ref.current.rotation.x = Math.cos(t / 4) / 8;
-      ref.current.rotation.y = Math.sin(t / 4) / 8;
-      ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
-    }
-  });
+  // useFrame((state) => {
+  //   if (active) {
+  //     const t = state.clock.getElapsedTime();
+  //     ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
+  //     ref.current.rotation.x = Math.cos(t / 4) / 8;
+  //     ref.current.rotation.y = Math.sin(t / 4) / 8;
+  //     ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
+  //   }
+  // });
 
   const envMapFrame = new RGBELoader().load(envMapFrameURL);
 
@@ -1833,7 +1844,7 @@ const Box = ({ pos, rot }) => {
 
   return (
     <mesh castshadow position={pos} rotation={rot} ref={ref}>
-      <RoundedBox args={[1, 1, 1]} radius={0.1}>
+      <RoundedBox castshadow args={[1, 1, 1]} radius={0.1}>
         <meshPhysicalMaterial
           color={params.color}
           transmission={params.transmission}
@@ -1866,22 +1877,24 @@ const Cube = (pos) => {
   const texture_5 = useLoader(TextureLoader, F5);
   const texture_6 = useLoader(TextureLoader, F6);
 
-  const [active, setActive] = useState(false);
-  useFrame((state, delta) => {
-    if (active) {
-      ref.current.rotation.y += 0.02;
-    }
-  });
+  
+
+  // const [active, setActive] = useState(false);
+  // useFrame((state, delta) => {
+  //   if (active) {
+  //     ref.current.rotation.y += 0.02;
+  //   }
+  // });
 
   return (
     <mesh castshadow position={pos.pos} ref={ref} args={[1, 1, 1]} scale={[0.8, 0.8, 0.8]}>
-      <boxGeometry />
-      <meshStandardMaterial map={texture_1} attach="material" />
-      <meshStandardMaterial map={texture_2} attach="material" />
-      <meshStandardMaterial map={texture_3} attach="material" />
-      <meshStandardMaterial map={texture_4} attach="material" />
-      <meshStandardMaterial map={texture_5} attach="material" />
-      <meshStandardMaterial map={texture_6} attach="material" />
+      <boxBufferGeometry castshadow attach="geometry" args={[1, 1, 1]} />
+      <meshStandardMaterial map={texture_1} attachArray="material" />
+      <meshStandardMaterial map={texture_2} attachArray="material" />
+      <meshStandardMaterial map={texture_3} attachArray="material" />
+      <meshStandardMaterial map={texture_4} attachArray="material" />
+      <meshStandardMaterial map={texture_5} attachArray="material" />
+      <meshStandardMaterial map={texture_6} attachArray="material" />
     </mesh>
   );
 };
@@ -1934,6 +1947,80 @@ const CameraControl = () => {
   );
 };
 
+const Word = ({ size, children, ...props }) => {
+  //const color = new THREE.Color()
+  const fontProps = { font: './roboto.woff', fontSize: size, letterSpacing: -0.05, lineHeight: 1, 'material-toneMapped': false }
+  const ref = useRef()
+  useEffect(() => {
+    ref.current.material.color.set('white');
+  }, [])
+  //const [hovered, setHovered] = useState(false)
+  // const over = (e) => (e.stopPropagation(), setHovered(true))
+  // const out = () => setHovered(false)
+  // Change the mouse cursor on hover
+  // useEffect(() => {
+  //   if (hovered) document.body.style.cursor = 'pointer'
+  //   return () => (document.body.style.cursor = 'auto')
+  // }, [hovered])
+  // // Tie component to the render-loop
+  // useFrame(({ camera }) => {
+  //   // Make text face the camera
+  //   ref.current.quaternion.copy(camera.quaternion)
+  //   // Animate font color
+  //   ref.current.material.color.lerp(color.set(hovered ? '#fa2720' : 'white'), 0.1)
+  // })
+  return <Text ref={ref}  {...props} {...fontProps} children={children} />
+}
+
+const GroupInfo = ({groupPos, groupRot, mainPos, subPos, mainWord, subWord, ...props}) => {
+
+  return(
+    <group position={groupPos} rotation={groupRot}>
+      <MainWord position={mainPos} children={mainWord} />
+      <SubWord  position={subPos} children={subWord}/>
+      <ArrowIcon  />
+    </group>
+  )
+}
+
+const ArrowIcon = () => {
+
+  const arrowMap = useLoader(TextureLoader, arrow);
+  const ringMap = useLoader(TextureLoader, ring);
+
+
+  return(
+    <group>
+       <mesh>
+        <circleBufferGeometry name="geometry" />
+        <meshBasicMaterial name="material" color="black" opacity={1}  map={arrowMap} transparent />
+      </mesh>
+      <mesh>
+        <circleBufferGeometry name="geometry" />
+        <meshBasicMaterial name="material" color="black" opacity={1}  map={ringMap} transparent />
+      </mesh>
+    </group>
+  )
+}
+
+const MainWord = ({pos, word, ...props}) => {
+
+  return(
+    <group>
+    <Word  position={pos} children={word} size={5}/>
+    </group>
+  )
+}
+
+const SubWord = ({pos, word, ...props}) => {
+
+  return(
+    <group>
+    <Word  position={pos} children={word} size={2.5}/>
+    </group>
+  )
+}
+
 export function TopSection() {
   const [clicked, setClicked] = useState(false);
   const [ready, setReady] = useState(false);
@@ -1977,7 +2064,9 @@ export function TopSection() {
         />
         <Suspense fallback={null}>
           <group position={[0, -5, 0]}>
-            <group position={[-3, 1.2, -1]} scale={[2, 2, 2]}>
+            {/* history */}
+
+            <group position={[-3, 1.2, -2]} scale={[2, 2, 2]}>
               <Box
                 {...{
                   pos: [6, 0, -4],
@@ -1996,54 +2085,19 @@ export function TopSection() {
                   rot: [0, 0.4, 0],
                 }}
               />
+               <Html              
+              distanceFactor={10}>
+                <HtmlContentWrapper>
+                  <HtmlContentHeader>Mancell’s Moments</HtmlContentHeader>
+                  <HtmlContentSubWrapper>
+                  <HtmlContentParagraph>VIEW NFTs</HtmlContentParagraph>
+                  <HtmlContentButton/>
+                  </HtmlContentSubWrapper>
+                </HtmlContentWrapper>
+              </Html>
             </group>
 
-            <group position={[-15, 1.2, 10]} scale={[2, 2, 2]}>
-              <Box
-                {...{
-                  pos: [0, 0, 0],
-                  rot: [0, 0, 0],
-                }}
-              />
-              <Box
-                {...{
-                  pos: [3, 0, 0],
-                  rot: [0, 0, 0],
-                }}
-              />
-              <Box
-                {...{
-                  pos: [6, 0, 0],
-                  rot: [0, 0, 0],
-                }}
-              />
-                <Box
-                {...{
-                  pos: [0, 0, -3],
-                  rot: [0, 0, 0],
-                }}
-              />
-                <Box
-                {...{
-                  pos: [0, 0, -6],
-                  rot: [0, 0, 0],
-                }}
-              />
-                <Box
-                {...{
-                  pos: [3, 0, -6],
-                  rot: [0, 0, 0],
-                }}
-              />
-                <Box
-                {...{
-                  pos: [3, 0, -3],
-                  rot: [0, 0, 0],
-                }}
-              />
-            </group>
-
-            <group position={[1, 1.2, 0]} scale={[2, 2, 2]}>
+            <group position={[1, 1.2, -1]} scale={[2, 2, 2]}>
               <GlassBox1
                 {...{
                   pos: [-3, 0, -4],
@@ -2065,14 +2119,107 @@ export function TopSection() {
                   scale: [0.4, 0.4, 0.4],
                 }}
               />
+               <Html              
+              distanceFactor={1}>
+                <HtmlContentWrapper>
+                  <HtmlContentHeader>Mancell’s Gear</HtmlContentHeader>
+                  <HtmlContentSubWrapper>
+                  <HtmlContentParagraph>VIEW NFTs</HtmlContentParagraph>
+                  <HtmlContentButton/>
+                  </HtmlContentSubWrapper>
+                </HtmlContentWrapper>
+              </Html>
             </group>
 
-            <Car
-              rotation={[0, Math.PI - 4.1, 0]}
-              position={[0, 0, -17]}
-              scale={[1.5, 1.5, 1.5]}
-            />
+            <group>
+              <Car
+                rotation={[0, Math.PI - 4.1, 0]}
+                position={[0, 0, -17]}
+                scale={[1.5, 1.5, 1.5]}
+              />
+                <Html              
+              distanceFactor={1}>
+                <HtmlContentWrapper>
+                  <HtmlContentHeader>Mancell’s Machines</HtmlContentHeader>
+                  <HtmlContentSubWrapper>
+                  <HtmlContentParagraph>VIEW NFTs</HtmlContentParagraph>
+                  <HtmlContentButton/>
+                  </HtmlContentSubWrapper>
+                </HtmlContentWrapper>
+              </Html>
+            </group>
 
+            {/* moments */}
+            <group  position={[-15, 1.2, 10]} scale={[2, 2, 2]}>
+              <Box
+                {...{
+                  pos: [0, 0, 0],
+                  rot: [0, 0, 0],
+                }}
+              />
+              <Box
+                {...{
+                  pos: [3, 0, 0],
+                  rot: [0, 0, 0],
+                }}
+              />
+              <Box
+                {...{
+                  pos: [6, 0, 0],
+                  rot: [0, 0, 0],
+                }}
+              />
+              <Box
+                {...{
+                  pos: [0, 0, -3],
+                  rot: [0, 0, 0],
+                }}
+              />
+              <Box
+                {...{
+                  pos: [0, 0, -6],
+                  rot: [0, 0, 0],
+                }}
+              />
+              <Box
+                {...{
+                  pos: [3, 0, -6],
+                  rot: [0, 0, 0],
+                }}
+              />
+              <Box
+                {...{
+                  pos: [3, 0, -3],
+                  rot: [0, 0, 0],
+                }}
+              />
+              <Html 
+              //  transform
+              //  position={[0, 0, 0]}
+              //  rotation={[0, 2.5, 0]}
+              distanceFactor={30}>
+                <HtmlContentWrapper>
+                  <HtmlContentHeader>Motorsport Moments</HtmlContentHeader>
+                  {/* <br /> */}
+                  <HtmlContentSubWrapper>
+                  <HtmlContentParagraph>VIEW NFTs</HtmlContentParagraph>
+                  <HtmlContentButton/>
+                  </HtmlContentSubWrapper>
+                </HtmlContentWrapper>
+              </Html>
+              {/* <GroupInfo
+                {...{
+                  groupPos: [-6, 0, -7],
+                  groupRot: [0, 0, 0],
+                  mainPos: [0, 0, 0],
+                  subPos: [0, 0, 0],
+                  mainWord: "Motorsport Moments",
+                  subWord: "VIEW NFTs"
+                }}
+              /> */}
+            </group>
+
+            {/* scene */}
             <Cylinder {...store} />
 
             <gridHelper
@@ -2095,6 +2242,78 @@ export function TopSection() {
   );
 }
 
+
+const HtmlContentWrapper = styled.div`
+  ${tw`
+  mt-36
+flex
+flex-col
+flex-wrap
+justify-between
+items-center
+w-auto
+`};
+`;
+
+
+const HtmlContentSubWrapper = styled.div`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-between
+items-center
+`};
+`;
+
+const HtmlContentHeader = styled.div`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-between
+items-center
+text-[25px]
+// w-auto
+font-family[Roboto]
+whitespace-nowrap
+`};
+`;
+
+const HtmlContentParagraph = styled.p`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-between
+items-center
+text-[12px]
+w-auto
+h-auto
+relative
+font-family[Roboto]
+whitespace-nowrap
+`};
+`;
+
+const HtmlContentButton = styled.button`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-start
+items-start
+text-sm
+w-10
+h-10
+bg-no-repeat
+bg-center
+`};
+background-image: url(${arrow});
+`;
+
+
+
 const OverlayContainer = styled.div`
   ${tw`
     flex
@@ -2106,10 +2325,11 @@ const OverlayContainer = styled.div`
     bottom-0
     // px-8
     // pt-16
-    z-50
+    z-40
     bg-opacity-0
     // overflow-x-hidden
     // overflow-y-auto
+    pointer-events-none
     `};
 `;
 
@@ -2393,32 +2613,70 @@ pr-[55px]
 `};
 `;
 
-const ArrowLeft = styled.button`
+// const ArrowLeft = styled.button`
+//   ${tw`
+// flex
+// flex-col
+// justify-center
+// items-center
+// self-center
+// w-1/6
+// h-1/4
+// bg-no-repeat
+// text-gray-200
+// text-9xl
+// `};
+// `;
+
+// const ArrowRight = styled.button`
+//   ${tw`
+//   flex
+//   flex-col
+//   justify-center
+//   items-center
+//   self-center
+//   w-1/6
+//   h-1/4
+//   bg-no-repeat
+//   text-gray-200
+// `};
+// `;
+
+const AbsoluteArrowLeft = styled.button`
   ${tw`
-flex
-flex-col
-justify-center
-items-center
-self-center
+// flex
+// flex-col
+// justify-center
+// items-center
+// self-center
 w-1/6
-h-1/4
+h-1/2
+absolute 
+top-1/4
+-left-10
 bg-no-repeat
 text-gray-200
 text-9xl
+z-50
 `};
 `;
 
-const ArrowRight = styled.button`
+const AbsoluteArrowRight = styled.button`
   ${tw`
-  flex
-  flex-col
-  justify-center
-  items-center
-  self-center
+  // flex
+  // flex-col
+  // justify-center
+  // items-center
+  // self-center
   w-1/6
-  h-1/4
+  h-1/2
+  absolute 
+  top-1/4
+  -right-10
   bg-no-repeat
   text-gray-200
+  text-9xl
+  z-50
 `};
 `;
 
@@ -2446,89 +2704,139 @@ export default function Overlay({ ready, clicked, setClicked }) {
   }, [RightState]);
 
   return (
-    <OverlayContainer>
-      <ArrowsWrapper>
-        <LeftWrapper>
-          <ArrowLeft
-            onClick={(e) => {
-              setDisabled(true);
-              leftState.count++;
-              setLeftState(leftState.count);
-            }}
-            disabled={disabled}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              // width="16"
-              // height="16"
-              fill="currentColor"
-              // class="bi bi-chevron-compact-left"
-              viewBox="0 0 16 16"
-              className="bi bi-chevron-compact-left h-48 w-48 ml-10 fill-gray-100"
+    <>
+      <AbsoluteArrowLeft
+        onClick={(e) => {
+          setDisabled(true);
+          leftState.count++;
+          setLeftState(leftState.count);
+        }}
+        disabled={disabled}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          // width="16"
+          // height="16"
+          fill="currentColor"
+          // class="bi bi-chevron-compact-left"
+          viewBox="0 0 16 16"
+          className="bi bi-chevron-compact-left fill-gray-100"
+        >
+          <path
+            fillRule="evenodd"
+            d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223z"
+          />
+        </svg>
+      </AbsoluteArrowLeft>
+
+      <AbsoluteArrowRight
+        onClick={(e) => {
+          setDisabled(true);
+          rightState.count++;
+          setRightState(rightState.count);
+        }}
+        disabled={disabled}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          // width="16"
+          // height="16"
+          fill="currentColor"
+          //class="bi bi-chevron-compact-right"
+          viewBox="0 0 16 16"
+          className="bi bi-chevron-compact-right fill-gray-100"
+        >
+          <path
+            fillRule="evenodd"
+            d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"
+          />
+        </svg>
+      </AbsoluteArrowRight>
+
+      <OverlayContainer>
+        <ArrowsWrapper>
+          <LeftWrapper>
+            {/* <ArrowLeft
+              onClick={(e) => {
+                setDisabled(true);
+                leftState.count++;
+                setLeftState(leftState.count);
+              }}
+              disabled={disabled}
             >
-              <path
-                fillRule="evenodd"
-                d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223z"
-              />
-            </svg>
-          </ArrowLeft>
-        </LeftWrapper>
-        <MiddleWrapper>
-          <MiddleContent>
-            <Header>Motorsport Moments</Header>
-            <Paragraph>
-              Own the great moments in Motorsport history and earn access,
-              status, and coin in our community. Checkout our moments or shop
-              all motorsport NFTs. More drops coming soon!
-            </Paragraph>
-          </MiddleContent>
-        </MiddleWrapper>
-        <RightWrapper>
-          <ArrowRight
-            onClick={(e) => {
-              setDisabled(true);
-              rightState.count++;
-              setRightState(rightState.count);
-            }}
-            disabled={disabled}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              // width="16"
-              // height="16"
-              fill="currentColor"
-              //class="bi bi-chevron-compact-right"
-              viewBox="0 0 16 16"
-              className="bi bi-chevron-compact-right h-48 w-48 mr-10 fill-gray-100"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                // width="16"
+                // height="16"
+                fill="currentColor"
+                // class="bi bi-chevron-compact-left"
+                viewBox="0 0 16 16"
+                className="bi bi-chevron-compact-left h-48 w-48 ml-10 fill-gray-100"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223z"
+                />
+              </svg>
+            </ArrowLeft> */}
+          </LeftWrapper>
+          <MiddleWrapper>
+            <MiddleContent>
+              <Header>Motorsport Moments</Header>
+              <Paragraph>
+                Own the great moments in Motorsport history and earn access,
+                status, and coin in our community. Checkout our moments or shop
+                all motorsport NFTs. More drops coming soon!
+              </Paragraph>
+            </MiddleContent>
+          </MiddleWrapper>
+          <RightWrapper>
+            {/* <ArrowRight
+              onClick={(e) => {
+                setDisabled(true);
+                rightState.count++;
+                setRightState(rightState.count);
+              }}
+              disabled={disabled}
             >
-              <path
-                fillRule="evenodd"
-                d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"
-              />
-            </svg>
-          </ArrowRight>
-        </RightWrapper>
-      </ArrowsWrapper>
-      <Footer>
-        <ContentWrapper>
-          <ContentLeft>
-            <ContentNestWrapper>
-              © 2022 Motorsport Network, All Rights Reserved
-            </ContentNestWrapper>
-          </ContentLeft>
-          <ContentMiddle>
-            <FacebookButton></FacebookButton>
-            <TwitterButton></TwitterButton>
-            <InstagramButton></InstagramButton>
-            <YoutubeButton></YoutubeButton>
-            <DiscordButton></DiscordButton>
-          </ContentMiddle>
-          <ContentRight>
-            <ContentButton>Terms of Service</ContentButton>
-            <ContentButton>PrivacyPolicy</ContentButton>
-          </ContentRight>
-        </ContentWrapper>
-      </Footer>
-    </OverlayContainer>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                // width="16"
+                // height="16"
+                fill="currentColor"
+                //class="bi bi-chevron-compact-right"
+                viewBox="0 0 16 16"
+                className="bi bi-chevron-compact-right h-48 w-48 mr-10 fill-gray-100"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"
+                />
+              </svg>
+            </ArrowRight> */}
+          </RightWrapper>
+        </ArrowsWrapper>
+        <Footer>
+          <ContentWrapper>
+            <ContentLeft>
+              <ContentNestWrapper>
+                © 2022 Motorsport Network, All Rights Reserved
+              </ContentNestWrapper>
+            </ContentLeft>
+            <ContentMiddle>
+              <FacebookButton></FacebookButton>
+              <TwitterButton></TwitterButton>
+              <InstagramButton></InstagramButton>
+              <YoutubeButton></YoutubeButton>
+              <DiscordButton></DiscordButton>
+            </ContentMiddle>
+            <ContentRight>
+              <ContentButton>Terms of Service</ContentButton>
+              <ContentButton>PrivacyPolicy</ContentButton>
+            </ContentRight>
+          </ContentWrapper>
+        </Footer>
+      </OverlayContainer>
+    </>
   );
 }
