@@ -231,7 +231,7 @@ const AnimationWrapper = () => {
 
   React.useEffect(() => {
     scene.rotation.set(0, 1.4, 0);
-    camera.position.set(0, 0, 0);
+    // camera.position.set(0, 0, 0);
 
     // let spherical = new THREE.Spherical(0, Math.PI, 0);
     // spherical.makeSafe();
@@ -243,7 +243,7 @@ const AnimationWrapper = () => {
       },
     });
 
-    animateModelIn.to(scene.rotation, { y: 6.28, duration: 5, delay: 0.5 });
+    animateModelIn.to(scene.rotation, { y: 6.28, duration: 5, delay: 5 });
 
     // tl.current = gsap
     //   .timeline({
@@ -1947,79 +1947,6 @@ const CameraControl = () => {
   );
 };
 
-const Word = ({ size, children, ...props }) => {
-  //const color = new THREE.Color()
-  const fontProps = { font: './roboto.woff', fontSize: size, letterSpacing: -0.05, lineHeight: 1, 'material-toneMapped': false }
-  const ref = useRef()
-  useEffect(() => {
-    ref.current.material.color.set('white');
-  }, [])
-  //const [hovered, setHovered] = useState(false)
-  // const over = (e) => (e.stopPropagation(), setHovered(true))
-  // const out = () => setHovered(false)
-  // Change the mouse cursor on hover
-  // useEffect(() => {
-  //   if (hovered) document.body.style.cursor = 'pointer'
-  //   return () => (document.body.style.cursor = 'auto')
-  // }, [hovered])
-  // // Tie component to the render-loop
-  // useFrame(({ camera }) => {
-  //   // Make text face the camera
-  //   ref.current.quaternion.copy(camera.quaternion)
-  //   // Animate font color
-  //   ref.current.material.color.lerp(color.set(hovered ? '#fa2720' : 'white'), 0.1)
-  // })
-  return <Text ref={ref}  {...props} {...fontProps} children={children} />
-}
-
-const GroupInfo = ({groupPos, groupRot, mainPos, subPos, mainWord, subWord, ...props}) => {
-
-  return(
-    <group position={groupPos} rotation={groupRot}>
-      <MainWord position={mainPos} children={mainWord} />
-      <SubWord  position={subPos} children={subWord}/>
-      <ArrowIcon  />
-    </group>
-  )
-}
-
-const ArrowIcon = () => {
-
-  const arrowMap = useLoader(TextureLoader, arrow);
-  const ringMap = useLoader(TextureLoader, ring);
-
-
-  return(
-    <group>
-       <mesh>
-        <circleBufferGeometry name="geometry" />
-        <meshBasicMaterial name="material" color="black" opacity={1}  map={arrowMap} transparent />
-      </mesh>
-      <mesh>
-        <circleBufferGeometry name="geometry" />
-        <meshBasicMaterial name="material" color="black" opacity={1}  map={ringMap} transparent />
-      </mesh>
-    </group>
-  )
-}
-
-const MainWord = ({pos, word, ...props}) => {
-
-  return(
-    <group>
-    <Word  position={pos} children={word} size={5}/>
-    </group>
-  )
-}
-
-const SubWord = ({pos, word, ...props}) => {
-
-  return(
-    <group>
-    <Word  position={pos} children={word} size={2.5}/>
-    </group>
-  )
-}
 
 export function TopSection() {
   const [clicked, setClicked] = useState(false);
@@ -2085,13 +2012,20 @@ export function TopSection() {
                   rot: [0, 0.4, 0],
                 }}
               />
-               <Html              
-              distanceFactor={10}>
+              <Html
+                transform
+                position={[4, -0.5, -2.5]}
+                rotation={[0, 0, 0]}
+                scale={[4, 4, 4]}
+                distanceFactor={1}
+              >
                 <HtmlContentWrapper>
                   <HtmlContentHeader>Mancell’s Moments</HtmlContentHeader>
                   <HtmlContentSubWrapper>
-                  <HtmlContentParagraph>VIEW NFTs</HtmlContentParagraph>
-                  <HtmlContentButton/>
+                    <HtmlContentParagraph>VIEW NFTs</HtmlContentParagraph>
+                    <HtmlContentButton>
+                      <HtmlContentRing />
+                    </HtmlContentButton>
                   </HtmlContentSubWrapper>
                 </HtmlContentWrapper>
               </Html>
@@ -2119,13 +2053,17 @@ export function TopSection() {
                   scale: [0.4, 0.4, 0.4],
                 }}
               />
-               <Html              
+              <Html    
+               transform
+               position={[-4, -0.5, -3]}
+               rotation={[0, 0, 0]}
+               scale={[4, 4, 4]}        
               distanceFactor={1}>
                 <HtmlContentWrapper>
                   <HtmlContentHeader>Mancell’s Gear</HtmlContentHeader>
                   <HtmlContentSubWrapper>
                   <HtmlContentParagraph>VIEW NFTs</HtmlContentParagraph>
-                  <HtmlContentButton/>
+                  <HtmlContentButton><HtmlContentRing/></HtmlContentButton>
                   </HtmlContentSubWrapper>
                 </HtmlContentWrapper>
               </Html>
@@ -2137,20 +2075,24 @@ export function TopSection() {
                 position={[0, 0, -17]}
                 scale={[1.5, 1.5, 1.5]}
               />
-                <Html              
+              <Html  
+                  transform
+                  position={[0, 0.5, -12]}
+                  rotation={[0, 0, 0]}
+                  scale={[8, 8, 8]}           
               distanceFactor={1}>
                 <HtmlContentWrapper>
                   <HtmlContentHeader>Mancell’s Machines</HtmlContentHeader>
                   <HtmlContentSubWrapper>
                   <HtmlContentParagraph>VIEW NFTs</HtmlContentParagraph>
-                  <HtmlContentButton/>
+                  <HtmlContentButton><HtmlContentRing/></HtmlContentButton>
                   </HtmlContentSubWrapper>
                 </HtmlContentWrapper>
               </Html>
             </group>
 
             {/* moments */}
-            <group  position={[-15, 1.2, 10]} scale={[2, 2, 2]}>
+            <group position={[-15, 1.2, 10]} scale={[2, 2, 2]}>
               <Box
                 {...{
                   pos: [0, 0, 0],
@@ -2193,17 +2135,20 @@ export function TopSection() {
                   rot: [0, 0, 0],
                 }}
               />
-              <Html 
-              //  transform
-              //  position={[0, 0, 0]}
-              //  rotation={[0, 2.5, 0]}
-              distanceFactor={30}>
+              <Html
+                //  transform
+                //  position={[0, 0, 0]}
+                //  rotation={[0, 2.5, 0]}
+                distanceFactor={30}
+              >
                 <HtmlContentWrapper>
                   <HtmlContentHeader>Motorsport Moments</HtmlContentHeader>
                   {/* <br /> */}
                   <HtmlContentSubWrapper>
-                  <HtmlContentParagraph>VIEW NFTs</HtmlContentParagraph>
-                  <HtmlContentButton/>
+                    <HtmlContentParagraph>VIEW NFTs</HtmlContentParagraph>
+                    <HtmlContentButton>
+                      <HtmlContentRing />
+                    </HtmlContentButton>
                   </HtmlContentSubWrapper>
                 </HtmlContentWrapper>
               </Html>
@@ -2308,9 +2253,31 @@ w-10
 h-10
 bg-no-repeat
 bg-center
+relative
 `};
 background-image: url(${arrow});
 `;
+
+const HtmlContentRing = styled.button`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-start
+items-start
+text-sm
+w-10
+h-10
+bg-no-repeat
+bg-center
+
+  absolute
+  top-0
+  left-0
+`};
+background-image: url(${ring});
+`;
+
 
 
 
@@ -2649,11 +2616,11 @@ const AbsoluteArrowLeft = styled.button`
 // justify-center
 // items-center
 // self-center
-w-1/6
+w-1/12
 h-1/2
 absolute 
 top-1/4
--left-10
+left-0
 bg-no-repeat
 text-gray-200
 text-9xl
@@ -2668,11 +2635,11 @@ const AbsoluteArrowRight = styled.button`
   // justify-center
   // items-center
   // self-center
-  w-1/6
+  w-1/12
   h-1/2
   absolute 
   top-1/4
-  -right-10
+  right-0
   bg-no-repeat
   text-gray-200
   text-9xl
