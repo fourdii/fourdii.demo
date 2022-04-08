@@ -1,69 +1,79 @@
 import * as THREE from "three";
-import React, {
-  Suspense,
-  useEffect,
-  useLayoutEffect,
-  useState,
-  useRef,
-} from "react";
+import React, { Suspense, useState, useRef, useEffect, useMemo } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import {
   Html,
   useProgress,
   MeshReflectorMaterial,
-  Text,
   useTexture,
   useGLTF,
   OrbitControls,
   Environment,
-  Reflector,
-  Stats,
   RoundedBox,
-  PerspectiveCamera
+  softShadows,
+  Loader
 } from "@react-three/drei";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
-// import Overlay from "./Overlay";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import carModelUrl from "./f1.glb";
 import car1 from "./car1.glb";
 import car2 from "./car2.glb";
 import car3 from "./car3.glb";
 import floorTexUri from "./floor.jpeg";
-
 import styled from "styled-components";
 import tw from "twin.macro";
-// import { Controls, PlayState, Timeline, Tween } from 'react-gsap';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-//import { Timeline } from "gsap/gsap-core";
 import gsap from "gsap";
 import "./style.css";
 import C1 from "./C1.jpg";
 import C2 from "./C2.jpg";
 import V1 from "./V1.mp4";
-
-
-import glassBoxURL from "./glassBox.glb";
+import envMapFrameURL from "./texture/envMapFrame.hdr";
+import glassBoxPedstalURL from "./glassBoxPedstal.glb";
 import envMapURL from "./empty_warehouse_01_2k.hdr";
-import texture1 from "./texture_1.jpg";
+import F1 from "./F1.png";
+import F2 from "./F2.png";
+import F3 from "./F3.png";
+import F4 from "./F4.png";
+import F5 from "./F5.png";
+import F6 from "./F6.png";
 import { proxy, useSnapshot, subscribe } from "valtio";
-import { MeshStandardMaterial } from "three";
-// import { Physics, usePlane } from '@react-three/cannon'
+import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
+import twitterButton from "./twitter.svg";
+import facebookButton from "./facebook.svg";
+import youtubeButton from "./youtube.svg";
+import instagramButton from "./instagram.svg";
+import discordButton from "./discord.svg";
+import arrowLeft from "./arrowLeft.svg";
+import arrowRight from "./arrowRight.svg";
 
 gsap.registerPlugin(ScrollTrigger);
+softShadows();
 
 const params = {
   color: 0xffffff,
   transmission: 1,
-  opacity: 0.3,
-  metalness: 0,
+  opacity: 1,
+  metalness: 0.01,
   roughness: 0,
-  ior: 1.5,
-  thickness: 0.01,
+  ior: 2,
+  thickness: 0,
   specularIntensity: 1,
   specularColor: 0xffffff,
   lightIntensity: 1,
   exposure: 1,
   reflectivity: 1,
-  envMapIntensity: 0.8,
+  envMapIntensity: 1,
+};
+
+const paramsMetal = {
+  color: 0x000000,
+  emmisive: 0x000000,
+  opacity: 1,
+  metalness: 0.7,
+  roughness: 0.3,
+  reflectivity: 1,
+  clearcoat: 0.5,
 };
 
 const leftState = proxy({
@@ -86,23 +96,29 @@ const rightState = proxy({
 // `;
 
 const Car = (props) => {
-  const { scene } = useGLTF(carModelUrl);
-  return <primitive object={scene} {...props} />;
+  //const { scene } = useGLTF(carModelUrl);
+
+
+  const { nodes, scene } = useLoader(GLTFLoader, carModelUrl)
+  useMemo(() => Object.values(nodes).forEach(obj =>
+    obj.isMesh && Object.assign(obj, { castShadow: true })), [nodes])
+
+  return <primitive castShadow object={scene} dispose={null} {...props} />;
 };
 
 const CarModel1 = (props) => {
   const { scene } = useGLTF(car1);
-  return <primitive object={scene} {...props} />;
+  return <primitive castShadow object={scene} {...props} />;
 };
 
 const CarModel2 = (props) => {
   const { scene } = useGLTF(car2);
-  return <primitive object={scene} {...props} />;
+  return <primitive castShadow object={scene} {...props} />;
 };
 
 const CarModel3 = (props) => {
   const { scene } = useGLTF(car3);
-  return <primitive object={scene} {...props} />;
+  return <primitive castShadow object={scene} {...props} />;
 };
 
 const Cylinder = ({ clicked, ...props }) => {
@@ -124,8 +140,8 @@ const Cylinder = ({ clicked, ...props }) => {
   c2.repeat.x = -1;
 
   const state = {
-    radius: 16,
-    height: 15,
+    radius: 25,
+    height: 20,
   };
   // c3.wrapS = THREE.RepeatWrapping;
   // c3.repeat.x = -1;
@@ -173,9 +189,9 @@ const Cylinder = ({ clicked, ...props }) => {
         <meshBasicMaterial
           attachArray="material"
           side={THREE.BackSide}
-          // map={c2}
+           map={c2}
         >
-          <videoTexture attach="map" args={[video]} />
+          {/* <videoTexture attach="map" args={[video]} /> */}
         </meshBasicMaterial>
       </mesh>
 
@@ -195,8 +211,10 @@ const Cylinder = ({ clicked, ...props }) => {
         <meshBasicMaterial
           attachArray="material"
           side={THREE.BackSide}
-          map={c2}
-        ></meshBasicMaterial>
+         // map={c2}
+        >
+           <videoTexture attach="map" args={[video]} />
+        </meshBasicMaterial>
       </mesh>
     </group>
   );
@@ -290,39 +308,156 @@ const SpinCylinderRight = () => {
   return null;
 };
 
-const GlassBox1 = ({ pos, rot }) => {
+const GlassBox1 = ({ pos, rot, scale }) => {
   const ref = useRef(null);
 
+  // useFrame((state, delta) => {
+  //   if (active) {
+  //     ref.current.rotation.y += 0.04;
+  //   }
+  // });
   const [active, setActive] = useState(false);
-  useFrame((state, delta) => {
+
+  useFrame((state) => {
     if (active) {
-      ref.current.rotation.y += 0.04;
+      const t = state.clock.getElapsedTime();
+      ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
+      ref.current.rotation.x = Math.cos(t / 4) / 8;
+      ref.current.rotation.y = Math.sin(t / 4) / 8;
+      ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
     }
   });
 
-  const { nodes } = useGLTF(glassBoxURL);
+  const envMapFrame = new RGBELoader().load(envMapFrameURL);
+
+  const { nodes } = useGLTF(glassBoxPedstalURL);
 
   return (
     <group
       onPointerEnter={() => setActive(true)}
       onPointerLeave={() => setActive(false)}
-      scale={[0.6, 0.6, 0.6]}
+      scale={scale}
       position={pos}
       rotation={rot}
       ref={ref}
     >
-      <spotLight intensity={1} position={[0, 3, 0]} angle={1} penumbra={1} />
+      {/* <spotLight intensity={1} position={[0, 10, 0]} angle={0.1} penumbra={0.8} /> */}
       <CarModel1
-        position={[0, 1.1, 0]}
+        position={[0, 1.3, 0]}
         rotation={[1.5, 0.4, 0]}
-        scale={[0.4, 0.4, 0.4]}
+        scale={[0.2, 0.2, 0.2]}
       />
+
+      <mesh
+        geometry={nodes.Cylinder.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={paramsMetal.color}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Cylinder1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={paramsMetal.color}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+
+      <mesh
+        geometry={nodes.Cylinder1_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+        receiveShadow
+      >
+        <meshPhysicalMaterial
+          color={"#808080"}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Cylinder2.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+        receiveShadow
+      >
+        <meshPhysicalMaterial
+          color={"#808080"}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+
+      {/* pedstal */}
+      <mesh
+        geometry={nodes.Cylinder2_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+        receiveShadow
+      >
+        <meshPhysicalMaterial
+          color={paramsMetal.color}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Cylinder_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#808080"}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+
       <mesh
         geometry={nodes.ChamferBox001.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
       >
-        <meshPhysicalMaterial
+        {/* <meshPhysicalMaterial
           metalness={0.9}
           roughness={0.05}
           envMapIntensity={0.9}
@@ -334,30 +469,8 @@ const GlassBox1 = ({ pos, rot }) => {
           refractionRatio={0.985}
           ior={0.9}
           side={THREE.BackSide}
-        />
+        /> */}
 
-        {/* <meshPhysicalMaterial
-            color={params.color} 
-            transmission={params.transmission} 
-            opacity={params.opacity} 
-            metalness={params.metalness} 
-            roughness={params.roughness} 
-            ior={params.ior} 
-            thickness={params.thickness} 
-            specularIntensity={params.specularIntensity} 
-            specularColor={params.specularColor} 
-            envMapIntensity={params.envMapIntensity} 
-            lightIntensity={params.lightIntensity} 
-            exposure={params.exposure} 
-            transparent={true}
-            side={THREE.DoubleSide}          
-         /> */}
-      </mesh>
-      <mesh
-        geometry={nodes.Cylinder001.geometry}
-        scale={[0.02, 0.02, 0.02]}
-        position={[0, -1, 0]}
-      >
         <meshPhysicalMaterial
           color={params.color}
           transmission={params.transmission}
@@ -376,9 +489,10 @@ const GlassBox1 = ({ pos, rot }) => {
         />
       </mesh>
       <mesh
-        geometry={nodes.Cylinder002.geometry}
+        geometry={nodes.ChamferBox001_1.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -401,6 +515,78 @@ const GlassBox1 = ({ pos, rot }) => {
         geometry={nodes.Object001.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+
+      {/* frame */}
+      <mesh
+        geometry={nodes.Object001_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#ffffff"}
+          transmission={1}
+          opacity={1}
+          thickness={1}
+          metalness={0.3}
+          roughness={0.1}
+          ior={params.ior}
+          specularIntensity={1}
+          specularColor={"#ffffff"}
+          envMapIntensity={1}
+          exposure={1}
+          transparent={true}
+          side={THREE.FrontSide}
+          envMap={envMapFrame}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object003.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#3e4447"}
+          transmission={params.transmission}
+          opacity={1}
+          metalness={1}
+          roughness={0}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={1}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object003_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -423,6 +609,7 @@ const GlassBox1 = ({ pos, rot }) => {
         geometry={nodes.Object004.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={"#3e4447"}
@@ -442,9 +629,56 @@ const GlassBox1 = ({ pos, rot }) => {
         />
       </mesh>
       <mesh
+        geometry={nodes.Object004_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
         geometry={nodes.Object005.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object005_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -467,29 +701,94 @@ const GlassBox1 = ({ pos, rot }) => {
         geometry={nodes.Object006.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
-          color={"#3e4447"}
+          color={params.color}
           transmission={params.transmission}
-          opacity={1}
-          metalness={1}
-          roughness={0}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
           ior={params.ior}
           thickness={params.thickness}
           specularIntensity={params.specularIntensity}
           specularColor={params.specularColor}
-          envMapIntensity={1}
+          envMapIntensity={params.envMapIntensity}
           lightIntensity={params.lightIntensity}
           exposure={params.exposure}
-          transparent={false}
+          transparent={true}
           side={THREE.DoubleSide}
-          s
+        />
+      </mesh>
+
+      {/* light */}
+      <mesh
+        geometry={nodes.Object006_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#3a3b3c"}
+          opacity={1}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.BackSide}
         />
       </mesh>
       <mesh
-        geometry={nodes.Object008.geometry}
+        geometry={nodes.Object007.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object007_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object007_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -512,39 +811,158 @@ const GlassBox1 = ({ pos, rot }) => {
   );
 };
 
-const GlassBox2 = ({ pos, rot }) => {
+const GlassBox2 = ({ pos, rot, scale }) => {
   const ref = useRef(null);
 
+  // const [active, setActive] = useState(false);
+  // useFrame((state, delta) => {
+  //   if (active) {
+  //     ref.current.rotation.y += 0.04;
+  //   }
+  // });
+
   const [active, setActive] = useState(false);
-  useFrame((state, delta) => {
+
+  useFrame((state) => {
     if (active) {
-      ref.current.rotation.y += 0.04;
+      const t = state.clock.getElapsedTime();
+      ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
+      ref.current.rotation.x = Math.cos(t / 4) / 8;
+      ref.current.rotation.y = Math.sin(t / 4) / 8;
+      ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
     }
   });
 
-  const { nodes } = useGLTF(glassBoxURL);
+  const envMapFrame = new RGBELoader().load(envMapFrameURL);
+
+  const { nodes } = useGLTF(glassBoxPedstalURL);
 
   return (
     <group
       onPointerEnter={() => setActive(true)}
       onPointerLeave={() => setActive(false)}
-      scale={[0.6, 0.6, 0.6]}
+      scale={scale}
       position={pos}
       rotation={rot}
       ref={ref}
     >
-      <spotLight intensity={1} position={[0, 3, 0]} angle={0.2} penumbra={1} />
+      {/* <spotLight intensity={1} position={[0, 10, 0]} angle={0.1} penumbra={0.8} /> */}
       <CarModel2
-        position={[0, 1.1, 0]}
+        position={[0, 1.3, 0]}
         rotation={[1.5, 0.4, 0]}
-        scale={[0.4, 0.4, 0.4]}
+        scale={[0.2, 0.2, 0.2]}
       />
+
+      <mesh
+        geometry={nodes.Cylinder.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={paramsMetal.color}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Cylinder1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={paramsMetal.color}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+
+      <mesh
+        geometry={nodes.Cylinder1_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+        receiveShadow
+      >
+        <meshPhysicalMaterial
+          color={"#808080"}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Cylinder2.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+        receiveShadow
+      >
+        <meshPhysicalMaterial
+          color={"#808080"}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+
+      {/* pedstal */}
+      <mesh
+        geometry={nodes.Cylinder2_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+        receiveShadow
+      >
+        <meshPhysicalMaterial
+          color={paramsMetal.color}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Cylinder_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#808080"}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+
       <mesh
         geometry={nodes.ChamferBox001.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
       >
-        <meshPhysicalMaterial
+        {/* <meshPhysicalMaterial
           metalness={0.9}
           roughness={0.05}
           envMapIntensity={0.9}
@@ -556,30 +974,8 @@ const GlassBox2 = ({ pos, rot }) => {
           refractionRatio={0.985}
           ior={0.9}
           side={THREE.BackSide}
-        />
-
-        {/* <meshPhysicalMaterial
-           color={params.color} 
-           transmission={params.transmission} 
-           opacity={params.opacity} 
-           metalness={params.metalness} 
-           roughness={params.roughness} 
-           ior={params.ior} 
-           thickness={params.thickness} 
-           specularIntensity={params.specularIntensity} 
-           specularColor={params.specularColor} 
-           envMapIntensity={params.envMapIntensity} 
-           lightIntensity={params.lightIntensity} 
-           exposure={params.exposure} 
-           transparent={true}
-           side={THREE.DoubleSide}          
         /> */}
-      </mesh>
-      <mesh
-        geometry={nodes.Cylinder001.geometry}
-        scale={[0.02, 0.02, 0.02]}
-        position={[0, -1, 0]}
-      >
+
         <meshPhysicalMaterial
           color={params.color}
           transmission={params.transmission}
@@ -598,9 +994,10 @@ const GlassBox2 = ({ pos, rot }) => {
         />
       </mesh>
       <mesh
-        geometry={nodes.Cylinder002.geometry}
+        geometry={nodes.ChamferBox001_1.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -623,6 +1020,78 @@ const GlassBox2 = ({ pos, rot }) => {
         geometry={nodes.Object001.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+
+      {/* frame */}
+      <mesh
+        geometry={nodes.Object001_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#ffffff"}
+          transmission={1}
+          opacity={1}
+          thickness={1}
+          metalness={0.3}
+          roughness={0.1}
+          ior={params.ior}
+          specularIntensity={1}
+          specularColor={"#ffffff"}
+          envMapIntensity={1}
+          exposure={1}
+          transparent={true}
+          side={THREE.FrontSide}
+          envMap={envMapFrame}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object003.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#3e4447"}
+          transmission={params.transmission}
+          opacity={1}
+          metalness={1}
+          roughness={0}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={1}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object003_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -645,6 +1114,30 @@ const GlassBox2 = ({ pos, rot }) => {
         geometry={nodes.Object004.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#3e4447"}
+          transmission={params.transmission}
+          opacity={1}
+          metalness={1}
+          roughness={0}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={1}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object004_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -667,6 +1160,30 @@ const GlassBox2 = ({ pos, rot }) => {
         geometry={nodes.Object005.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object005_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -689,6 +1206,7 @@ const GlassBox2 = ({ pos, rot }) => {
         geometry={nodes.Object006.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -703,13 +1221,79 @@ const GlassBox2 = ({ pos, rot }) => {
           envMapIntensity={params.envMapIntensity}
           lightIntensity={params.lightIntensity}
           exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+
+      {/* light */}
+      <mesh
+        geometry={nodes.Object006_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#3a3b3c"}
+          opacity={1}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.BackSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object007.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
           side={THREE.DoubleSide}
         />
       </mesh>
       <mesh
-        geometry={nodes.Object008.geometry}
+        geometry={nodes.Object007_1.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object007_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -732,39 +1316,158 @@ const GlassBox2 = ({ pos, rot }) => {
   );
 };
 
-const GlassBox3 = ({ pos, rot }) => {
+const GlassBox3 = ({ pos, rot, scale }) => {
   const ref = useRef(null);
 
+  // const [active, setActive] = useState(false);
+  // useFrame((state, delta) => {
+  //   if (active) {
+  //     ref.current.rotation.y += 0.04;
+  //   }
+  // });
+
   const [active, setActive] = useState(false);
-  useFrame((state, delta) => {
+
+  useFrame((state) => {
     if (active) {
-      ref.current.rotation.y += 0.04;
+      const t = state.clock.getElapsedTime();
+      ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
+      ref.current.rotation.x = Math.cos(t / 4) / 8;
+      ref.current.rotation.y = Math.sin(t / 4) / 8;
+      ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
     }
   });
 
-  const { nodes } = useGLTF(glassBoxURL);
+  const envMapFrame = new RGBELoader().load(envMapFrameURL);
+
+  const { nodes } = useGLTF(glassBoxPedstalURL);
 
   return (
     <group
       onPointerEnter={() => setActive(true)}
       onPointerLeave={() => setActive(false)}
-      scale={[0.6, 0.6, 0.6]}
+      scale={scale}
       position={pos}
       rotation={rot}
       ref={ref}
     >
-      <spotLight intensity={1} position={[0, 3, 0]} angle={0.2} penumbra={1} />
+      {/* <spotLight intensity={1} position={[0, 10, 0]} angle={0.1} penumbra={0.8} /> */}
       <CarModel3
-        position={[0, 1.1, 0]}
+        position={[0, 1.3, 0]}
         rotation={[1.5, 0.4, 0]}
-        scale={[0.4, 0.4, 0.4]}
+        scale={[0.2, 0.2, 0.2]}
       />
+
+      <mesh
+        geometry={nodes.Cylinder.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={paramsMetal.color}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Cylinder1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={paramsMetal.color}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+
+      <mesh
+        geometry={nodes.Cylinder1_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+        receiveShadow
+      >
+        <meshPhysicalMaterial
+          color={"#808080"}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Cylinder2.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+        receiveShadow
+      >
+        <meshPhysicalMaterial
+          color={"#808080"}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+
+      {/* pedstal */}
+      <mesh
+        geometry={nodes.Cylinder2_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+        receiveShadow
+      >
+        <meshPhysicalMaterial
+          color={paramsMetal.color}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Cylinder_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#808080"}
+          opacity={paramsMetal.opacity}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+
       <mesh
         geometry={nodes.ChamferBox001.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
       >
-        <meshPhysicalMaterial
+        {/* <meshPhysicalMaterial
           metalness={0.9}
           roughness={0.05}
           envMapIntensity={0.9}
@@ -776,30 +1479,8 @@ const GlassBox3 = ({ pos, rot }) => {
           refractionRatio={0.985}
           ior={0.9}
           side={THREE.BackSide}
-        />
-
-        {/* <meshPhysicalMaterial
-           color={params.color} 
-           transmission={params.transmission} 
-           opacity={params.opacity} 
-           metalness={params.metalness} 
-           roughness={params.roughness} 
-           ior={params.ior} 
-           thickness={params.thickness} 
-           specularIntensity={params.specularIntensity} 
-           specularColor={params.specularColor} 
-           envMapIntensity={params.envMapIntensity} 
-           lightIntensity={params.lightIntensity} 
-           exposure={params.exposure} 
-           transparent={true}
-           side={THREE.DoubleSide}          
         /> */}
-      </mesh>
-      <mesh
-        geometry={nodes.Cylinder001.geometry}
-        scale={[0.02, 0.02, 0.02]}
-        position={[0, -1, 0]}
-      >
+
         <meshPhysicalMaterial
           color={params.color}
           transmission={params.transmission}
@@ -818,9 +1499,10 @@ const GlassBox3 = ({ pos, rot }) => {
         />
       </mesh>
       <mesh
-        geometry={nodes.Cylinder002.geometry}
+        geometry={nodes.ChamferBox001_1.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -843,6 +1525,78 @@ const GlassBox3 = ({ pos, rot }) => {
         geometry={nodes.Object001.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+
+      {/* frame */}
+      <mesh
+        geometry={nodes.Object001_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#ffffff"}
+          transmission={1}
+          opacity={1}
+          thickness={1}
+          metalness={0.3}
+          roughness={0.1}
+          ior={params.ior}
+          specularIntensity={1}
+          specularColor={"#ffffff"}
+          envMapIntensity={1}
+          exposure={1}
+          transparent={true}
+          side={THREE.FrontSide}
+          envMap={envMapFrame}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object003.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#3e4447"}
+          transmission={params.transmission}
+          opacity={1}
+          metalness={1}
+          roughness={0}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={1}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object003_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -865,6 +1619,30 @@ const GlassBox3 = ({ pos, rot }) => {
         geometry={nodes.Object004.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#3e4447"}
+          transmission={params.transmission}
+          opacity={1}
+          metalness={1}
+          roughness={0}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={1}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object004_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -887,6 +1665,30 @@ const GlassBox3 = ({ pos, rot }) => {
         geometry={nodes.Object005.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object005_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -909,6 +1711,7 @@ const GlassBox3 = ({ pos, rot }) => {
         geometry={nodes.Object006.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -923,13 +1726,79 @@ const GlassBox3 = ({ pos, rot }) => {
           envMapIntensity={params.envMapIntensity}
           lightIntensity={params.lightIntensity}
           exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+
+      {/* light */}
+      <mesh
+        geometry={nodes.Object006_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={"#3a3b3c"}
+          opacity={1}
+          metalness={paramsMetal.metalness}
+          roughness={paramsMetal.roughness}
+          reflectivity={paramsMetal.reflectivity}
+          clearcoat={paramsMetal.clearcoat}
+          side={THREE.BackSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object007.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
           side={THREE.DoubleSide}
         />
       </mesh>
       <mesh
-        geometry={nodes.Object008.geometry}
+        geometry={nodes.Object007_1.geometry}
         scale={[0.02, 0.02, 0.02]}
         position={[0, -1, 0]}
+        castShadow
+      >
+        <meshPhysicalMaterial
+          color={params.color}
+          transmission={params.transmission}
+          opacity={params.opacity}
+          metalness={params.metalness}
+          roughness={params.roughness}
+          ior={params.ior}
+          thickness={params.thickness}
+          specularIntensity={params.specularIntensity}
+          specularColor={params.specularColor}
+          envMapIntensity={params.envMapIntensity}
+          lightIntensity={params.lightIntensity}
+          exposure={params.exposure}
+          transparent={true}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh
+        geometry={nodes.Object007_1.geometry}
+        scale={[0.02, 0.02, 0.02]}
+        position={[0, -1, 0]}
+        castShadow
       >
         <meshPhysicalMaterial
           color={params.color}
@@ -955,15 +1824,15 @@ const GlassBox3 = ({ pos, rot }) => {
 const Box = ({ pos, rot }) => {
   const ref = useRef(null);
 
-  const [active, setActive] = useState(false);
-  useFrame((state, delta) => {
-    if (active) {
-      ref.current.rotation.y += 0.02;
-    }
-  });
+  // const [active, setActive] = useState(false);
+  // useFrame((state, delta) => {
+  //   if (active) {
+  //     ref.current.rotation.y += 0.02;
+  //   }
+  // });
 
   return (
-    <mesh position={pos} rotation={rot} ref={ref}>
+    <mesh castshadow position={pos} rotation={rot} ref={ref}>
       <RoundedBox args={[1, 1, 1]} radius={0.1}>
         <meshPhysicalMaterial
           color={params.color}
@@ -979,7 +1848,7 @@ const Box = ({ pos, rot }) => {
           lightIntensity={params.lightIntensity}
           exposure={params.exposure}
           transparent={true}
-          side={THREE.DoubleSide}
+          side={THREE.FrontSide}
         />
         <Cube />
       </RoundedBox>
@@ -990,12 +1859,12 @@ const Box = ({ pos, rot }) => {
 const Cube = (pos) => {
   const ref = useRef(null);
 
-  const texture_1 = useLoader(TextureLoader, texture1);
-  const texture_2 = useLoader(TextureLoader, texture1);
-  const texture_3 = useLoader(TextureLoader, texture1);
-  const texture_4 = useLoader(TextureLoader, texture1);
-  const texture_5 = useLoader(TextureLoader, texture1);
-  const texture_6 = useLoader(TextureLoader, texture1);
+  const texture_1 = useLoader(TextureLoader, F1);
+  const texture_2 = useLoader(TextureLoader, F2);
+  const texture_3 = useLoader(TextureLoader, F3);
+  const texture_4 = useLoader(TextureLoader, F4);
+  const texture_5 = useLoader(TextureLoader, F5);
+  const texture_6 = useLoader(TextureLoader, F6);
 
   const [active, setActive] = useState(false);
   useFrame((state, delta) => {
@@ -1005,7 +1874,7 @@ const Cube = (pos) => {
   });
 
   return (
-    <mesh position={pos.pos} ref={ref} args={[1, 1, 1]} scale={[0.8, 0.8, 0.8]}>
+    <mesh castshadow position={pos.pos} ref={ref} args={[1, 1, 1]} scale={[0.8, 0.8, 0.8]}>
       <boxGeometry />
       <meshStandardMaterial map={texture_1} attach="material" />
       <meshStandardMaterial map={texture_2} attach="material" />
@@ -1026,10 +1895,11 @@ const Floor = (props) => {
 
   // const [ref] = usePlane(() => ({ type: "Static", ...props }));
   return (
-   // <mesh ref={ref} receiveShadow>
-     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
+    // <mesh ref={ref} receiveShadow>
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
       <planeGeometry args={[100, 100]} />
-      <meshStandardMaterial color={'#d4d4d4'} map={floorTex}/>
+      {/* <shadowMaterial attach="material" transparent opacity={0.1} map={floorTex}/> */}
+      <meshStandardMaterial color={"#a6a6a6"} map={floorTex} />
       {/* <MeshReflectorMaterial
         color="#878790"
         blur={[400, 400]}
@@ -1047,135 +1917,180 @@ const Floor = (props) => {
 
 const CameraControl = () => {
   const { camera, gl } = useThree();
- return  ( <OrbitControls args={[camera, gl.domElement]}
-  // maxAzimuthAngle={Math.PI/2}
-  // minAzimuthAngle={Math.PI/2}
-   rotateSpeed={0.4}
-  maxPolarAngle={Math.PI/2.31}
-  minPolarAngle={Math.PI/2.31}
-  enableRotate={true} 
-  enableDamping={true} 
-  enablePan={false} 
-  enableZoom={false} 
-  enabled={true}/>)
-}
+  return (
+    <OrbitControls
+      args={[camera, gl.domElement]}
+      // maxAzimuthAngle={Math.PI/2}
+      // minAzimuthAngle={Math.PI/2}
+      rotateSpeed={0.4}
+      maxPolarAngle={Math.PI / 2.31}
+      minPolarAngle={Math.PI / 2.31}
+      enableRotate={true}
+      enableDamping={true}
+      enablePan={true}
+      enableZoom={true}
+      enabled={true}
+    />
+  );
+};
 
 export function TopSection() {
   const [clicked, setClicked] = useState(false);
   const [ready, setReady] = useState(false);
   const store = { clicked, setClicked, ready, setReady };
 
-  function Loader() {
-    const { progress } = useProgress();
-    return <Html center>{progress}</Html>;
-  }
-
-
+  // function Loader() {
+  //   const { progress } = useProgress();
+  //   return <Html center>{progress}</Html>;
+  // }
 
   return (
     <>
       <Canvas
         style={{
           width: "100vw",
-          height: "90vh",
-          marginTop: "10vh",
+          height: "92vh",
+          marginTop: "8vh",
           zIndex: 40,
           position: "fixed",
         }}
+        antialias={true}
         gl={{ alpha: false }}
         dpr={[1, 1.5]}
-        camera={{ fov: 60, position: [0, 0, 10] }}
+        camera={{ fov: 75, position: [0, 0.1, 0] }}
+        shadows
       >
-        {/* <PerspectiveCamera makeDefault fov={60} position={[0, 0, 0]} /> */}
-        <CameraControl />   
-        <color attach="background" args={["#7f7f7f"]} />
-        {/* <fog attach="fog" args={['#d3d3d3', 0, 40]} /> */}
+        <CameraControl />
+        <color attach="background" args={["#d4d4d4"]} />
         <Environment files={envMapURL} />
-        <Suspense fallback={<Loader />}>
-          <group position={[0, -4.5, 0]}>
-            {/* <group position={[-3, 0.8, -4]} scale={[1.8,1.8,1.8]}>
-              <Box 
+        <directionalLight
+          castShadow
+          position={[2.5, 12, 5]}
+          intensity={0.5}
+          shadow-mapSize-width={1024}
+          shadow-mapSize-height={1024}
+          shadow-camera-far={50}
+          shadow-camera-left={-10}
+          shadow-camera-right={10}
+          shadow-camera-top={10}
+          shadow-camera-bottom={-10}
+        />
+        <Suspense fallback={null}>
+          <group position={[0, -5, 0]}>
+            <group position={[-3, 1.2, -1]} scale={[2, 2, 2]}>
+              <Box
                 {...{
-                  pos: [7, 0, -4],
-                  rot: [0, 0, 0],
-                }}              
+                  pos: [6, 0, -4],
+                  rot: [0, 0.4, 0],
+                }}
               />
-              <Box 
+              <Box
                 {...{
                   pos: [4.5, 0, -2.5],
-                  rot: [0, 0, 0],
-                }} 
-               />
-              <Box 
+                  rot: [0, 0.4, 0],
+                }}
+              />
+              <Box
                 {...{
-                  pos:[4, 0, -4],
-                  rot: [0, 0, 0],
-                }} 
+                  pos: [4, 0, -4],
+                  rot: [0, 0.4, 0],
+                }}
               />
             </group>
 
-            <group position={[-1.3, 1, -4.5]} scale={[1.1,1.1,1.1]}>
-              <GlassBox1              
+            <group position={[-15, 1.2, 10]} scale={[2, 2, 2]}>
+              <Box
                 {...{
-                  pos: [-2.5, 0, -4.5],
-                  rot: [0, 0.5, 0],
+                  pos: [0, 0, 0],
+                  rot: [0, 0, 0],
                 }}
               />
-              <GlassBox2              
+              <Box
+                {...{
+                  pos: [3, 0, 0],
+                  rot: [0, 0, 0],
+                }}
+              />
+              <Box
+                {...{
+                  pos: [6, 0, 0],
+                  rot: [0, 0, 0],
+                }}
+              />
+                <Box
+                {...{
+                  pos: [0, 0, -3],
+                  rot: [0, 0, 0],
+                }}
+              />
+                <Box
+                {...{
+                  pos: [0, 0, -6],
+                  rot: [0, 0, 0],
+                }}
+              />
+                <Box
+                {...{
+                  pos: [3, 0, -6],
+                  rot: [0, 0, 0],
+                }}
+              />
+                <Box
+                {...{
+                  pos: [3, 0, -3],
+                  rot: [0, 0, 0],
+                }}
+              />
+            </group>
+
+            <group position={[1, 1.2, 0]} scale={[2, 2, 2]}>
+              <GlassBox1
+                {...{
+                  pos: [-3, 0, -4],
+                  rot: [0, 0.5, 0],
+                  scale: [0.4, 0.4, 0.4],
+                }}
+              />
+              <GlassBox2
                 {...{
                   pos: [-4, 0, -3.5],
                   rot: [0, 0.1, 0],
-                }}            
+                  scale: [0.4, 0.4, 0.4],
+                }}
               />
-              <GlassBox3               
+              <GlassBox3
                 {...{
-                  pos: [-6, 0, -4],
-                  rot: [0,  -0.1, 0],
-                }}            
+                  pos: [-5, 0, -4],
+                  rot: [0, -0.1, 0],
+                  scale: [0.4, 0.4, 0.4],
+                }}
               />
-            </group> */}
+            </group>
 
-            {/* <Car
+            <Car
               rotation={[0, Math.PI - 4.1, 0]}
-              position={[0, 0, -13]}
-              scale={[1, 1, 1]}
-            /> */}
+              position={[0, 0, -17]}
+              scale={[1.5, 1.5, 1.5]}
+            />
 
             <Cylinder {...store} />
-
 
             <gridHelper
               scale={[2, 2, 2]}
               position={[0, 0.01, 0]}
               rotation={[-Math.PI, 0, 0]}
-              args={[16, 16, `white`, `white`]} />
-
-    
+              args={[25, 25, `white`, `white`]}
+            />
 
             <Floor />
-            {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-              <planeGeometry args={[50, 50]} />
-              <MeshReflectorMaterial
-                blur={[300, 100]}
-                resolution={2048}
-                mixBlur={10}
-                mixStrength={40}
-                roughness={1}
-                depthScale={12}
-                minDepthThreshold={0.4}
-                maxDepthThreshold={1.4}
-                color="#555251"
-                metalness={0}
-                opacity={0.2}
-              />
-            </mesh> */}
           </group>
         </Suspense>
-        {/* <AnimationWrapper />
+        {/* <AnimationWrapper /> */}
         <SpinCylinderLeft />
-        <SpinCylinderRight /> */}
+        <SpinCylinderRight />
       </Canvas>
-      {/* <Overlay /> */}
+      <Loader />
+      <Overlay />
     </>
   );
 }
@@ -1185,7 +2100,8 @@ const OverlayContainer = styled.div`
     flex
     flex-col
     w-screen
-    h-[100vh]
+    h-[92vh]
+    mt-[8vh]
     fixed  
     bottom-0
     // px-8
@@ -1197,89 +2113,176 @@ const OverlayContainer = styled.div`
     `};
 `;
 
-// const Footer = styled.div`
-//   ${tw`
-//     flex
-//     flex-row
-//     w-full
-//     h-full
-//     border-opacity-10
-//     // border-b-[1px]
-//     // border-l-[1px]
-//     // border-r-[1px]
-//     border-gray-500
-//     // overflow-x-hidden
-//     // overflow-y-auto
-//     `};
-// `;
+const Footer = styled.div`
+  ${tw`
+    flex
+    flex-row
+    w-full
+    h-[6vh]
+    justify-center
+    items-center
+    `};
+`;
 
-// const RingWrapper = styled.div`
-//   ${tw`
-// flex
-// flex-row
-// justify-between
-// items-center
-// `};
-// `;
+const ContentWrapper = styled.div`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-between
+items-center
+w-screen
+`};
+`;
 
-// const Ring = styled.div`
-//   ${tw`
-// flex
-// flex-col
-// justify-center
-// items-center
-// bg-cover
-// bg-center
-// bg-no-repeat
-// w-[5.99vw]
-// h-[3.85vw]
-// `};
-// `;
+const ContentLeft = styled.div`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-start
+items-center
+text-xs
+px-4
+font-family[Roboto]
+text-[#30434F]
+pb-4
+w-1/3
+`};
+`;
 
-// const ContentWrapper = styled.div`
-//   ${tw`
-// flex
-// flex-row
-// flex-nowrap
-// justify-between
-// items-center
-// w-screen
-// `};
-// `;
+const ContentMiddle = styled.div`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-center
+items-center
+text-xs
+px-4
+font-family[Roboto]
+text-[#30434F]
+pb-4
+w-1/3
+`};
+`;
 
-// const Content = styled.div`
-//   ${tw`
-// flex
-// flex-row
-// flex-nowrap
-// justify-center
-// items-center
-// text-xs
-// // pl-6
-// px-4
-// font-family[Roboto]
-// text-[#9EA9B4]
-// pb-4
+const ContentRight = styled.div`
+  ${tw`
+flex
+flex-row
+flex-nowrap
+justify-end
+items-center
+text-xs
+px-4
+font-family[Roboto]
+text-[#30434F]
+pb-4
+w-1/3
+`};
+`;
 
-// // pt-10
-// `};
-// `;
+const ContentButton = styled.button`
+  ${tw`
+flex
+flex-row
+justify-center
+items-center
+text-xs
+px-4
+font-family[Roboto]
+text-[#30434F]
+`};
+`;
 
-// const ContentButton = styled.button`
-//   ${tw`
-// flex
-// flex-row
-// justify-center
-// items-center
-// text-xs
-// px-4
-// font-family[Roboto]
-// text-[#9EA9B4]
-// pb-4
-// // pl-6
-// // pt-10
-// `};
-// `;
+const ContentNestWrapper = styled.div`
+  ${tw`
+flex
+flex-row
+justify-center
+items-center
+text-xs
+px-4
+font-family[Roboto]
+text-[#30434F]
+`};
+`;
+
+const TwitterButton = styled.button`
+  ${tw`
+  flex
+  flex-row
+  justify-center
+  items-center
+  bg-no-repeat
+  mx-2
+  mt-2
+  w-[25px]
+  h-[25px]
+`};
+  background-image: url(${twitterButton});
+`;
+
+const FacebookButton = styled.button`
+  ${tw`
+  flex
+  flex-row
+  justify-center
+  items-center
+  bg-no-repeat
+  m-2
+  w-[25px]
+  h-[25px]
+`};
+  background-image: url(${facebookButton});
+`;
+
+const InstagramButton = styled.button`
+  ${tw`
+  flex
+  flex-row
+  justify-center
+  items-center
+  bg-no-repeat
+  mt-1
+  mx-2
+
+  w-[25px]
+  h-[25px]
+`};
+  background-image: url(${instagramButton});
+`;
+
+const DiscordButton = styled.button`
+  ${tw`
+flex
+flex-row
+justify-center
+items-center
+bg-no-repeat
+mt-2
+mx-2
+  w-[25px]
+  h-[25px]
+`};
+  background-image: url(${discordButton});
+`;
+
+const YoutubeButton = styled.button`
+  ${tw`
+flex
+flex-row
+justify-center
+items-center
+bg-no-repeat
+mt-2
+mx-2
+  w-[25px]
+  h-[25px]
+`};
+  background-image: url(${youtubeButton});
+`;
 
 const ArrowsWrapper = styled.div`
   ${tw`
@@ -1289,35 +2292,104 @@ flex-nowrap
 items-center
 justify-around
 w-screen
-h-full
+h-[86vh]
 `};
 `;
 
-const ArrowLeftWrapper = styled.div`
+const LeftWrapper = styled.div`
   ${tw`
 flex
 flex-row
 flex-nowrap
 justify-start
 items-center
-w-1/2
+w-1/3
 h-full
 text-gray-500  
 text-sm
 `};
 `;
 
-const ArrowRightWrapper = styled.div`
+const MiddleWrapper = styled.div`
+  ${tw`
+  // flex
+  // flex-col
+// justify-start
+// items-center
+// self-center
+w-auto
+h-full
+text-white
+text-sm
+relative
+pt-8
+`};
+`;
+
+const MiddleContent = styled.div`
+  ${tw`
+flex
+flex-col
+// justify-center
+// items-center
+rounded-md
+bg-opacity-80
+bg-[#1D1E22]
+text-sm
+// w-auto
+h-auto
+relative
+ w-[640px]
+// h-[260px]
+`};
+`;
+
+const RightWrapper = styled.div`
   ${tw`
 flex
 flex-row
 flex-nowrap
 justify-end
 items-center
-w-1/2
+w-1/3
 h-full
 text-gray-500 
 text-sm
+`};
+`;
+
+const Header = styled.div`
+  ${tw`
+flex
+flex-row
+justify-center
+items-center
+self-center
+w-auto
+h-auto
+text-white
+text-xl
+ mt-[32px]
+ml-[23.5px]
+mr-[23.5px]
+mb-[16px]
+`};
+`;
+
+const Paragraph = styled.p`
+  ${tw`
+flex
+flex-row
+justify-center
+items-center
+self-center
+w-auto
+h-auto
+text-white
+text-sm
+pl-[55px]
+pr-[55px]
+ pb-[48px]
 `};
 `;
 
@@ -1327,6 +2399,12 @@ flex
 flex-col
 justify-center
 items-center
+self-center
+w-1/6
+h-1/4
+bg-no-repeat
+text-gray-200
+text-9xl
 `};
 `;
 
@@ -1336,62 +2414,121 @@ const ArrowRight = styled.button`
   flex-col
   justify-center
   items-center
+  self-center
+  w-1/6
+  h-1/4
+  bg-no-repeat
+  text-gray-200
 `};
 `;
 
 export default function Overlay({ ready, clicked, setClicked }) {
-  const snap1 = useSnapshot(leftState);
-  const snap2 = useSnapshot(rightState);
+  // const snap1 = useSnapshot(leftState);
+  // const snap2 = useSnapshot(rightState);
+
+  const [LeftState, setLeftState] = useState(0);
+  const [RightState, setRightState] = useState(0);
+
+  const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDisabled(false)
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [LeftState]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDisabled(false)
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [RightState]);
 
   return (
     <OverlayContainer>
       <ArrowsWrapper>
-        <ArrowLeftWrapper>
-          <ArrowLeft onClick={(e) => leftState.count++}>
+        <LeftWrapper>
+          <ArrowLeft
+            onClick={(e) => {
+              setDisabled(true);
+              leftState.count++;
+              setLeftState(leftState.count);
+            }}
+            disabled={disabled}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-36 w-36"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
+              // width="16"
+              // height="16"
+              fill="currentColor"
+              // class="bi bi-chevron-compact-left"
+              viewBox="0 0 16 16"
+              className="bi bi-chevron-compact-left h-48 w-48 ml-10 fill-gray-100"
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
+                fillRule="evenodd"
+                d="M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223z"
               />
             </svg>
           </ArrowLeft>
-        </ArrowLeftWrapper>
-        <ArrowRightWrapper>
-          <ArrowRight onClick={(e) => rightState.count++}>
+        </LeftWrapper>
+        <MiddleWrapper>
+          <MiddleContent>
+            <Header>Motorsport Moments</Header>
+            <Paragraph>
+              Own the great moments in Motorsport history and earn access,
+              status, and coin in our community. Checkout our moments or shop
+              all motorsport NFTs. More drops coming soon!
+            </Paragraph>
+          </MiddleContent>
+        </MiddleWrapper>
+        <RightWrapper>
+          <ArrowRight
+            onClick={(e) => {
+              setDisabled(true);
+              rightState.count++;
+              setRightState(rightState.count);
+            }}
+            disabled={disabled}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-36 w-36"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
+              // width="16"
+              // height="16"
+              fill="currentColor"
+              //class="bi bi-chevron-compact-right"
+              viewBox="0 0 16 16"
+              className="bi bi-chevron-compact-right h-48 w-48 mr-10 fill-gray-100"
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 5l7 7-7 7"
+                fillRule="evenodd"
+                d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"
               />
             </svg>
           </ArrowRight>
-        </ArrowRightWrapper>
+        </RightWrapper>
       </ArrowsWrapper>
-      {/* <Footer>
+      <Footer>
         <ContentWrapper>
-          <Content>© 2022 Motorsport Network, All Rights Reserved</Content>
-          <Content>
+          <ContentLeft>
+            <ContentNestWrapper>
+              © 2022 Motorsport Network, All Rights Reserved
+            </ContentNestWrapper>
+          </ContentLeft>
+          <ContentMiddle>
+            <FacebookButton></FacebookButton>
+            <TwitterButton></TwitterButton>
+            <InstagramButton></InstagramButton>
+            <YoutubeButton></YoutubeButton>
+            <DiscordButton></DiscordButton>
+          </ContentMiddle>
+          <ContentRight>
             <ContentButton>Terms of Service</ContentButton>
             <ContentButton>PrivacyPolicy</ContentButton>
-          </Content>
+          </ContentRight>
         </ContentWrapper>
-      </Footer> */}
+      </Footer>
     </OverlayContainer>
   );
 }

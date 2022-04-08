@@ -14,7 +14,7 @@ const Container = styled.div`
         w-screen
         flex
         h-[0vh]
-        lg:h-[10vh]
+        lg:h-[8vh]
         pl-6
         pr-6        
         mt-0
@@ -48,12 +48,13 @@ const NavItem = tw.li`
     items-center
     justify-center
     // min-h-full
-    text-white
+    text-[#9EA9B4]
     cursor-pointer
-    text-sm
+    text-xs
     //transition-colors
     //transition-duration[300ms]
-    hover:text-gray-200
+    hover:text-gray-300
+    focus:text-[#FBFBFB]
     // box-content
     // w-[100px]
     // mx-6
@@ -112,7 +113,7 @@ const NavItemLogo = tw.button`
     text-white
     cursor-pointer
     font-bold
-    text-xl
+    text-xs
     transition-colors
     transition-duration[300ms]
     hover:text-gray-200
@@ -132,13 +133,12 @@ const ConnectWalletButton = tw.button`
     transition-colors
     transition-duration[300ms]
     // bg-gradient-to-r from-red-700 via-blue-900  to-yellow-500
-bg-gray-400
+     bg-gray-400
      bg-opacity-10
     // bg-[#041628]
      border-2
     border-[#fcd800]
-    text-[#fcd800]
-    
+    text-[#fcd800]    
     w-32
     h-8
     rounded
@@ -217,7 +217,7 @@ export function NavBar() {
             height="32"
             fill="currentColor"
             className="bi bi-discord"
-            viewBox="0 0 16 16"
+            viewBox="0 0 18 18"
             opacity={0}
           >
             <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z" />
@@ -244,7 +244,7 @@ export function NavBar() {
             height="20"
             fill="currentColor"
             className="bi bi-cart"
-            viewBox="0 0 16 16"
+            viewBox="0 0 18 18"
           >
             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
           </svg>
@@ -256,7 +256,7 @@ export function NavBar() {
             height="20"
             fill="currentColor"
             className="bi bi-person-circle"
-            viewBox="0 0 16 16"
+            viewBox="0 0 18 18"
           >
             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
             <path
@@ -272,7 +272,7 @@ export function NavBar() {
             height="20"
             fill="currentColor"
             className="bi bi-list"
-            viewBox="0 0 16 16"
+            viewBox="0 0 18 18"
           >
             <path
               fillRule="evenodd"
