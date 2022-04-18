@@ -17,39 +17,37 @@ import {
 } from "@react-three/drei";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import carModelUrl from "./f1.glb";
-import car1 from "./car1.glb";
-import car2 from "./car2.glb";
-import car3 from "./car3.glb";
-import floorTexUri from "./floor.jpeg";
+import carModelUrl from "./model/f1.glb";
+import car1 from "./model/car1.glb";
+import car2 from "./model/car2.glb";
+import car3 from "./model/car3.glb";
+import floorTexUri from "./image/floor.jpeg";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
-import "./style.css";
-import C1 from "./C1.jpg";
-import C2 from "./C2.jpg";
-import V1 from "./V1.mp4";
+import "./css/style.css";
+import C1 from "./image/C1.jpg";
+import C2 from "./image/C2.jpg";
+import V1 from "./video/V1.mp4";
 import envMapFrameURL from "./texture/envMapFrame.hdr";
-import glassBoxPedstalURL from "./glassBoxPedstal.glb";
-import envMapURL from "./empty_warehouse_01_2k.hdr";
-import F1 from "./F1.png";
-import F2 from "./F2.png";
-import F3 from "./F3.png";
-import F4 from "./F4.png";
-import F5 from "./F5.png";
-import F6 from "./F6.png";
+import glassBoxPedstalURL from "./model/glassBoxPedstal.glb";
+import envMapURL from "./texture/empty_warehouse_01_2k.hdr";
+import F1 from "./image/F1.png";
+import F2 from "./image/F2.png";
+import F3 from "./image/F3.png";
+import F4 from "./image/F4.png";
+import F5 from "./image/F5.png";
+import F6 from "./image/F6.png";
 import { proxy, useSnapshot, subscribe } from "valtio";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
-import twitterButton from "./twitter.svg";
-import facebookButton from "./facebook.svg";
-import youtubeButton from "./youtube.svg";
-import instagramButton from "./instagram.svg";
-import discordButton from "./discord.svg";
-import arrowLeft from "./arrowLeft.svg";
-import arrowRight from "./arrowRight.svg";
-import arrow from "./arrow.svg";
-import ring from "./ring.svg";
+import twitterButton from "./image/twitter.svg";
+import facebookButton from "./image/facebook.svg";
+import youtubeButton from "./image/youtube.svg";
+import instagramButton from "./image/instagram.svg";
+import discordButton from "./image/discord.svg";
+import arrow from "./image/arrow.svg";
+import ring from "./image/ring.svg";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -89,21 +87,7 @@ const rightState = proxy({
   count: 0,
 });
 
-// const TopSectionContainer = styled.div`
-//   ${tw`
-//   w-screen
-//   h-full
-//   overflow-y-scroll
-//   overflow-x-hidden
-//   relative
-//   m-0
-//   `};
-// `;
-
 const Car = (props) => {
-  //const { scene } = useGLTF(carModelUrl);
-
-
   const { nodes, scene } = useLoader(GLTFLoader, carModelUrl)
   useMemo(() => Object.values(nodes).forEach(obj =>
     obj.isMesh && Object.assign(obj, { castShadow: true })), [nodes])
@@ -148,14 +132,7 @@ const Cylinder = ({ clicked, ...props }) => {
     radius: 25,
     height: 20,
   };
-  // c3.wrapS = THREE.RepeatWrapping;
-  // c3.repeat.x = -1;
-  // c4.wrapS = THREE.RepeatWrapping;
-  // c4.repeat.x = -1;
-  // c5.wrapS = THREE.RepeatWrapping;
-  // c5.repeat.x = -1;
-
-  // useEffect(() => void (clicked && video.play()), [video, clicked])
+ 
   return (
     <group position={[0, 7.5, 0]}>
       <mesh rotation={[0, 0, 0]} position={[0, 0, 0]}>
@@ -225,46 +202,6 @@ const Cylinder = ({ clicked, ...props }) => {
   );
 };
 
-const AnimationWrapper = () => {
-  const { scene, camera } = useThree();
-  // const tl = React.useRef();
-
-  React.useEffect(() => {
-    scene.rotation.set(0, 1.4, 0);
-    // camera.position.set(0, 0, 0);
-
-    // let spherical = new THREE.Spherical(0, Math.PI, 0);
-    // spherical.makeSafe();
-    // camera.position.setFromSpherical(spherical);
-
-    let animateModelIn = gsap.timeline({
-      defaults: {
-        ease: "power2",
-      },
-    });
-
-    animateModelIn.to(scene.rotation, { y: 6.28, duration: 5, delay: 5 });
-
-    // tl.current = gsap
-    //   .timeline({
-    //     scrollTrigger: {
-    //       trigger: ".section-two",
-    //       start: "top top",
-    //       endTrigger: ".section-five",
-    //       end: "bottom bottom",
-    //       scrub: 1
-    //     }
-    //   })
-    //   .to(scene.rotation, { y: 12.6})
-    // .to(camera.position, { x: -0.1 })
-    // .to(scene.rotation, { z: 1.6 })
-    // .to(scene.rotation, { z: 0.02, y: 3.1 }, "simultaneously")
-    // .to(camera.position, { x: 0.16 }, "simultaneously");
-  }, []);
-
-  return null;
-};
-
 const SpinCylinderLeft = () => {
   const { scene } = useThree();
   let animateModelIn = gsap.timeline({
@@ -316,11 +253,7 @@ const SpinCylinderRight = () => {
 const GlassBox1 = ({ pos, rot, scale }) => {
   const ref = useRef(null);
 
-  // useFrame((state, delta) => {
-  //   if (active) {
-  //     ref.current.rotation.y += 0.04;
-  //   }
-  // });
+ 
   const [active, setActive] = useState(false);
 
   useFrame((state) => {
@@ -825,24 +758,9 @@ const GlassBox1 = ({ pos, rot, scale }) => {
 const GlassBox2 = ({ pos, rot, scale }) => {
   const ref = useRef(null);
 
-  // const [active, setActive] = useState(false);
-  // useFrame((state, delta) => {
-  //   if (active) {
-  //     ref.current.rotation.y += 0.04;
-  //   }
-  // });
 
   const [active, setActive] = useState(false);
 
-  // useFrame((state) => {
-  //   if (active) {
-  //     const t = state.clock.getElapsedTime();
-  //     ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
-  //     ref.current.rotation.x = Math.cos(t / 4) / 8;
-  //     ref.current.rotation.y = Math.sin(t / 4) / 8;
-  //     ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
-  //   }
-  // });
 
   const envMapFrame = new RGBELoader().load(envMapFrameURL);
 
@@ -1330,24 +1248,9 @@ const GlassBox2 = ({ pos, rot, scale }) => {
 const GlassBox3 = ({ pos, rot, scale }) => {
   const ref = useRef(null);
 
-  // const [active, setActive] = useState(false);
-  // useFrame((state, delta) => {
-  //   if (active) {
-  //     ref.current.rotation.y += 0.04;
-  //   }
-  // });
 
   const [active, setActive] = useState(false);
 
-  // useFrame((state) => {
-  //   if (active) {
-  //     const t = state.clock.getElapsedTime();
-  //     ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
-  //     ref.current.rotation.x = Math.cos(t / 4) / 8;
-  //     ref.current.rotation.y = Math.sin(t / 4) / 8;
-  //     ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
-  //   }
-  // });
 
   const envMapFrame = new RGBELoader().load(envMapFrameURL);
 
@@ -1835,13 +1738,6 @@ const GlassBox3 = ({ pos, rot, scale }) => {
 const Box = ({ pos, rot }) => {
   const ref = useRef(null);
 
-  // const [active, setActive] = useState(false);
-  // useFrame((state, delta) => {
-  //   if (active) {
-  //     ref.current.rotation.y += 0.02;
-  //   }
-  // });
-
   return (
     <mesh castshadow position={pos} rotation={rot} ref={ref}>
       <RoundedBox castshadow args={[1, 1, 1]} radius={0.1}>
@@ -1877,14 +1773,6 @@ const Cube = (pos) => {
   const texture_5 = useLoader(TextureLoader, F5);
   const texture_6 = useLoader(TextureLoader, F6);
 
-  
-
-  // const [active, setActive] = useState(false);
-  // useFrame((state, delta) => {
-  //   if (active) {
-  //     ref.current.rotation.y += 0.02;
-  //   }
-  // });
 
   return (
     <mesh castshadow position={pos.pos} ref={ref} args={[1, 1, 1]} scale={[0.8, 0.8, 0.8]}>
@@ -1947,16 +1835,12 @@ const CameraControl = () => {
   );
 };
 
-
 export function TopSection() {
   const [clicked, setClicked] = useState(false);
   const [ready, setReady] = useState(false);
   const store = { clicked, setClicked, ready, setReady };
 
-  // function Loader() {
-  //   const { progress } = useProgress();
-  //   return <Html center>{progress}</Html>;
-  // }
+ 
 
   return (
     <>
@@ -2187,7 +2071,6 @@ export function TopSection() {
   );
 }
 
-
 const HtmlContentWrapper = styled.div`
   ${tw`
   mt-36
@@ -2199,7 +2082,6 @@ items-center
 w-auto
 `};
 `;
-
 
 const HtmlContentSubWrapper = styled.div`
   ${tw`
@@ -2277,9 +2159,6 @@ bg-center
 `};
 background-image: url(${ring});
 `;
-
-
-
 
 const OverlayContainer = styled.div`
   ${tw`
@@ -2579,35 +2458,6 @@ pr-[55px]
  pb-[48px]
 `};
 `;
-
-// const ArrowLeft = styled.button`
-//   ${tw`
-// flex
-// flex-col
-// justify-center
-// items-center
-// self-center
-// w-1/6
-// h-1/4
-// bg-no-repeat
-// text-gray-200
-// text-9xl
-// `};
-// `;
-
-// const ArrowRight = styled.button`
-//   ${tw`
-//   flex
-//   flex-col
-//   justify-center
-//   items-center
-//   self-center
-//   w-1/6
-//   h-1/4
-//   bg-no-repeat
-//   text-gray-200
-// `};
-// `;
 
 const AbsoluteArrowLeft = styled.button`
   ${tw`

@@ -1,7 +1,6 @@
 import React from "react";
 import tw from "twin.macro";
 import { TopSection  } from "./containers/TopSection";
-import  { GlassBox }   from "./containers/GlassBox";
 
 
 import styled from "styled-components";
